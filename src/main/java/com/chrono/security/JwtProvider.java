@@ -7,6 +7,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -61,4 +65,39 @@ public class JwtProvider {
                 .sameSite("Strict")
                 .build();
     }
+
+    //토큰 서명 만료 검증
+    public boolean validateToken(String token){
+        try{
+            Jwts.parser()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseSignedClaims(token);
+            return true;
+        }catch (Exception e){
+            log.warn("Jwt검증 실패 : {}", e.getMessage());
+            return false;
+        }
+    }
+    //securityContext에 authentication넣기
+    public Authentication getAuthentication(String token){
+        var claims = Jwts.parser()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getBody();
+
+        String userId = claims.getSubject();
+        String email = claims.get("email", String.class);
+
+        UserDetails userDetails = User
+                .withUsername(userId)
+                .password("")
+                .build();
+
+        return new UsernamePasswordAuthenticationToken(userDetails, null);
+    }
+
+
+
 }
