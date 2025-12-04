@@ -1,10 +1,16 @@
 package com.chrono.service;
 
+import com.chrono.dto.LoginRequestDto;
+import com.chrono.dto.LoginResponseDto;
 import com.chrono.dto.SignupRequestDto;
 import com.chrono.entity.UserEntity;
 import com.chrono.repository.UserRepository;
+import com.chrono.security.JwtProvider;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.server.Cookie;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +21,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailVerificationService emailVerificationService;
+    private final JwtProvider jwtProvider;
 
     //회원가입
     public void signup(SignupRequestDto request){
@@ -57,4 +64,29 @@ public class AuthService {
             throw new IllegalArgumentException("비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 포함해야 합니다.");
         }
     }
+
+    //로그인
+    public LoginResponseDto login(LoginRequestDto request){
+        String email = request.getEmail();
+        String password = request.getPassword();
+
+        //유저조회
+        UserEntity user = userRepository.findByEmailAndDeletedAtIsNull(email)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자입니다."));
+
+        //비번 확인
+        if(!passwordEncoder.matches(password, user.getPassword())){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+        //access
+        String accessToken = jwtProvider.createAccessToken(user.getUserId(), user.getEmail());
+        //refresh
+        String refreshToken = jwtProvider.createRefreshToken(user.getUserId(), user.getEmail());
+        //cookie설정
+        ResponseCookie cookie = jwtProvider.createRefreshTokenCookie(refreshToken);
+
+        return new LoginResponseDto(accessToken, cookie.toString(), user.getNickname());
+
+    }
+
 }
