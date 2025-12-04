@@ -12,6 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @RequiredArgsConstructor
@@ -30,9 +33,23 @@ public class SecurityConfig {
                         "/api/auth/signup", "/api/auth/login", "/api/auth/email/send",
                         "/api/auth/email/verify", "/api/auth/refresh"  ).permitAll() .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .cors(c -> c.configure(http));
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .logout(logout -> logout.disable());
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOriginPattern("*"); //도메인
+        config.addAllowedMethod("*");//http method
+        config.addAllowedHeader("*"); //모든 헤더
+        config.setAllowCredentials(true); //쿠키 포함 요텅 허용 > 배포 시 여기 전부 수정 필요!
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
     // 로그인 시 필요)
