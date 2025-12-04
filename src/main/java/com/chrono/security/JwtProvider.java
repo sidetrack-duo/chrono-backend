@@ -1,7 +1,7 @@
 package com.chrono.security;
 
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.Collections;
 import java.util.Date;
 
 @Component
@@ -36,22 +37,22 @@ public class JwtProvider {
     //Access token
     public String createAccessToken(Long userId, String email){
         return Jwts.builder()
-                .subject(String.valueOf(userId))
+                .setSubject(String.valueOf(userId))
                 .claim("email", email)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis()+accessTokenExpireMs))
-                .signWith(getSigningKey())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis()+accessTokenExpireMs))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     //refresh token
     public String createRefreshToken(Long userId, String email){
         return Jwts.builder()
-                .subject(String.valueOf(userId))
+                .setSubject(String.valueOf(userId))
                 .claim("email", email)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + refreshTokenExpireMs))
-                .signWith(getSigningKey())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpireMs))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -69,10 +70,10 @@ public class JwtProvider {
     //토큰 서명 만료 검증
     public boolean validateToken(String token){
         try{
-            Jwts.parser()
+            Jwts.parserBuilder()
                     .setSigningKey(getSigningKey())
                     .build()
-                    .parseSignedClaims(token);
+                    .parseClaimsJws(token);
             return true;
         }catch (Exception e){
             log.warn("Jwt검증 실패 : {}", e.getMessage());
@@ -81,10 +82,10 @@ public class JwtProvider {
     }
     //securityContext에 authentication넣기
     public Authentication getAuthentication(String token){
-        var claims = Jwts.parser()
+        var claims = Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
-                .parseSignedClaims(token)
+                .parseClaimsJws(token)
                 .getBody();
 
         String userId = claims.getSubject();
@@ -93,11 +94,9 @@ public class JwtProvider {
         UserDetails userDetails = User
                 .withUsername(userId)
                 .password("")
+                .authorities(Collections.emptyList())
                 .build();
 
-        return new UsernamePasswordAuthenticationToken(userDetails, null);
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
-
-
-
 }

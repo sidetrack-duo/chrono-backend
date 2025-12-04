@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //토큰 추출
         String bearerToken = request.getHeader("Authorization");
 
-        if(bearerToken != null && bearerToken.startsWith("Bearer")){
+        if(bearerToken != null && bearerToken.startsWith("Bearer ")){
             String token = bearerToken.substring(7);
 
             try{
