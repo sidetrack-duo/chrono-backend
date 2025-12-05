@@ -11,9 +11,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -75,5 +78,26 @@ public class AuthController {
         //access새로 발급
         String newAccessToken = jwtProvider.createAccessToken(userId, email);
         return ResponseEntity.ok(newAccessToken);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@AuthenticationPrincipal UserDetails user){
+        Long userId = Long.valueOf(user.getUsername());
+
+        //db에서 refresh삭제
+        refreshTokenService.delete(userId);
+
+        //쿠키 삭제
+        ResponseCookie deleteCookie = ResponseCookie.from("refreshToken", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .sameSite("Strict")
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                .body(Map.of("message", "로그아웃 성공"));
     }
 }

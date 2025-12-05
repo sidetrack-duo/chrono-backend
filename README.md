@@ -39,3 +39,6 @@ Refresh Token → HttpOnly Cookie방식<br/>
 ### refreshtoken으로 accesstoken재발급<br/>
 POST api/auth/refresh<br/>
 eyJhbGciOiJIUzIOTgsImV4cCI6MTc2NDkyNjY~~~~~~~<br/>
+
+### 로그아웃<br/>
+POST api/auth/logout<br/>
