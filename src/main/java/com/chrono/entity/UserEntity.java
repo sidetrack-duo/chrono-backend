@@ -27,6 +27,9 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = true)
+    private String githubUsername;
+
     private LocalDateTime deletedAt;
 
     @CreationTimestamp
