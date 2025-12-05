@@ -30,7 +30,7 @@ public class JwtProvider {
     @Value("${jwt.refresh.expiration.time}")
     private long refreshTokenExpireMs;
 
-    private Key getSigningKey() {
+    public Key getSigningKey() {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 

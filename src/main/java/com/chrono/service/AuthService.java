@@ -22,6 +22,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final EmailVerificationService emailVerificationService;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 
     //회원가입
     public void signup(SignupRequestDto request){
@@ -82,6 +83,8 @@ public class AuthService {
         String accessToken = jwtProvider.createAccessToken(user.getUserId(), user.getEmail());
         //refresh
         String refreshToken = jwtProvider.createRefreshToken(user.getUserId(), user.getEmail());
+        //rtr
+        refreshTokenService.saveOrUpdate(user.getUserId(), refreshToken);
         //cookie설정
         ResponseCookie cookie = jwtProvider.createRefreshTokenCookie(refreshToken);
 
