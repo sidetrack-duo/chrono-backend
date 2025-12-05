@@ -42,3 +42,22 @@ eyJhbGciOiJIUzIOTgsImV4cCI6MTc2NDkyNjY~~~~~~~<br/>
 
 ### 로그아웃<br/>
 POST api/auth/logout<br/>
+
+## github<br/>
+### 유효한 깃허브 유저네임인지 조회<br/>
+GET api/github/validate<br/>
+http://localhost:8080/api/github/validate?username=simuneu<br/>
+성공시<br/>
+{<br/>
+"valid": true,<br/>
+"username": "simuneu",<br/>
+"avatarUrl": "https://github.com/simuneu.png",<br/>
+"message": "존재하는 GitHub 사용자입니다."<br/>
+}<br/>
+실패시<br/>
+{<br/>
+"valid": false,<br/>
+"username": "simuneuffff",<br/>
+"avatarUrl": null,<br/>
+"message": "존재하지 않는 GitHub 사용자입니다."<br/>
+}<br/>
