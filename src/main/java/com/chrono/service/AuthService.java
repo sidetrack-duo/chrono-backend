@@ -6,6 +6,7 @@ import com.chrono.dto.SignupRequestDto;
 import com.chrono.entity.UserEntity;
 import com.chrono.repository.UserRepository;
 import com.chrono.security.JwtProvider;
+import com.chrono.security.SecurityUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -90,6 +91,14 @@ public class AuthService {
 
         return new LoginResponseDto(accessToken, cookie.toString(), user.getNickname());
 
+    }
+
+    //유저 정보 가져오기
+    public UserEntity getCurrentUser(){
+        Long userId = SecurityUtil.getCurrentUserId();
+
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("로그인된 사용자를 찾을 수 없습니다."));
     }
 
 }

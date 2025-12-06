@@ -1,5 +1,6 @@
 package com.chrono.entity;
 
+import com.chrono.enums.GithubConnectStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,6 +31,20 @@ public class UserEntity {
     @Column(nullable = true)
     private String githubUsername;
 
+    @Column(nullable = true)
+    private String githubAvatar;
+
+    @Column
+    private Long githubUserId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private GithubConnectStatus githubConnected = GithubConnectStatus.NONE;
+
+    @Column(columnDefinition = "TEXT")
+    private String githubPat;
+
     private LocalDateTime deletedAt;
 
     @CreationTimestamp
@@ -57,5 +72,19 @@ public class UserEntity {
 
     public void updatePassword(String encodedPassword){
         this.password = encodedPassword;
+    }
+
+    //깃허브연동 업데이트
+    public void updateGithubBasic(String username, String avatarUrl, Long githubUserId) {
+        this.githubUsername = username;
+        this.githubAvatar = avatarUrl;
+        this.githubUserId = githubUserId;
+        this.githubConnected = GithubConnectStatus.BASIC;
+    }
+
+    //pat연동 업데이트
+    public void updateGithubPat(String encryptedPat) {
+        this.githubPat = encryptedPat;
+        this.githubConnected = GithubConnectStatus.FULL;
     }
 }

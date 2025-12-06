@@ -1,7 +1,7 @@
 package com.chrono.controller;
 
-import com.chrono.dto.EmailSendRequest;
-import com.chrono.dto.EmailVerifyRequest;
+import com.chrono.dto.EmailSendRequestDto;
+import com.chrono.dto.EmailVerifyRequestDto;
 import com.chrono.service.EmailVerificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class EmailVerificationController {
 
     // 인증코드 발송
     @PostMapping("/send")
-    public ResponseEntity<?> sendVerificationCode(@RequestBody EmailSendRequest request) {
+    public ResponseEntity<?> sendVerificationCode(@RequestBody EmailSendRequestDto request) {
 
         emailVerificationService.sendVerificationCode(request.getEmail());
         return ResponseEntity.ok("인증코드를 전송했습니다.");
@@ -26,7 +26,7 @@ public class EmailVerificationController {
 
     // 인증코드 확인
     @PostMapping("/verify")
-    public ResponseEntity<?> verifyCode(@RequestBody EmailVerifyRequest request) {
+    public ResponseEntity<?> verifyCode(@RequestBody EmailVerifyRequestDto request) {
 
         boolean result = emailVerificationService.verifyCode(
                 request.getEmail(),

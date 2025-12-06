@@ -61,3 +61,18 @@ http://localhost:8080/api/github/validate?username=simuneu<br/>
 "avatarUrl": null,<br/>
 "message": "존재하지 않는 GitHub 사용자입니다."<br/>
 }<br/>
+
+### 기본 연동<br/>
+POST api/github/connect-basic<br/>
+요청<br/>
+{<br/>
+"username": "simuneu"<br/>
+}<br/>
+성공 응답<br/>
+{<br/>
+"connected": true,<br/>
+"type": "BASIC",<br/>
+"username": "simuneu",<br/>
+"avatarUrl": "https://avatars.githubusercontent.com/u/191446770?v=4",<br/>
+"message": "기본 연동이 완료되었습니다."<br/>
+}<br/>
