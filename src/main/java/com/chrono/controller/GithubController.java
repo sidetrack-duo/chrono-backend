@@ -1,8 +1,6 @@
 package com.chrono.controller;
 
-import com.chrono.dto.GithubBasicConnectRequestDto;
-import com.chrono.dto.GithubBasicConnectResponseDto;
-import com.chrono.dto.ValidationResponseDto;
+import com.chrono.dto.*;
 import com.chrono.service.GithubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +22,11 @@ public class GithubController {
     public ResponseEntity<GithubBasicConnectResponseDto> connectBasic(
             @RequestBody GithubBasicConnectRequestDto request){
         return ResponseEntity.ok(githubService.connectBasic(request.getUsername()));
+    }
+
+    @PostMapping("/connect-pat")
+    public ResponseEntity<GithubPatConnectResponseDto> connectPat(
+            @RequestBody GithubPatConnectRequestDto requestDto) {
+        return ResponseEntity.ok(githubService.connectPat(requestDto.getUsername(), requestDto.getPat()));
     }
 }
