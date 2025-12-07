@@ -30,6 +30,8 @@ public class JwtProvider {
     @Value("${jwt.refresh.expiration.time}")
     private long refreshTokenExpireMs;
 
+    private final CustomUserDetailsService customUserDetailsService;
+
     public Key getSigningKey() {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
@@ -91,11 +93,8 @@ public class JwtProvider {
         String userId = claims.getSubject();
         String email = claims.get("email", String.class);
 
-        UserDetails userDetails = User
-                .withUsername(userId)
-                .password("")
-                .authorities(Collections.emptyList())
-                .build();
+        UserDetails userDetails =
+                customUserDetailsService.loadUserByUsername(email);
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }

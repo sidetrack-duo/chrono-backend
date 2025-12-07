@@ -105,4 +105,33 @@ Email addresses: Read-only<br/>
 Profile: Read-only<br/>
 페이지 하단에서 **[Generate token]**을 클릭합니다.<br/>
 생성된 토큰 값을 입력 안내<br/>
-
+### 레포 가져오기<br/>
+GET api/github/repos<br/>
+요청 body없음(토큰만 필요)<br/>
+응답 예시<br/>
+[<br/>
+{<br/>
+"repoId": 1059981952,<br/>
+"repoName": "bid-N-buy-backend",<br/>
+"fullName": "bid-N-buy/bid-N-buy-backend",<br/>
+"description": "[Bid&Buy] 중고거래에 실시간 경매를 더한 새로운 거래 서비스",<br/>
+"htmlUrl": "https://github.com/bid-N-buy/bid-N-buy-backend",<br/>
+"language": "Java",<br/>
+"stargazersCount": 0,<br/>
+"forksCount": 1,<br/>
+"updatedAt": "2025-11-27T15:21:31Z",<br/>
+"private": false<br/>
+},<br/>
+{<br/>
+"repoId": 1059975363,<br/>
+"repoName": "bid-N-buy-frontend",<br/>
+"fullName": "bid-N-buy/bid-N-buy-frontend",<br/>
+"description": "[Bid&Buy] 중고거래에 실시간 경매를 더한 새로운 거래 서비스",<br/>
+"htmlUrl": "https://github.com/bid-N-buy/bid-N-buy-frontend",<br/>
+"language": "TypeScript",<br/>
+"stargazersCount": 0,<br/>
+"forksCount": 0,<br/>
+"updatedAt": "2025-11-28T07:30:05Z",<br/>
+"private": false<br/>
+}<br/>
+]<br/>
