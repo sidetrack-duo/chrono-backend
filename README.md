@@ -135,3 +135,15 @@ GET api/github/repos<br/>
 "private": false<br/>
 }<br/>
 ]<br/>
+
+## project<br/>
+
+### 프로젝트 등록<br/>
+POST api/projects<br/>
+요청<br/>
+{<br/>
+"owner": "simuneu",<br/>
+"repoName": "front-practice",<br/>
+"repoUrl": "https://github.com/simuneu/front-practice"<br/>
+}<br/>
+--현재 pat설정 경우 퍼블릭, 프라이빗 둘 다 등록 가능,오가닉에 관한 부분은 다시 확인 필요<br/>
