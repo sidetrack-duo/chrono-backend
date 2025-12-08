@@ -1,6 +1,7 @@
 package com.chrono.service;
 
 import com.chrono.dto.CreateProjectRequestDto;
+import com.chrono.dto.ProjectResponseDto;
 import com.chrono.entity.ProjectEntity;
 import com.chrono.entity.UserEntity;
 import com.chrono.repository.ProjectRepository;
@@ -14,6 +15,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -104,4 +108,18 @@ public class ProjectService {
     private String decryptPat(String encryptedPat) {
         return cryptoUtil.decrypt(encryptedPat);
     }
+
+    //리스트 전체 조회
+    public List<ProjectResponseDto> getProjects(Long userId){
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(()-> new EntityNotFoundException("존재하지 않는 유저"));
+
+        List<ProjectEntity> projects = projectRepository.findAllByUser(user);
+
+        return projects.stream()
+                .map(ProjectResponseDto::fromEntity)
+                .toList();
+    }
+
+
 }

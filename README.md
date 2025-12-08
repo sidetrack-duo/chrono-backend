@@ -147,3 +147,17 @@ POST api/projects<br/>
 "repoUrl": "https://github.com/simuneu/front-practice"<br/>
 }<br/>
 --현재 pat설정 경우 퍼블릭, 프라이빗 둘 다 등록 가능,오가닉에 관한 부분은 다시 확인 필요<br/>
+
+### 프로젝트 리스트 조회<br/>
+GET api/projects<br/>
+성공 응답<br/>
+[
+{
+"projectId": 1,<br/>
+"owner": "simuneu",<br/>
+"repoName": "chrono",<br/>
+"repoUrl": "https://github.com/simuneu/chrono",<br/>
+"active": true,<br/>
+"createdAt": "2025-12-07T23:23:40.649786"<br/>
+}
+]<br/>

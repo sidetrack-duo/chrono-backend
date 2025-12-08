@@ -1,17 +1,19 @@
 package com.chrono.controller;
 
 import com.chrono.dto.CreateProjectRequestDto;
+import com.chrono.dto.ProjectResponseDto;
+import com.chrono.security.CustomUserDetailsService;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.ProjectService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,5 +30,13 @@ public class ProjectController {
         Long userId = principal.getUser().getUserId();
         Long projectId = projectService.createProject(userId,req);
         return ResponseEntity.ok(Map.of("projectId", projectId));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getProjects(@AuthenticationPrincipal CustomUserPrincipal principal){
+        Long userId = principal.getUser().getUserId();
+        List<ProjectResponseDto> result = projectService.getProjects(userId);
+
+        return ResponseEntity.ok(result);
     }
 }
