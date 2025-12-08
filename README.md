@@ -161,3 +161,13 @@ GET api/projects<br/>
 "createdAt": "2025-12-07T23:23:40.649786"<br/>
 }
 ]<br/>
+
+## Commit<br/>
+
+### 커밋 동기화<br/>
+POST api/projects/{projectId}/commits/sync<br/><br/>
+성공 응답<br/>
+{<br/>
+"message": "커밋 동기화 완료",<br/>
+"savedCount": 12<br/>
+}<br/>

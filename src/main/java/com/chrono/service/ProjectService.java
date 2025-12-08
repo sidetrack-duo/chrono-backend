@@ -65,7 +65,7 @@ public class ProjectService {
         String url = "https://api.github.com/repos/" + owner + "/" + repoName;
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("User-Agent", "chrono-app");
+        headers.set("User-Agent", "chrono");
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         try {
@@ -91,7 +91,7 @@ public class ProjectService {
         String pat = decryptPat(user.getGithubPat());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("User-Agent", "chrono-app");
+        headers.set("User-Agent", "chrono");
         headers.set("Authorization", "token " + pat);
 
         HttpEntity<Void> entity = new HttpEntity<>(headers);
