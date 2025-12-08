@@ -11,7 +11,11 @@ import java.util.List;
 @Repository
 public interface CommitRepository extends JpaRepository<CommitEntity, Long> {
 
+    
     boolean existsByProject_ProjectIdAndSha(Long projectId, String sha);
+    
+    //커밋 수 가져오기
+    int countByProject_ProjectId(Long projectId);
 
     List<CommitEntity> findByProject_ProjectIdOrderByCommitDateDesc(Long projectId);
 

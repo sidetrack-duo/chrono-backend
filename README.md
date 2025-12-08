@@ -165,9 +165,17 @@ GET api/projects<br/>
 ## Commit<br/>
 
 ### 커밋 동기화<br/>
-POST api/projects/{projectId}/commits/sync<br/><br/>
+POST api/projects/{projectId}/commits/sync<br/>
 성공 응답<br/>
 {<br/>
 "message": "커밋 동기화 완료",<br/>
 "savedCount": 12<br/>
+}<br/>
+
+### 커밋 수 전체 조회<br/>
+GET api/projects/{projectId}/commits/count<br/>
+성공 응답<br/>
+{<br/>
+"projectId": 2,<br/>
+"totalCommits": 12<br/>
 }<br/>

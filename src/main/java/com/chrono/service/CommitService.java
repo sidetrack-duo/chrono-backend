@@ -74,4 +74,12 @@ public class CommitService {
     private String decryptPat(String encryptedPat){
         return cryptoUtil.decrypt(encryptedPat);
     }
+
+    //커밋 개수 조회
+    public int getCommitCount(Long projectId){
+        if(!projectRepository.existsById(projectId)){
+            throw new EntityNotFoundException("프로젝트 없음");
+        }
+        return commitRepository.countByProject_ProjectId(projectId);
+    }
 }
