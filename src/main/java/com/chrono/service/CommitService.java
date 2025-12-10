@@ -3,6 +3,7 @@ package com.chrono.service;
 import com.chrono.dto.GithubCommitDto;
 import com.chrono.entity.CommitEntity;
 import com.chrono.entity.ProjectEntity;
+import com.chrono.mapper.CommitMapper;
 import com.chrono.repository.CommitRepository;
 import com.chrono.repository.ProjectRepository;
 import com.chrono.util.CryptoUtil;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class CommitService {
@@ -22,6 +25,7 @@ public class CommitService {
     private final CommitRepository commitRepository;
     private RestTemplate restTemplate = new RestTemplate();
     private final CryptoUtil cryptoUtil;
+    private final CommitMapper commitMapper;
 
     //커밋 동기화
     public int syncCommits(Long projectId){
@@ -81,5 +85,15 @@ public class CommitService {
             throw new EntityNotFoundException("프로젝트 없음");
         }
         return commitRepository.countByProject_ProjectId(projectId);
+    }
+
+    //최근 커밋 날짜 조회
+    public LocalDateTime getLatestCommitDate(Long projectId){
+        LocalDateTime latest = commitMapper.findLatestCommitDate(projectId);
+
+        if(latest == null){
+            throw new EntityNotFoundException("커밋이 존재하지 않습니다.");
+        }
+            return latest;
     }
 }

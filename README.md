@@ -179,3 +179,11 @@ GET api/projects/{projectId}/commits/count<br/>
 "projectId": 2,<br/>
 "totalCommits": 12<br/>
 }<br/>
+
+### 최근 커밋 날짜 조회<br/>
+GET api/projects/{projectId}/commits/latest<br/>
+성공 응답<br/>
+{<br/>
+"latestCommitDate": "2025-07-20T12:16:35",<br/>
+"projectId": 2<br/>
+}<br/>

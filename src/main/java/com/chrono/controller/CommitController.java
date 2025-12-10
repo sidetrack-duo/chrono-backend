@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
@@ -33,5 +34,16 @@ public class CommitController {
                 "projectId", projectId,
                 "totalCommits", count)
         );
+    }
+
+    //최근 커밋 날짜 조회
+    @GetMapping("/{projectId}/commits/latest")
+    public  ResponseEntity<?> getLatestCommit(@PathVariable Long projectId){
+        LocalDateTime latest = commitService.getLatestCommitDate(projectId);
+
+        return ResponseEntity.ok(Map.of(
+                "projectId", projectId,
+                "latestCommitDate", latest
+        ));
     }
 }
