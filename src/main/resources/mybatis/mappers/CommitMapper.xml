@@ -12,4 +12,29 @@
         LIMIT 1
     </select>
 
+    <!--    전체 커밋수 -->
+    <select id="countTotalCommits" resultType="int">
+        SELECT count(*)
+        FROM commit_entity
+        WHERE project_id = #{projectId}
+    </select>
+
+<!--    이번 주 커밋 수-->
+    <select id="countCommitsThisWeek" resultType="int">
+        SELECT COUNT(*)
+        FROM commit_entity
+        WHERE project_id = #{projectId}
+        and YEARWEEK(commit_date, 1) = YEARWEEK(NOW(), 1)
+    </select>
+
+<!--    가장 활발한 날-->
+    <select id="findMostActiveDay" resultType="string">
+        SELECT DAYNAME(commit_date)
+        FROM commit_entity
+        WHERE project_id = #{projectId}
+        GROUP BY DAYNAME(commit_date)
+        ORDER BY COUNT(*) DESC
+        LIMIT 1
+    </select>
+
 </mapper>

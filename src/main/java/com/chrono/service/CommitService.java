@@ -1,5 +1,6 @@
 package com.chrono.service;
 
+import com.chrono.dto.CommitSummaryDto;
 import com.chrono.dto.GithubCommitDto;
 import com.chrono.entity.CommitEntity;
 import com.chrono.entity.ProjectEntity;
@@ -9,6 +10,7 @@ import com.chrono.repository.ProjectRepository;
 import com.chrono.util.CryptoUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -95,5 +97,22 @@ public class CommitService {
             throw new EntityNotFoundException("커밋이 존재하지 않습니다.");
         }
             return latest;
+    }
+
+    //커밋 통계
+    public CommitSummaryDto getCommitSummary(Long projectId){
+
+        int total = commitMapper.countTotalCommits(projectId);
+        LocalDateTime  latest = commitMapper.findLatestCommitDate(projectId);
+        int weekly = commitMapper.countCommitsThisWeek(projectId);
+        String mostActiveDay = commitMapper.findMostActiveDay(projectId);
+
+        return new CommitSummaryDto(
+                projectId,
+                total,
+                latest,
+                weekly,
+                mostActiveDay
+        );
     }
 }

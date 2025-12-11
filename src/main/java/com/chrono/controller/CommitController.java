@@ -1,5 +1,6 @@
 package com.chrono.controller;
 
+import com.chrono.dto.CommitSummaryDto;
 import com.chrono.service.CommitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,14 @@ public class CommitController {
                 "projectId", projectId,
                 "latestCommitDate", latest
         ));
+    }
+
+    //커밋 통계
+    @GetMapping("/{projectId}/commits/summary")
+    public ResponseEntity<?> getCommitSummary(@PathVariable Long projectId){
+
+        CommitSummaryDto summary = commitService.getCommitSummary(projectId);
+
+        return ResponseEntity.ok(summary);
     }
 }

@@ -187,3 +187,14 @@ GET api/projects/{projectId}/commits/latest<br/>
 "latestCommitDate": "2025-07-20T12:16:35",<br/>
 "projectId": 2<br/>
 }<br/>
+
+### 커밋 (프로젝트)전체 통계<br/>
+GET api/projects/{projectId}/commits/summary<br/>
+성공 응답<br/>
+{<br/>
+"projectId": 2,<br/>
+"totalCommits": 12,<br/>
+"latestCommitDate": "2025-07-20T12:16:35",<br/>
+"commitsThisWeek": 0,<br/>
+"mostActiveDay": "Sunday"<br/>
+}<br/>
