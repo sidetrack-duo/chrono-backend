@@ -151,16 +151,21 @@ POST api/projects<br/>
 ### 프로젝트 리스트 조회<br/>
 GET api/projects<br/>
 성공 응답<br/>
-[
-{
-"projectId": 1,<br/>
+{<br/>
+"projectId": 4,<br/>
 "owner": "simuneu",<br/>
-"repoName": "chrono",<br/>
-"repoUrl": "https://github.com/simuneu/chrono",<br/>
-"active": true,<br/>
-"createdAt": "2025-12-07T23:23:40.649786"<br/>
-}
-]<br/>
+"repoName": "budgie_backend",<br/>
+"repoUrl": "https://github.com/simuneu/budgie_backend",<br/>
+"active": false,<br/>
+"createdAt": "2025-12-13T19:38:57.93523",<br/>
+"title": null,<br/>
+"status": "IN_PROGRESS",<br/>
+"techStack": [],<br/>
+"totalCommits": 94,<br/>
+"lastCommitAt": "2025-12-10T08:49:55",<br/>
+"startDate": null,<br/>
+"targetDate": null<br/>
+}<br/>
 
 ## Commit<br/>
 

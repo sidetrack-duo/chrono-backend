@@ -35,8 +35,6 @@ public class ProjectController {
     @GetMapping
     public ResponseEntity<?> getProjects(@AuthenticationPrincipal CustomUserPrincipal principal){
         Long userId = principal.getUser().getUserId();
-        List<ProjectResponseDto> result = projectService.getProjects(userId);
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(projectService.getProjects(userId));
     }
 }

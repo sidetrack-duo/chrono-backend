@@ -16,9 +16,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class CommitService {
     private final CommitMapper commitMapper;
 
     //커밋 동기화
+    @Transactional
     public int syncCommits(Long projectId){
         ProjectEntity project = projectRepository.findById(projectId)
                 .orElseThrow(()->new EntityNotFoundException("프로젝트가 없음"));
@@ -72,8 +75,12 @@ public class CommitService {
                     .build();
 
             commitRepository.save(commit);
+
             savedCount++;
         }
+
+        updateProjectCommitStats(projectId);
+
         return savedCount;
     }
 
@@ -114,5 +121,60 @@ public class CommitService {
                 weekly,
                 mostActiveDay
         );
+    }
+
+    //프로젝트 커밋 통계 반영
+    @Transactional
+    public void updateProjectCommitStats(Long projectId){
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("프로젝트 없음"));
+        int total = fetchTotalCommitCountFromGithub(project);
+        LocalDateTime latest = commitMapper.findLatestCommitDate(projectId);
+
+        project.updateCommitStats(total, latest);
+    }
+
+    //총 커밋 수 불러오기
+    private int fetchTotalCommitCountFromGithub(ProjectEntity project) {
+
+        String url = "https://api.github.com/graphql";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + decryptPat(project.getUser().getGithubPat()));
+        headers.set("User-Agent", "chrono");
+
+        Map<String, String> body = Map.of("query",
+                """
+                {
+                  repository(owner: "%s", name: "%s") {
+                    defaultBranchRef {
+                      target {
+                        ... on Commit {
+                          history {
+                            totalCount
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                """.formatted(project.getOwner(), project.getRepoName())
+        );
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
+
+        ResponseEntity<Map> response = restTemplate.postForEntity(
+                url,
+                entity,
+                Map.class
+        );
+
+        Map data = (Map) response.getBody().get("data");
+        Map repo = (Map) data.get("repository");
+        Map ref = (Map) repo.get("defaultBranchRef");
+        Map target = (Map) ref.get("target");
+        Map history = (Map) target.get("history");
+
+        return (Integer) history.get("totalCount");
     }
 }

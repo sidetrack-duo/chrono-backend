@@ -52,7 +52,11 @@ public class ProjectService {
                 .owner(req.getOwner())
                 .repoName(req.getRepoName())
                 .repoUrl(req.getRepoUrl())
-                .active(true)
+                .title(req.getTitle())
+                .description(req.getDescription())
+                .techStack(req.getTechStack())
+                .startDate(req.getStartDate())
+                .targetDate(req.getTargetDate())
                 .build();
         //저장
         ProjectEntity saved = projectRepository.save(project);
@@ -114,9 +118,8 @@ public class ProjectService {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(()-> new EntityNotFoundException("존재하지 않는 유저"));
 
-        List<ProjectEntity> projects = projectRepository.findAllByUser(user);
-
-        return projects.stream()
+        return projectRepository.findAllByUser(user)
+                .stream()
                 .map(ProjectResponseDto::fromEntity)
                 .toList();
     }
