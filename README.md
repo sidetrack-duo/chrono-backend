@@ -280,3 +280,14 @@ GET /api/projects/{projectId}/commits/history<br/>
 "count": 2<br/>
 }<br/>
 ]<br/>
+
+### 커밋 전체 보기(전체지만 최근 30개만 가져와지고 필요 시 전체로 수정)<br/>
+GET /api/projects/{projectId}/commits<br/>
+성공응답<br/>
+[{<br/>
+"sha": "f857e0643fdca83b45a580cd6c257fd7a0980b21",<br/>
+"message": "refactor:dangerlevel enum으로 변경",<br/>
+"authorName": "simuneu",<br/>
+"authorEmail": "ㄹㄹ@gmail.com",<br/>
+"commitDate": "2025-11-23T08:24:53"<br/>
+}]<br/>

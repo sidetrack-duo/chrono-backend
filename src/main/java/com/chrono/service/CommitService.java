@@ -1,9 +1,6 @@
 package com.chrono.service;
 
-import com.chrono.dto.CommitHistoryCountDto;
-import com.chrono.dto.CommitSummaryDto;
-import com.chrono.dto.GithubCommitDto;
-import com.chrono.dto.WeeklyCommitCountDto;
+import com.chrono.dto.*;
 import com.chrono.entity.CommitEntity;
 import com.chrono.entity.ProjectEntity;
 import com.chrono.entity.UserEntity;
@@ -211,5 +208,22 @@ public class CommitService {
         //6개월
         LocalDate start = LocalDate.now().minusMonths(6);
         return commitMapper.findCommitHistory(projectId, start);
+    }
+
+    //커밋 전체 조회
+    @Transactional(readOnly = true)
+    public List<CommitResponseDto> getAllCommit(Long projectId, UserEntity user) {
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("프로젝트 없음"));
+
+        if (!project.getUser().getUserId().equals(user.getUserId())) {
+            throw new AccessDeniedException("권한 없음");
+        }
+
+        if (!project.isActive()) {
+            throw new EntityNotFoundException("삭제된 프로젝트");
+        }
+
+        return commitMapper.findAllCommitsByProject(projectId);
     }
 }

@@ -58,4 +58,17 @@
         order by date(commit_date)
     </select>
 
+<!--    커밋 전체 조회-->
+    <select id="findAllCommitsByProject" resultType="com.chrono.dto.CommitResponseDto">
+        select
+            sha           AS sha,
+            message       AS message,
+            author_name   AS authorName,
+            author_email  AS authorEmail,
+            commit_date   AS commitDate
+        from commit_entity
+        where project_id = #{projectId}
+        order by commit_date desc
+    </select>
+
 </mapper>

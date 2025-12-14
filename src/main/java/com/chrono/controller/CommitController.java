@@ -1,5 +1,6 @@
 package com.chrono.controller;
 
+import com.chrono.dto.CommitResponseDto;
 import com.chrono.dto.CommitSummaryDto;
 import com.chrono.dto.WeeklyCommitCountDto;
 import com.chrono.security.CustomUserPrincipal;
@@ -74,5 +75,12 @@ public class CommitController {
     public ResponseEntity<?> getCommitHistory(@PathVariable Long projectId,
                                               @AuthenticationPrincipal CustomUserPrincipal principal){
         return ResponseEntity.ok(commitService.getCommitHistory(projectId, principal.getUser()));
+    }
+
+    //전체 커밋 조회
+    @GetMapping("/{projectId}/commits")
+    public ResponseEntity<List<CommitResponseDto>> getAllCommits( @PathVariable Long projectId,
+                                                  @AuthenticationPrincipal CustomUserPrincipal principal){
+        return ResponseEntity.ok(commitService.getAllCommit(projectId, principal.getUser()));
     }
 }
