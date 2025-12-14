@@ -2,8 +2,11 @@ package com.chrono.service;
 
 import com.chrono.dto.CommitSummaryDto;
 import com.chrono.dto.GithubCommitDto;
+import com.chrono.dto.WeeklyCommitCountDto;
+import com.chrono.dto.WeeklyCommitDto;
 import com.chrono.entity.CommitEntity;
 import com.chrono.entity.ProjectEntity;
+import com.chrono.entity.UserEntity;
 import com.chrono.mapper.CommitMapper;
 import com.chrono.repository.CommitRepository;
 import com.chrono.repository.ProjectRepository;
@@ -15,12 +18,18 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -176,5 +185,21 @@ public class CommitService {
         Map history = (Map) target.get("history");
 
         return (Integer) history.get("totalCount");
+    }
+
+    //위클리
+    public List<WeeklyCommitCountDto> getWeeklyCommits(Long projectId, UserEntity user){
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("프로젝트 없음"));
+
+        if (!project.getUser().getUserId().equals(user.getUserId())) {
+            throw new AccessDeniedException("권한 없음");
+        }
+
+        //주 범위
+        LocalDate start = LocalDate.now().with(DayOfWeek.MONDAY);
+        LocalDate end = start.plusDays(6);
+
+        return commitMapper.findWeeklyCommitCount(projectId, start, end);
     }
 }

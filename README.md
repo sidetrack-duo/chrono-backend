@@ -225,3 +225,13 @@ GET api/projects/{projectId}/commits/summary<br/>
 "commitsThisWeek": 0,<br/>
 "mostActiveDay": "Sunday"<br/>
 }<br/>
+
+### 커밋 위클리 집계<br/>
+GET /api/projects/{projectId/commits/weekly<br/>
+성공 응답<br/>
+[<br/>
+{<br/>
+"dayOfWeek": 4,<br/>
+"count": 2<br/>
+}<br/>
+]<br/>

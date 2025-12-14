@@ -37,4 +37,15 @@
         LIMIT 1
     </select>
 
+<!--    위클리 커밋-->
+    <select id="findWeeklyCommitCount" resultType="com.chrono.dto.WeeklyCommitCountDto">
+        SELECT
+        DAYOFWEEK(commit_date) AS dayOfWeek,
+        COUNT(*) AS count
+        FROM commit_entity
+        WHERE project_id = #{projectId}
+        AND commit_date BETWEEN #{start} AND #{end}
+        GROUP BY DAYOFWEEK(commit_date)
+    </select>
+
 </mapper>

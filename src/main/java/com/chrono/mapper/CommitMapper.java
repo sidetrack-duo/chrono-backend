@@ -1,9 +1,15 @@
 package com.chrono.mapper;
 
+import com.chrono.dto.WeeklyCommitCountDto;
+import com.chrono.dto.WeeklyCommitDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.WeakHashMap;
 
 @Mapper
 public interface CommitMapper {
@@ -12,10 +18,14 @@ public interface CommitMapper {
 
     int countTotalCommits(Long projectId);
 
-
     //이번주 커밋 수
     int countCommitsThisWeek(Long projectId);
 
     //가장 활발한 날
     String findMostActiveDay(Long projectId);
+
+    //위클리 커밋
+    List<WeeklyCommitCountDto> findWeeklyCommitCount(@Param("projectId")Long projectId,
+                                                     @Param("start")LocalDate start,
+                                                     @Param("end") LocalDate end);
 }

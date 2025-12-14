@@ -1,12 +1,16 @@
 package com.chrono.controller;
 
 import com.chrono.dto.CommitSummaryDto;
+import com.chrono.dto.WeeklyCommitCountDto;
+import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.CommitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -55,5 +59,13 @@ public class CommitController {
         CommitSummaryDto summary = commitService.getCommitSummary(projectId);
 
         return ResponseEntity.ok(summary);
+    }
+
+    //위클리
+    @GetMapping("/{projectId}/commits/weekly")
+    public ResponseEntity<List<WeeklyCommitCountDto>> getWeeklyCommits(
+            @PathVariable Long projectId,
+            @AuthenticationPrincipal CustomUserPrincipal principal){
+        return ResponseEntity.ok(commitService.getWeeklyCommits(projectId, principal.getUser()));
     }
 }
