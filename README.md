@@ -210,6 +210,14 @@ GET /api/projects/{id}<br/>
 "lastCommitAt": "2025-12-10T08:49:55"<br/>
 }<br/>
 
+### 프로젝트 활성, 비활성<br/>
+GET /api/projects/{projectId}/active<br/>
+요청<br/>
+{<br/>
+"active": false<br/>
+}<br/>
+true면 활성화, false면 비활성화(소프트 딜리트)<br/>
+
 
 
 ## Commit<br/>

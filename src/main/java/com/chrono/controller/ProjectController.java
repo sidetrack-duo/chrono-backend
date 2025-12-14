@@ -1,9 +1,6 @@
 package com.chrono.controller;
 
-import com.chrono.dto.CreateProjectRequestDto;
-import com.chrono.dto.ProjectDetailResponseDto;
-import com.chrono.dto.UpdateProjectMetaDto;
-import com.chrono.dto.UpdateProjectStatusDto;
+import com.chrono.dto.*;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -61,4 +58,12 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getProjectDetail(projectId, principal.getUser()));
     }
 
+    //상태변경
+    @PatchMapping("/{projectId}/active")
+    public ResponseEntity<Void> updateProjectActive(@PathVariable Long projectId,
+                                                    @AuthenticationPrincipal CustomUserPrincipal principal,
+                                                    @RequestBody UpdateProjectActiveDto req){
+        projectService.updateProjectActive(projectId, principal.getUser(), req);
+        return ResponseEntity.ok().build();
+    }
 }

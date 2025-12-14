@@ -114,7 +114,7 @@ public class ProjectService {
     //리스트 전체 조회
     public List<ProjectResponseDto> getProjects(UserEntity user){
 
-        return projectRepository.findAllByUser(user)
+        return projectRepository.findAllByUserAndActiveTrue(user)
                 .stream()
                 .map(ProjectResponseDto::fromEntity)
                 .toList();
@@ -163,6 +163,11 @@ public class ProjectService {
         if(!project.getUser().getUserId().equals(user.getUserId())){
             throw new AccessDeniedException("권한 없음");
         }
+
+        if (!project.isActive()) {
+            throw new EntityNotFoundException("삭제된 프로젝트");
+        }
+
         return new ProjectDetailResponseDto(
                 project.getProjectId(),
                 project.getOwner(),
@@ -180,4 +185,23 @@ public class ProjectService {
                 project.getLastCommitAt()
         );
     }
+
+    //삭제, 복구
+    @Transactional
+    public void updateProjectActive(Long projectId, UserEntity user, UpdateProjectActiveDto req){
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("프로젝트 없음"));
+
+        if (!project.getUser().getUserId().equals(user.getUserId())) {
+            throw new AccessDeniedException("권한 없음");
+        }
+
+        //상태 변경=비활, 활
+        if(req.isActive()){
+            project.activate();
+        }else{
+            project.deactivate();
+        }
+    }
+
 }

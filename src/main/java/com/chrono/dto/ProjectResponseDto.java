@@ -42,6 +42,7 @@ public class ProjectResponseDto {
                 .owner(project.getOwner())
                 .repoName(project.getRepoName())
                 .repoUrl(project.getRepoUrl())
+                .active(project.isActive())
                 .totalCommits(project.getTotalCommits())
                 .lastCommitAt(project.getLastCommitAt())
                 .startDate(project.getStartDate())

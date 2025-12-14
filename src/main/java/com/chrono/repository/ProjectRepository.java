@@ -13,5 +13,6 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     boolean existsByUser_UserIdAndOwnerAndRepoName(Long userId, String owner, String repoName);
 
-    List<ProjectEntity> findAllByUser(UserEntity user);
+    List<ProjectEntity> findAllByUserAndActiveTrue(UserEntity user);
+
 }
