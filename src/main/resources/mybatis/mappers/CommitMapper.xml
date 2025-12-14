@@ -48,4 +48,14 @@
         GROUP BY DAYOFWEEK(commit_date)
     </select>
 
+<!--    히스토리-->
+    <select id ="findCommitHistory" resultType="com.chrono.dto.CommitHistoryCountDto">
+        select date(commit_date) as date, count(*)as count
+        from commit_entity
+        where project_id = #{projectId}
+            and commit_date >= #{start}
+        group by date(commit_date)
+        order by date(commit_date)
+    </select>
+
 </mapper>

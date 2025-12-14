@@ -227,11 +227,25 @@ GET api/projects/{projectId}/commits/summary<br/>
 }<br/>
 
 ### 커밋 위클리 집계<br/>
-GET /api/projects/{projectId/commits/weekly<br/>
+GET /api/projects/{projectId}/commits/weekly<br/>
 성공 응답<br/>
 [<br/>
 {<br/>
 "dayOfWeek": 4,<br/>
+"count": 2<br/>
+}<br/>
+]<br/>
+
+### 커밋 히스토리<br/>
+GET /api/projects/{projectId}/commits/history<br/>
+성공응답<br/>
+[<br/>
+{<br/>
+"date": "2025-11-29",<br/>
+"count": 2<br/>
+},<br/>
+{<br/>
+"date": "2025-12-10",<br/>
 "count": 2<br/>
 }<br/>
 ]<br/>

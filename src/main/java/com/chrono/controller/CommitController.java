@@ -68,4 +68,11 @@ public class CommitController {
             @AuthenticationPrincipal CustomUserPrincipal principal){
         return ResponseEntity.ok(commitService.getWeeklyCommits(projectId, principal.getUser()));
     }
+
+    //히스토리
+    @GetMapping("/{projectId}/commits/history")
+    public ResponseEntity<?> getCommitHistory(@PathVariable Long projectId,
+                                              @AuthenticationPrincipal CustomUserPrincipal principal){
+        return ResponseEntity.ok(commitService.getCommitHistory(projectId, principal.getUser()));
+    }
 }

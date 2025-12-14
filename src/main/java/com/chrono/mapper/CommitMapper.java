@@ -1,10 +1,12 @@
 package com.chrono.mapper;
 
+import com.chrono.dto.CommitHistoryCountDto;
 import com.chrono.dto.WeeklyCommitCountDto;
 import com.chrono.dto.WeeklyCommitDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.cglib.core.Local;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,4 +30,7 @@ public interface CommitMapper {
     List<WeeklyCommitCountDto> findWeeklyCommitCount(@Param("projectId")Long projectId,
                                                      @Param("start")LocalDate start,
                                                      @Param("end") LocalDate end);
+
+    List<CommitHistoryCountDto> findCommitHistory(@Param("projectId")Long projectId,
+                                                  @P("start")LocalDate start);
 }
