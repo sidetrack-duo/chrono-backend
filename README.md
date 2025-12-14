@@ -150,7 +150,7 @@ POST api/projects<br/>
 
 ### 프로젝트 필드 직접 등록<br/>
 PUT api/projects/{projectId}/meta<br/>
-응답값<br/>
+요청값<br/>
 {<br/>
 "title": "프로젝트",<br/>
 "description": "프로젝트트 설명",<br/>
@@ -177,6 +177,14 @@ GET api/projects<br/>
 "startDate": null,<br/>
 "targetDate": null<br/>
 }<br/>
+
+### 프로젝트 상태 변경<br/>
+GET /api/projects/{id}/status<br/>
+요청<br/>
+{<br/>
+"status": "COMPLETED"<br/>
+}<br/>
+
 
 
 

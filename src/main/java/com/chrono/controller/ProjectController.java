@@ -3,6 +3,7 @@ package com.chrono.controller;
 import com.chrono.dto.CreateProjectRequestDto;
 import com.chrono.dto.ProjectResponseDto;
 import com.chrono.dto.UpdateProjectMetaDto;
+import com.chrono.dto.UpdateProjectStatusDto;
 import com.chrono.security.CustomUserDetailsService;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.ProjectService;
@@ -29,14 +30,13 @@ public class ProjectController {
             @AuthenticationPrincipal CustomUserPrincipal principal){
 
         Long userId = principal.getUser().getUserId();
-        Long projectId = projectService.createProject(userId,req);
+        Long projectId = projectService.createProject(principal.getUser(),req);
         return ResponseEntity.ok(Map.of("projectId", projectId));
     }
 
     @GetMapping
     public ResponseEntity<?> getProjects(@AuthenticationPrincipal CustomUserPrincipal principal){
-        Long userId = principal.getUser().getUserId();
-        return ResponseEntity.ok(projectService.getProjects(userId));
+        return ResponseEntity.ok(projectService.getProjects(principal.getUser()));
     }
 
     //프로젝트 직접 입력
@@ -47,6 +47,15 @@ public class ProjectController {
             @RequestBody UpdateProjectMetaDto req
     ) {
         projectService.updateProjectMeta(projectId, principal.getUser(), req);
+        return ResponseEntity.ok().build();
+    }
+
+    //상태변경
+    @PatchMapping("/{projectId}/status")
+    public ResponseEntity<?> updateProjectStatus(@PathVariable Long projectId,
+                                                 @AuthenticationPrincipal CustomUserPrincipal principal,
+                                                 @RequestBody UpdateProjectStatusDto req){
+        projectService.updateProjectStatus(projectId, principal.getUser(), req);
         return ResponseEntity.ok().build();
     }
 

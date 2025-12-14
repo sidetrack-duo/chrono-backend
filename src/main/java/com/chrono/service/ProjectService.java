@@ -3,6 +3,7 @@ package com.chrono.service;
 import com.chrono.dto.CreateProjectRequestDto;
 import com.chrono.dto.ProjectResponseDto;
 import com.chrono.dto.UpdateProjectMetaDto;
+import com.chrono.dto.UpdateProjectStatusDto;
 import com.chrono.entity.ProjectEntity;
 import com.chrono.entity.UserEntity;
 import com.chrono.repository.ProjectRepository;
@@ -32,14 +33,12 @@ public class ProjectService {
     private final CryptoUtil cryptoUtil;
 
 
-    public Long createProject(Long userId, CreateProjectRequestDto req) {
-        //유저조회
-        UserEntity user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
+    public Long createProject(UserEntity user, CreateProjectRequestDto req) {
+
         //중복 등록 체크
         boolean duplicated = projectRepository
                 .existsByUser_UserIdAndOwnerAndRepoName(
-                        userId,
+                        user.getUserId(),
                         req.getOwner(),
                         req.getRepoName()
                 );
@@ -118,9 +117,7 @@ public class ProjectService {
     }
 
     //리스트 전체 조회
-    public List<ProjectResponseDto> getProjects(Long userId){
-        UserEntity user = userRepository.findById(userId)
-                .orElseThrow(()-> new EntityNotFoundException("존재하지 않는 유저"));
+    public List<ProjectResponseDto> getProjects(UserEntity user){
 
         return projectRepository.findAllByUser(user)
                 .stream()
@@ -128,7 +125,7 @@ public class ProjectService {
                 .toList();
     }
 
-    //프로젝트 입력
+    //프로젝트 추가 입력
     @Transactional
     public void updateProjectMeta(Long projectId, UserEntity user, UpdateProjectMetaDto req){
         ProjectEntity project = projectRepository.findById(projectId)
@@ -144,5 +141,22 @@ public class ProjectService {
                 req.getStartDate(),
                 req.getTargetDate()
         );
+    }
+
+    //프로젝트 진행 상태 바꾸기
+    @Transactional
+    public void updateProjectStatus(Long projectId, UserEntity user, UpdateProjectStatusDto req){
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("프로젝트 없음"));
+
+        if(!project.getUser().getUserId().equals(user.getUserId())){
+            throw new AccessDeniedException("권한 없음");
+        }
+        //상태변경
+        switch (req.getStatus()){
+            case COMPLETED -> project.markCompleted();
+            case IN_PROGRESS -> project.markInProgress();
+            default -> throw new IllegalArgumentException("변경할 수 없는 상태입니다.");
+        }
     }
 }

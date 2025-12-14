@@ -93,6 +93,10 @@ public class ProjectEntity {
         this.status = ProjectStatus.COMPLETED;
     }
 
+    public void markInProgress(){
+        this.status = ProjectStatus.IN_PROGRESS;
+    }
+
     //직접 입력
     public void updateMeta(
             String title,
