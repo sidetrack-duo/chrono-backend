@@ -92,4 +92,20 @@ public class ProjectEntity {
     public void markCompleted(){
         this.status = ProjectStatus.COMPLETED;
     }
+
+    //직접 입력
+    public void updateMeta(
+            String title,
+            String description,
+            List<String> techStack,
+            LocalDate startDate,
+            LocalDate targetDate
+    ) {
+        this.title = title;
+        this.description = description;
+        this.techStack = techStack;
+        this.startDate = startDate;
+        this.targetDate = targetDate;
+    }
+
 }

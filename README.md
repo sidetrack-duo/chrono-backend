@@ -148,6 +148,17 @@ POST api/projects<br/>
 }<br/>
 --현재 pat설정 경우 퍼블릭, 프라이빗 둘 다 등록 가능,오가닉에 관한 부분은 다시 확인 필요<br/>
 
+### 프로젝트 필드 직접 등록<br/>
+PUT api/projects/{projectId}/meta<br/>
+응답값<br/>
+{<br/>
+"title": "프로젝트",<br/>
+"description": "프로젝트트 설명",<br/>
+"techStack": ["Spring Boot", "MySQL", "Redis", "FCM"],<br/>
+"startDate": "2025-12-01",<br/>
+"targetDate": "2025-12-31"<br/>
+}<br/>
+
 ### 프로젝트 리스트 조회<br/>
 GET api/projects<br/>
 성공 응답<br/>
@@ -166,6 +177,9 @@ GET api/projects<br/>
 "startDate": null,<br/>
 "targetDate": null<br/>
 }<br/>
+
+
+
 
 ## Commit<br/>
 

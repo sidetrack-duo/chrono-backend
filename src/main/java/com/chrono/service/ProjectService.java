@@ -2,6 +2,7 @@ package com.chrono.service;
 
 import com.chrono.dto.CreateProjectRequestDto;
 import com.chrono.dto.ProjectResponseDto;
+import com.chrono.dto.UpdateProjectMetaDto;
 import com.chrono.entity.ProjectEntity;
 import com.chrono.entity.UserEntity;
 import com.chrono.repository.ProjectRepository;
@@ -12,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -124,5 +128,21 @@ public class ProjectService {
                 .toList();
     }
 
+    //프로젝트 입력
+    @Transactional
+    public void updateProjectMeta(Long projectId, UserEntity user, UpdateProjectMetaDto req){
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("프로젝트 없음"));
+        if(!project.getUser().getUserId().equals(user.getUserId())){
 
+            throw new AccessDeniedException("권한 없음");
+        }
+        project.updateMeta(
+                req.getTitle(),
+                req.getDescription(),
+                req.getTechStack(),
+                req.getStartDate(),
+                req.getTargetDate()
+        );
+    }
 }

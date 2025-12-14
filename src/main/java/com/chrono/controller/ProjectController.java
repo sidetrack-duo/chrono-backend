@@ -2,6 +2,7 @@ package com.chrono.controller;
 
 import com.chrono.dto.CreateProjectRequestDto;
 import com.chrono.dto.ProjectResponseDto;
+import com.chrono.dto.UpdateProjectMetaDto;
 import com.chrono.security.CustomUserDetailsService;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.ProjectService;
@@ -37,4 +38,16 @@ public class ProjectController {
         Long userId = principal.getUser().getUserId();
         return ResponseEntity.ok(projectService.getProjects(userId));
     }
+
+    //프로젝트 직접 입력
+    @PutMapping("/{projectId}/meta")
+    public ResponseEntity<Void> updateProjectMeta(
+            @PathVariable Long projectId,
+            @AuthenticationPrincipal CustomUserPrincipal principal,
+            @RequestBody UpdateProjectMetaDto req
+    ) {
+        projectService.updateProjectMeta(projectId, principal.getUser(), req);
+        return ResponseEntity.ok().build();
+    }
+
 }
