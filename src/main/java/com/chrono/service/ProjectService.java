@@ -1,9 +1,6 @@
 package com.chrono.service;
 
-import com.chrono.dto.CreateProjectRequestDto;
-import com.chrono.dto.ProjectResponseDto;
-import com.chrono.dto.UpdateProjectMetaDto;
-import com.chrono.dto.UpdateProjectStatusDto;
+import com.chrono.dto.*;
 import com.chrono.entity.ProjectEntity;
 import com.chrono.entity.UserEntity;
 import com.chrono.repository.ProjectRepository;
@@ -158,5 +155,31 @@ public class ProjectService {
             case IN_PROGRESS -> project.markInProgress();
             default -> throw new IllegalArgumentException("변경할 수 없는 상태입니다.");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public ProjectDetailResponseDto getProjectDetail(Long projectId, UserEntity user){
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("프로젝트 없음"));
+
+        if(!project.getUser().getUserId().equals(user.getUserId())){
+            throw new AccessDeniedException("권한 없음");
+        }
+        return new ProjectDetailResponseDto(
+                project.getProjectId(),
+                project.getOwner(),
+                project.getRepoName(),
+                project.getRepoUrl(),
+                project.getTitle(),
+                project.getDescription(),
+                project.getTechStack(),
+                project.getStartDate(),
+                project.getTargetDate(),
+                project.getStatus(),
+                project.isActive(),
+                project.getCreatedAt(),
+                project.getTotalCommits(),
+                project.getLastCommitAt()
+        );
     }
 }

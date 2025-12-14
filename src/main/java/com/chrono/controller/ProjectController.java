@@ -1,9 +1,6 @@
 package com.chrono.controller;
 
-import com.chrono.dto.CreateProjectRequestDto;
-import com.chrono.dto.ProjectResponseDto;
-import com.chrono.dto.UpdateProjectMetaDto;
-import com.chrono.dto.UpdateProjectStatusDto;
+import com.chrono.dto.*;
 import com.chrono.security.CustomUserDetailsService;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.ProjectService;
@@ -57,6 +54,13 @@ public class ProjectController {
                                                  @RequestBody UpdateProjectStatusDto req){
         projectService.updateProjectStatus(projectId, principal.getUser(), req);
         return ResponseEntity.ok().build();
+    }
+
+    //상세조회
+    @GetMapping("/{projectId}")
+    public ResponseEntity<ProjectDetailResponseDto> getProjectDetail(
+            @PathVariable Long projectId, @AuthenticationPrincipal CustomUserPrincipal principal){
+        return ResponseEntity.ok(projectService.getProjectDetail(projectId, principal.getUser()));
     }
 
 }

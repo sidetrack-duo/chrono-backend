@@ -185,7 +185,30 @@ GET /api/projects/{id}/status<br/>
 "status": "COMPLETED"<br/>
 }<br/>
 
-
+### 프로젝트 상세조회<br/>
+GET /api/projects/{id}<br/>
+성공응답<br/>
+{<br/>
+"projectId": 4,<br/>
+"owner": "simuneu",<br/>
+"repoName": "budgie_backend",<br/>
+"repoUrl": "https://github.com/simuneu/budgie_backend",<br/>
+"title": "프로젝트",<br/>
+"description": "프로젝트트 설명",<br/>
+"techStack": [<br/>
+"Spring Boot",<br/>
+"MySQL",<br/>
+"Redis",<br/>
+"FCM"<br/>
+],<br/>
+"startDate": "2025-12-01",<br/>
+"targetDate": "2025-12-31",<br/>
+"status": "COMPLETED",<br/>
+"active": true,
+"createdAt": "2025-12-13T19:38:57.93523",<br/>
+"totalCommit": 94,<br/>
+"lastCommitAt": "2025-12-10T08:49:55"<br/>
+}<br/>
 
 
 
