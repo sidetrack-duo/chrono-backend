@@ -1,6 +1,5 @@
 package com.chrono.service;
 
-import com.chrono.dto.GithubBasicConnectRequestDto;
 import com.chrono.dto.GithubBasicConnectResponseDto;
 import com.chrono.dto.GithubPatConnectResponseDto;
 import com.chrono.dto.ValidationResponseDto;
@@ -10,7 +9,6 @@ import com.chrono.repository.UserRepository;
 import com.chrono.util.CryptoUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

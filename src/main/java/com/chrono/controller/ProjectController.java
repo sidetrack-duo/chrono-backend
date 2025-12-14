@@ -1,18 +1,16 @@
 package com.chrono.controller;
 
-import com.chrono.dto.*;
-import com.chrono.security.CustomUserDetailsService;
+import com.chrono.dto.CreateProjectRequestDto;
+import com.chrono.dto.ProjectDetailResponseDto;
+import com.chrono.dto.UpdateProjectMetaDto;
+import com.chrono.dto.UpdateProjectStatusDto;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.ProjectService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController

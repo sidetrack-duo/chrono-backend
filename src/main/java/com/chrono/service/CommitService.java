@@ -1,6 +1,9 @@
 package com.chrono.service;
 
-import com.chrono.dto.*;
+import com.chrono.dto.CommitHistoryCountDto;
+import com.chrono.dto.CommitSummaryDto;
+import com.chrono.dto.GithubCommitDto;
+import com.chrono.dto.WeeklyCommitCountDto;
 import com.chrono.entity.CommitEntity;
 import com.chrono.entity.ProjectEntity;
 import com.chrono.entity.UserEntity;
@@ -10,7 +13,6 @@ import com.chrono.repository.ProjectRepository;
 import com.chrono.util.CryptoUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,8 +27,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

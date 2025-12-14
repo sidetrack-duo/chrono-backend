@@ -2,16 +2,13 @@ package com.chrono.mapper;
 
 import com.chrono.dto.CommitHistoryCountDto;
 import com.chrono.dto.WeeklyCommitCountDto;
-import com.chrono.dto.WeeklyCommitDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.cglib.core.Local;
 import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.WeakHashMap;
 
 @Mapper
 public interface CommitMapper {

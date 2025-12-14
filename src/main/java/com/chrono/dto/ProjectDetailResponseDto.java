@@ -3,7 +3,6 @@ package com.chrono.dto;
 import com.chrono.enums.ProjectStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

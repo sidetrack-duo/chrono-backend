@@ -5,8 +5,6 @@ import com.chrono.entity.UserEntity;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.GithubRepositoryService;
 import com.chrono.service.GithubService;
-import com.sun.security.auth.UserPrincipal;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
