@@ -211,7 +211,7 @@ GET /api/projects/{id}<br/>
 }<br/>
 
 ### 프로젝트 활성, 비활성<br/>
-GET /api/projects/{projectId}/active<br/>
+PATCH /api/projects/{projectId}/active<br/>
 요청<br/>
 {<br/>
 "active": false<br/>
