@@ -17,31 +17,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GithubController {
     private final GithubService githubService;
-    private final GithubRepositoryService getRepositories;
+    private final GithubRepositoryService githubRepositoryService;
 
     @GetMapping("/validate")
-    public ResponseEntity<ValidationResponseDto> validate(@RequestParam String username){
+    public ResponseEntity<SuccessResponseDto<ValidationResponseDto>> validate(@RequestParam String username){
         ValidationResponseDto result = githubService.validateUsername(username);
-        return ResponseEntity.ok(result);
+
+        return ResponseEntity.ok(SuccessResponseDto.ok(result));
     }
 
     @PostMapping("/connect-basic")
-    public ResponseEntity<GithubBasicConnectResponseDto> connectBasic(
+    public ResponseEntity<SuccessResponseDto<GithubBasicConnectResponseDto>> connectBasic(
             @RequestBody GithubBasicConnectRequestDto request){
-        return ResponseEntity.ok(githubService.connectBasic(request.getUsername()));
+
+        return ResponseEntity.ok(
+                SuccessResponseDto.ok(githubService.connectBasic(request.getUsername())));
     }
 
     @PostMapping("/connect-pat")
-    public ResponseEntity<GithubPatConnectResponseDto> connectPat(
+    public ResponseEntity<SuccessResponseDto<GithubPatConnectResponseDto>> connectPat(
             @RequestBody GithubPatConnectRequestDto requestDto) {
-        return ResponseEntity.ok(githubService.connectPat(requestDto.getUsername(), requestDto.getPat()));
+
+        return ResponseEntity.ok(SuccessResponseDto.ok(
+                        githubService.connectPat(requestDto.getUsername(), requestDto.getPat())));
     }
 
     @GetMapping("/repos")
-    public ResponseEntity<List<GithubRepoDto>> getRepositories(
+    public ResponseEntity<SuccessResponseDto<List<GithubRepoDto>>> getRepositories(
             @AuthenticationPrincipal CustomUserPrincipal principal){
         UserEntity user = principal.getUser();
-        return ResponseEntity.ok(getRepositories.getRepositories(user));
 
+        return ResponseEntity.ok(
+                SuccessResponseDto.ok(githubRepositoryService.getRepositories(user)));
     }
 }

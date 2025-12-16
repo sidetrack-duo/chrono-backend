@@ -1,8 +1,6 @@
 package com.chrono.controller;
 
-import com.chrono.dto.CommitResponseDto;
-import com.chrono.dto.CommitSummaryDto;
-import com.chrono.dto.WeeklyCommitCountDto;
+import com.chrono.dto.*;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.CommitService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,65 +19,63 @@ public class CommitController {
 
     //커밋 동기화
     @PostMapping("/{projectId}/commits/sync")
-    public ResponseEntity<?> syncCommits(@PathVariable Long projectId){
+    public ResponseEntity<SuccessResponseDto<Integer>> syncCommits(@PathVariable Long projectId){
         int savedCount = commitService.syncCommits(projectId);
 
-        return ResponseEntity.ok(Map.of(
-                "message", "커밋 동기화 완료",
-                "savedCount", savedCount
-        ));
+        return ResponseEntity.ok(SuccessResponseDto.ok(savedCount));
     }
 
     //커밋 수 조회
     @GetMapping("/{projectId}/commits/count")
-    public ResponseEntity<?> getCommitCount(@PathVariable Long projectId){
+    public ResponseEntity<SuccessResponseDto<Integer>> getCommitCount(@PathVariable Long projectId){
         int count = commitService.getCommitCount(projectId);
 
-        return ResponseEntity.ok(Map.of(
-                "projectId", projectId,
-                "totalCommits", count)
-        );
+        return ResponseEntity.ok(SuccessResponseDto.ok(count));
     }
 
     //최근 커밋 날짜 조회
     @GetMapping("/{projectId}/commits/latest")
-    public  ResponseEntity<?> getLatestCommit(@PathVariable Long projectId){
+    public  ResponseEntity<SuccessResponseDto<LocalDateTime>> getLatestCommit(@PathVariable Long projectId){
         LocalDateTime latest = commitService.getLatestCommitDate(projectId);
 
-        return ResponseEntity.ok(Map.of(
-                "projectId", projectId,
-                "latestCommitDate", latest
-        ));
+        return ResponseEntity.ok(SuccessResponseDto.ok(latest));
     }
 
     //커밋 통계
     @GetMapping("/{projectId}/commits/summary")
-    public ResponseEntity<?> getCommitSummary(@PathVariable Long projectId){
+    public ResponseEntity<SuccessResponseDto<CommitSummaryDto>> getCommitSummary(@PathVariable Long projectId){
 
         CommitSummaryDto summary = commitService.getCommitSummary(projectId);
 
-        return ResponseEntity.ok(summary);
+        return ResponseEntity.ok(SuccessResponseDto.ok(summary));
     }
 
-    //위클리
+    //주간 커밋 통계
     @GetMapping("/{projectId}/commits/weekly")
-    public ResponseEntity<List<WeeklyCommitCountDto>> getWeeklyCommits(
+    public ResponseEntity<SuccessResponseDto<List<WeeklyCommitCountDto>>> getWeeklyCommits(
             @PathVariable Long projectId,
             @AuthenticationPrincipal CustomUserPrincipal principal){
-        return ResponseEntity.ok(commitService.getWeeklyCommits(projectId, principal.getUser()));
+
+        return ResponseEntity.ok(
+                SuccessResponseDto.ok(commitService.getWeeklyCommits(projectId, principal.getUser())));
     }
 
     //히스토리
     @GetMapping("/{projectId}/commits/history")
-    public ResponseEntity<?> getCommitHistory(@PathVariable Long projectId,
-                                              @AuthenticationPrincipal CustomUserPrincipal principal){
-        return ResponseEntity.ok(commitService.getCommitHistory(projectId, principal.getUser()));
+    public ResponseEntity<SuccessResponseDto<List<CommitHistoryCountDto>>> getCommitHistory(@PathVariable Long projectId,
+                                                                                            @AuthenticationPrincipal CustomUserPrincipal principal){
+        return ResponseEntity.ok(
+                SuccessResponseDto.ok(
+                        commitService.getCommitHistory(projectId, principal.getUser())
+                )
+        );
     }
 
     //전체 커밋 조회
     @GetMapping("/{projectId}/commits")
-    public ResponseEntity<List<CommitResponseDto>> getAllCommits( @PathVariable Long projectId,
+    public ResponseEntity<SuccessResponseDto<List<CommitResponseDto>>> getAllCommits( @PathVariable Long projectId,
                                                   @AuthenticationPrincipal CustomUserPrincipal principal){
-        return ResponseEntity.ok(commitService.getAllCommit(projectId, principal.getUser()));
+        return ResponseEntity.ok(
+                SuccessResponseDto.ok(commitService.getAllCommit(projectId, principal.getUser())));
     }
 }
