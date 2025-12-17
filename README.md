@@ -49,18 +49,15 @@ GET api/github/validate<br/>
 http://localhost:8080/api/github/validate?username=simuneu<br/>
 성공시<br/>
 {<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
 "valid": true,<br/>
 "username": "simuneu",<br/>
 "avatarUrl": "https://github.com/simuneu.png",<br/>
 "message": "존재하는 GitHub 사용자입니다."<br/>
 }<br/>
-실패시<br/>
-{<br/>
-"valid": false,<br/>
-"username": "simuneuffff",<br/>
-"avatarUrl": null,<br/>
-"message": "존재하지 않는 GitHub 사용자입니다."<br/>
-}<br/>
+
 
 ### 기본 연동<br/>
 POST api/github/connect-basic<br/>
@@ -163,23 +160,27 @@ PUT api/projects/{projectId}/meta<br/>
 GET api/projects<br/>
 성공 응답<br/>
 {<br/>
-"projectId": 4,<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": [<br/>
+{<br/>
+"projectId": 1,<br/>
 "owner": "simuneu",<br/>
-"repoName": "budgie_backend",<br/>
-"repoUrl": "https://github.com/simuneu/budgie_backend",<br/>
-"active": false,<br/>
-"createdAt": "2025-12-13T19:38:57.93523",<br/>
+"repoName": "chrono",<br/>
+"repoUrl": "https://github.com/simuneu/chrono",<br/>
+"active": true,<br/>
+"createdAt": "2025-12-07T23:23:40.649786",<br/>
 "title": null,<br/>
-"status": "IN_PROGRESS",<br/>
+"status": "COMPLETED",<br/>
 "techStack": [],<br/>
-"totalCommits": 94,<br/>
-"lastCommitAt": "2025-12-10T08:49:55",<br/>
+"totalCommits": null,<br/>
+"lastCommitAt": null,<br/>
 "startDate": null,<br/>
 "targetDate": null<br/>
-}<br/>
+}]}<br/>
 
 ### 프로젝트 상태 변경<br/>
-GET /api/projects/{id}/status<br/>
+PATCH /api/projects/{id}/status<br/>
 요청<br/>
 {<br/>
 "status": "COMPLETED"<br/>
