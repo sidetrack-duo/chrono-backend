@@ -156,7 +156,7 @@ PUT api/projects/{projectId}/meta<br/>
 "targetDate": "2025-12-31"<br/>
 }<br/>
 
-### 프로젝트 리스트 조회<br/>
+### 프로젝트 리스트 조회 -- 진행률 포함<br/>
 GET api/projects<br/>
 성공 응답<br/>
 {<br/>
@@ -177,6 +177,7 @@ GET api/projects<br/>
 "lastCommitAt": null,<br/>
 "startDate": null,<br/>
 "targetDate": null<br/>
+"progressRate": 53<br/>
 }]}<br/>
 
 ### 프로젝트 상태 변경<br/>

@@ -33,6 +33,9 @@ public class ProjectResponseDto {
     private LocalDate startDate;
     private LocalDate targetDate;
 
+    //진행률 계산
+    private  Integer progressRate;
+
     public static ProjectResponseDto fromEntity(ProjectEntity project){
         return ProjectResponseDto.builder()
                 .projectId(project.getProjectId())

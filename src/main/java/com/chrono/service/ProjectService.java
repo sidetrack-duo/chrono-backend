@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -116,7 +118,23 @@ public class ProjectService {
 
         return projectRepository.findAllByUserAndActiveTrue(user)
                 .stream()
-                .map(ProjectResponseDto::fromEntity)
+                .map(project -> ProjectResponseDto.builder()
+                        .projectId(project.getProjectId())
+                        .owner(project.getOwner())
+                        .repoName(project.getRepoName())
+                        .repoUrl(project.getRepoUrl())
+                        .title(project.getTitle())
+                        .status(project.getStatus())
+                        .techStack(project.getTechStack())
+                        .active(project.isActive())
+                        .createdAt(project.getCreatedAt())
+                        .totalCommits(project.getTotalCommits())
+                        .lastCommitAt(project.getLastCommitAt())
+                        .startDate(project.getStartDate())
+                        .targetDate(project.getTargetDate())
+                        .progressRate(calculateProgress(project.getStartDate(), project.getTargetDate()))
+                        .build()
+                )
                 .toList();
     }
 
@@ -202,6 +220,32 @@ public class ProjectService {
         }else{
             project.deactivate();
         }
+    }
+
+    private int calculateProgress(LocalDate startDate, LocalDate targetDate){
+        if(startDate == null || targetDate == null){
+            return 0;
+        }
+
+        LocalDate today = LocalDate.now();
+
+        //시작 전
+        if(today.isBefore((startDate))){
+            return 0;
+        }
+
+        //목표일 초과
+        if(today.isAfter(targetDate)){
+            return 100;
+        }
+
+        long totalDays = ChronoUnit.DAYS.between(startDate, targetDate);
+        long passedDays = ChronoUnit.DAYS.between(startDate, today);
+
+        if(totalDays <= 0){
+            return 100;
+        }
+        return (int)((double) passedDays / totalDays *100);
     }
 
 }
