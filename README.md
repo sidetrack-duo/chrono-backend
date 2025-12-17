@@ -293,3 +293,14 @@ GET /api/projects/{projectId}/commits<br/>
 "authorEmail": "ㄹㄹ@gmail.com",<br/>
 "commitDate": "2025-11-23T08:24:53"<br/>
 }]<br/>
+<br/>
+## user<br/>
+
+### 비번 변경<br/><br/>
+PATCH api/users/me/password<br/>
+요청<br/>
+{<br/>
+"currentPassword": "abcd1234!",<br/>
+"newPassword": "abcd1234!!",<br/>
+"newPasswordConfirm": "abcd1234!!"<br/>
+}<br/>
