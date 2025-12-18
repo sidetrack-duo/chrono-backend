@@ -102,6 +102,20 @@ Email addresses: Read-only<br/>
 Profile: Read-only<br/>
 페이지 하단에서 **[Generate token]**을 클릭합니다.<br/>
 생성된 토큰 값을 입력 안내<br/>
+
+### pat 연동 해제<br/>
+DELETE api/github/pat<br/>
+성공응답<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
+"connected": true,<br/>
+"type": "BASIC",<br/>
+"message": "PAT연동 해제"<br/>
+}<br/>
+}<br/>
+
 ### 레포 가져오기<br/>
 GET api/github/repos<br/>
 요청 body없음(토큰만 필요)<br/>

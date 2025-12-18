@@ -179,4 +179,21 @@ public class GithubService {
             );
         }
     }
+
+    //pat삭제
+    public GithubPatConnectResponseDto deletePat(UserEntity user){
+
+        if(!user.getGithubConnected().equals(GithubConnectStatus.FULL)){
+            return new GithubPatConnectResponseDto(
+                    false, "NONE", "PAT 연동 상태가 아닙니다."
+            );
+        }
+
+        //pat제거, 상태 변경
+        user.disconnectGithubPat();
+        userRepository.save(user);
+
+        return new GithubPatConnectResponseDto(true, "BASIC", "PAT연동 해제");
+    }
+
 }

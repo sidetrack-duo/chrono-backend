@@ -87,4 +87,17 @@ public class UserEntity {
         this.githubPat = encryptedPat;
         this.githubConnected = GithubConnectStatus.FULL;
     }
+
+    //pat삭제
+    public void clearGithubPat(){
+        this.githubPat = null;
+    }
+    public void updateGithubStatus(GithubConnectStatus status) {
+        this.githubConnected  = status;
+    }
+
+    public void disconnectGithubPat() {
+        this.githubPat = null;
+        this.githubConnected = GithubConnectStatus.BASIC;
+    }
 }

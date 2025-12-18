@@ -42,6 +42,14 @@ public class GithubController {
                         githubService.connectPat(requestDto.getUsername(), requestDto.getPat())));
     }
 
+    @DeleteMapping("/pat")
+    public ResponseEntity<SuccessResponseDto<GithubPatConnectResponseDto>> deletePat(
+            @AuthenticationPrincipal CustomUserPrincipal principal
+    ){
+        return ResponseEntity.ok(
+                SuccessResponseDto.ok(githubService.deletePat(principal.getUser())));
+    }
+
     @GetMapping("/repos")
     public ResponseEntity<SuccessResponseDto<List<GithubRepoDto>>> getRepositories(
             @AuthenticationPrincipal CustomUserPrincipal principal){
