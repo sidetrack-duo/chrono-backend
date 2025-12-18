@@ -2,12 +2,13 @@
 
 ### 이메일 인증코드 발송<br/>
 POST /api/auth/email/send<br/>
+요청<br/>
 {<br/>
     "email": "user@example.com"<br/>
 }<br/>
 
 ### 이메일 인증코드 확인<br/>
-
+요청<br/>
 POST /api/auth/email/verify<br/>
 
 {<br/>
