@@ -106,11 +106,17 @@ POST api/github/connect-pat<br/>
 }<br/>
 성공 응답<br/>
 {<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
 "connected": true,<br/>
 "type": "FULL",<br/>
 "message": "github full연동 완료"<br/>
 }<br/>
+}<br/>
 pat - 암호화되어 저장<br/>
+
+
 #### pat생성 안내 가이드<br/>
 https://github.com/settings/tokens?type=beta 이동<br/>
 [Generate new token] 버튼을 클릭<br/>
@@ -143,7 +149,10 @@ DELETE api/github/pat<br/>
 GET api/github/repos<br/>
 요청 body없음(토큰만 필요)<br/>
 응답 예시<br/>
-[<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": [<br/>
 {<br/>
 "repoId": 1059981952,<br/>
 "repoName": "bid-N-buy-backend",<br/>
@@ -152,23 +161,10 @@ GET api/github/repos<br/>
 "htmlUrl": "https://github.com/bid-N-buy/bid-N-buy-backend",<br/>
 "language": "Java",<br/>
 "stargazersCount": 0,<br/>
-"forksCount": 1,<br/>
-"updatedAt": "2025-11-27T15:21:31Z",<br/>
+"forksCount": 2,<br/>
+"updatedAt": "2025-12-09T08:40:29Z",<br/>
 "private": false<br/>
-},<br/>
-{<br/>
-"repoId": 1059975363,<br/>
-"repoName": "bid-N-buy-frontend",<br/>
-"fullName": "bid-N-buy/bid-N-buy-frontend",<br/>
-"description": "[Bid&Buy] 중고거래에 실시간 경매를 더한 새로운 거래 서비스",<br/>
-"htmlUrl": "https://github.com/bid-N-buy/bid-N-buy-frontend",<br/>
-"language": "TypeScript",<br/>
-"stargazersCount": 0,<br/>
-"forksCount": 0,<br/>
-"updatedAt": "2025-11-28T07:30:05Z",<br/>
-"private": false<br/>
-}<br/>
-]<br/>
+}]}<br/>
 
 ## project<br/>
 
@@ -201,52 +197,75 @@ GET api/projects<br/>
 "message": "SUCCESS",<br/>
 "data": [<br/>
 {<br/>
-"projectId": 1,<br/>
+"projectId": 5,<br/>
 "owner": "simuneu",<br/>
-"repoName": "chrono",<br/>
-"repoUrl": "https://github.com/simuneu/chrono",<br/>
+"repoName": "budgie_backend",<br/>
+"repoUrl": "https://github.com/simuneu/budgie_backend",<br/>
 "active": true,<br/>
-"createdAt": "2025-12-07T23:23:40.649786",<br/>
+"createdAt": "2025-12-18T22:05:55.046094",<br/>
 "title": null,<br/>
-"status": "COMPLETED",<br/>
+"status": "IN_PROGRESS",<br/>
 "techStack": [],<br/>
-"totalCommits": null,<br/>
+"totalCommits": 0,<br/>
 "lastCommitAt": null,<br/>
 "startDate": null,<br/>
-"targetDate": null<br/>
-"progressRate": 53<br/>
-}]}<br/>
+"targetDate": null,<br/>
+"progressRate": 0<br/>
+},<br/>
+{<br/>
+"projectId": 6,<br/>
+"owner": "simuneu",<br/>
+"repoName": "java-pr",<br/>
+"repoUrl": "https://github.com/simuneu/java-pr",<br/>
+"active": true,<br/>
+"createdAt": "2025-12-18T22:06:35.643923",<br/>
+"title": "프로젝트",<br/>
+"status": "IN_PROGRESS",<br/>
+"techStack": [<br/>
+"Spring Boot",<br/>
+"Java"<br/>
+],<br/>
+"totalCommits": 0,<br/>
+"lastCommitAt": null,<br/>
+"startDate": "2025-12-01",<br/>
+"targetDate": "2025-12-31",<br/>
+"progressRate": 56<br/>
+}<br/>
+]<br/>
+}<br/>
 
 ### 프로젝트 상태 변경<br/>
-PATCH /api/projects/{id}/status<br/>
+PATCH /api/projects/{projectId}/status<br/>
 요청<br/>
 {<br/>
 "status": "COMPLETED"<br/>
 }<br/>
 
 ### 프로젝트 상세조회<br/>
-GET /api/projects/{id}<br/>
+GET /api/projects/{projectId}<br/>
 성공응답<br/>
 {<br/>
-"projectId": 4,<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
+"projectId": 6,<br/>
 "owner": "simuneu",<br/>
-"repoName": "budgie_backend",<br/>
-"repoUrl": "https://github.com/simuneu/budgie_backend",<br/>
+"repoName": "java-pr",<br/>
+"repoUrl": "https://github.com/simuneu/java-pr",<br/>
 "title": "프로젝트",<br/>
 "description": "프로젝트트 설명",<br/>
 "techStack": [<br/>
 "Spring Boot",<br/>
-"MySQL",<br/>
-"Redis",<br/>
-"FCM"<br/>
+"Java"<br/>
 ],<br/>
 "startDate": "2025-12-01",<br/>
 "targetDate": "2025-12-31",<br/>
-"status": "COMPLETED",<br/>
-"active": true,
-"createdAt": "2025-12-13T19:38:57.93523",<br/>
-"totalCommit": 94,<br/>
-"lastCommitAt": "2025-12-10T08:49:55"<br/>
+"status": "IN_PROGRESS",<br/>
+"active": true,<br/>
+"createdAt": "2025-12-18T22:06:35.643923",<br/>
+"totalCommit": 0,<br/>
+"lastCommitAt": null<br/>
+}<br/>
 }<br/>
 
 ### 프로젝트 활성, 비활성<br/>
@@ -265,38 +284,45 @@ true면 활성화, false면 비활성화(소프트 딜리트)<br/>
 POST api/projects/{projectId}/commits/sync<br/>
 성공 응답<br/>
 {<br/>
-"message": "커밋 동기화 완료",<br/>
-"savedCount": 12<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": 28<br/>
 }<br/>
 
 ### 커밋 수 전체 조회<br/>
 GET api/projects/{projectId}/commits/count<br/>
 성공 응답<br/>
 {<br/>
-"projectId": 2,<br/>
-"totalCommits": 12<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": 28<br/>
 }<br/>
 
 ### 최근 커밋 날짜 조회<br/>
 GET api/projects/{projectId}/commits/latest<br/>
 성공 응답<br/>
 {<br/>
-"latestCommitDate": "2025-07-20T12:16:35",<br/>
-"projectId": 2<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": "2025-10-19T09:51:17"<br/>
 }<br/>
 
 ### 커밋 (프로젝트)전체 통계<br/>
 GET api/projects/{projectId}/commits/summary<br/>
 성공 응답<br/>
 {<br/>
-"projectId": 2,<br/>
-"totalCommits": 12,<br/>
-"latestCommitDate": "2025-07-20T12:16:35",<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
+"projectId": 6,<br/>
+"totalCommits": 28,<br/>
+"latestCommitDate": "2025-10-19T09:51:17",<br/>
 "commitsThisWeek": 0,<br/>
-"mostActiveDay": "Sunday"<br/>
+"mostActiveDay": "Wednesday"<br/>
+}<br/>
 }<br/>
 
-### 커밋 위클리 집계<br/>
+### 커밋 위클리 집계 -- ***확인 필요<br/>
 GET /api/projects/{projectId}/commits/weekly<br/>
 성공 응답<br/>
 [<br/>
@@ -306,7 +332,7 @@ GET /api/projects/{projectId}/commits/weekly<br/>
 }<br/>
 ]<br/>
 
-### 커밋 히스토리<br/>
+### 커밋 히스토리 -- ***확인 필요<br/>
 GET /api/projects/{projectId}/commits/history<br/>
 성공응답<br/>
 [<br/>
