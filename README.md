@@ -20,7 +20,7 @@ POST /api/auth/email/verify<br/>
 
 ### 회원가입<br/>
 POST /api/auth/signup<br/>
-
+요청<br/>
 {<br/>
     "email": "user@example.com",<br/>
     "password" : "abcd1234!",<br/>
@@ -31,6 +31,7 @@ POST /api/auth/signup<br/>
 
 ### 로그인<br/>
 POST /api/auth/login<br/>
+요청<br/>
 {<br/>
     "email": "user@example.com",<br/>
     "password" : "abcd1234!",<br/>
@@ -39,7 +40,12 @@ Refresh Token → HttpOnly Cookie방식<br/>
 
 ### refreshtoken으로 accesstoken재발급<br/>
 POST api/auth/refresh<br/>
-eyJhbGciOiJIUzIOTgsImV4cCI6MTc2NDkyNjY~~~~~~~<br/>
+응답<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZW1haWwiOiJ3b3Jrc2ltdUBuYXZlci5jb20iLCJpYXQiOjE3NjYwNjE3MTUsImV4cCI6MTc2NjA3MjUxNX0.mTJ7ZvZOZ9a8lgqE-uPtpXseWqPdpsB3FCb6MFWEU-Y"<br/>
+}<br/>
 
 ### 로그아웃<br/>
 POST api/auth/logout<br/>

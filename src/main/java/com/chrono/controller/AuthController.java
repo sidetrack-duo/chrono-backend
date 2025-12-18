@@ -16,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -79,8 +78,8 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<SuccessResponseDto<Void>> logout(@AuthenticationPrincipal UserDetails user){
-        Long userId = Long.valueOf(user.getUsername());
+    public ResponseEntity<SuccessResponseDto<Void>> logout(@AuthenticationPrincipal CustomUserPrincipal principal){
+        Long userId = principal.getUser().getUserId();
 
         //db에서 refresh삭제
         refreshTokenService.delete(userId);
