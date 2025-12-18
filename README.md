@@ -43,6 +43,14 @@ eyJhbGciOiJIUzIOTgsImV4cCI6MTc2NDkyNjY~~~~~~~<br/>
 ### 로그아웃<br/>
 POST api/auth/logout<br/>
 
+### 회원 탈퇴
+DELETE api/auth<br/>
+성공<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": null<br/>
+}<br/>
 ## github<br/>
 ### 유효한 깃허브 유저네임인지 조회<br/>
 GET api/github/validate<br/>

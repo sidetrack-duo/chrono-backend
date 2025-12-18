@@ -5,6 +5,7 @@ import com.chrono.dto.LoginResponseDto;
 import com.chrono.dto.SignupRequestDto;
 import com.chrono.dto.SuccessResponseDto;
 import com.chrono.entity.RefreshTokenEntity;
+import com.chrono.security.CustomUserPrincipal;
 import com.chrono.security.JwtProvider;
 import com.chrono.service.AuthService;
 import com.chrono.service.RefreshTokenService;
@@ -96,5 +97,13 @@ public class AuthController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
                 .body(SuccessResponseDto.ok());
+    }
+
+    //탈퇴
+    @DeleteMapping
+    public ResponseEntity<SuccessResponseDto<Void>> withdraw(
+            @AuthenticationPrincipal CustomUserPrincipal principal){
+        authService.withdraw(principal.getUser());
+        return ResponseEntity.ok(SuccessResponseDto.ok(null));
     }
 }

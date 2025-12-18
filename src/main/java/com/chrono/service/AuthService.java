@@ -100,4 +100,20 @@ public class AuthService {
                 .orElseThrow(() -> new EntityNotFoundException("로그인된 사용자를 찾을 수 없습니다."));
     }
 
+    //탈퇴
+    public void withdraw(UserEntity user){
+        //이미 탈퇴한 경우
+        if(user.isDeleted()){
+            throw new IllegalArgumentException("이미 탈퇴한 사용자입니다.");
+        }
+
+        refreshTokenService.delete(user.getUserId());
+
+        user.disconnectGithubPat();
+        user.softDelete();
+
+        userRepository.save(user);
+
+        log.debug("회원 탈퇴 처리 완료: userId={}, email={}", user.getUserId(), user.getEmail());
+    }
 }
