@@ -58,6 +58,9 @@ DELETE api/auth<br/>
 "message": "SUCCESS",<br/>
 "data": null<br/>
 }<br/>
+
+
+
 ## github<br/>
 ### 유효한 깃허브 유저네임인지 조회<br/>
 GET api/github/validate<br/>
@@ -72,6 +75,7 @@ http://localhost:8080/api/github/validate?username=simuneu<br/>
 "avatarUrl": "https://github.com/simuneu.png",<br/>
 "message": "존재하는 GitHub 사용자입니다."<br/>
 }<br/>
+}<br/>
 
 
 ### 기본 연동<br/>
@@ -82,11 +86,15 @@ POST api/github/connect-basic<br/>
 }<br/>
 성공 응답<br/>
 {<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
 "connected": true,<br/>
 "type": "BASIC",<br/>
 "username": "simuneu",<br/>
 "avatarUrl": "https://avatars.githubusercontent.com/u/191446770?v=4",<br/>
 "message": "기본 연동이 완료되었습니다."<br/>
+}<br/>
 }<br/>
 
 ### pat 연동<br/>

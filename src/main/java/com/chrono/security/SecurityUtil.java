@@ -8,18 +8,31 @@ public class SecurityUtil {
     public static Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if(authentication == null || authentication.getPrincipal().equals("anonymousUser")){
+        if(authentication == null
+                || authentication.getPrincipal() == null
+                || authentication.getPrincipal().equals("anonymousUser")){
             throw new RuntimeException("로그인 상태 아님");
         }
-        String userId = authentication.getName();
-        return Long.parseLong(userId);
+
+        if(authentication.getPrincipal() instanceof  CustomUserPrincipal principal){
+            return  principal.getUser().getUserId();
+        }
+
+        throw new RuntimeException("인증 정보 타입 오류");
+
     }
     //이메일로 가져오기
     public static String getCurrentEmail(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || authentication.getPrincipal().equals("anonymousUser")) {
+        if (authentication == null
+                || authentication.getPrincipal() == null
+                || authentication.getPrincipal().equals("anonymousUser")) {
             throw new RuntimeException("로그인 상태 아님");
+        }
+
+        if (authentication.getPrincipal() instanceof CustomUserPrincipal principal) {
+            return principal.getUser().getEmail();
         }
 
         return authentication.getName();
