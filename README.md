@@ -322,41 +322,71 @@ GET api/projects/{projectId}/commits/summary<br/>
 }<br/>
 }<br/>
 
-### 커밋 위클리 집계 -- ***확인 필요<br/>
+### 커밋 위클리 집계 <br/>
 GET /api/projects/{projectId}/commits/weekly<br/>
 성공 응답<br/>
-[<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": [<br/>
 {<br/>
 "dayOfWeek": 4,<br/>
-"count": 2<br/>
-}<br/>
-]<br/>
-
-### 커밋 히스토리 -- ***확인 필요<br/>
-GET /api/projects/{projectId}/commits/history<br/>
-성공응답<br/>
-[<br/>
+"count": 1<br/>
+},<br/>
 {<br/>
-"date": "2025-11-29",<br/>
+"dayOfWeek": 3,<br/>
 "count": 2<br/>
 },<br/>
 {<br/>
-"date": "2025-12-10",<br/>
+"dayOfWeek": 2,<br/>
 "count": 2<br/>
 }<br/>
 ]<br/>
+}<br/>
+
+### 커밋 히스토리<br/>
+GET /api/projects/{projectId}/commits/history<br/>
+성공응답<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": [<br/>
+{<br/>
+"date": "2025-11-24",<br/>
+"count": 8<br/>
+},<br/>
+{<br/>
+"date": "2025-11-25",<br/>
+"count": 2<br/>
+},<br/>
+{<br/>
+"date": "2025-11-27",<br/>
+"count": 3<br/>
+}<br/>
+]<br/>
+}<br/>
 
 ### 커밋 전체 보기(전체지만 최근 30개만 가져와지고 필요 시 전체로 수정)<br/>
 GET /api/projects/{projectId}/commits<br/>
 성공응답<br/>
-[{<br/>
-"sha": "f857e0643fdca83b45a580cd6c257fd7a0980b21",<br/>
-"message": "refactor:dangerlevel enum으로 변경",<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": [<br/>
+{<br/>
+"sha": "f40e9c6f84e3191ab6e902a14b6fd7705ed3bc8a",<br/>
+"message": "fix:refresh설정 수정",<br/>
 "authorName": "simuneu",<br/>
-"authorEmail": "ㄹㄹ@gmail.com",<br/>
-"commitDate": "2025-11-23T08:24:53"<br/>
-}]<br/>
-<br/>
+"authorEmail": "worksimu@gmail.com",<br/>
+"commitDate": "2025-12-17T13:27:11"<br/>
+},<br/>
+{<br/>
+"sha": "a1740bd609d32af1868e3264d5b2470681ce08fd",<br/>
+"message": "fix:요일별 소비 패턴 계산 기준 통일 및 undefined 오류 수정",<br/>
+"authorName": "simuneu",<br/>
+"authorEmail": "worksimu@gmail.com",<br/>
+"commitDate": "2025-12-16T15:50:07"<br/>
+}]}<br/>
 ## user<br/>
 
 ### 비번 변경<br/><br/>
