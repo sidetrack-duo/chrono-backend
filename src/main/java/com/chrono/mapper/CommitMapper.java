@@ -3,7 +3,6 @@ package com.chrono.mapper;
 import com.chrono.dto.CommitAnalyzeRequestDto;
 import com.chrono.dto.CommitHistoryCountDto;
 import com.chrono.dto.CommitResponseDto;
-import com.chrono.dto.WeeklyCommitCountDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,9 +24,7 @@ public interface CommitMapper {
     String findMostActiveDay(Long projectId);
 
     //위클리 커밋
-    List<WeeklyCommitCountDto> findWeeklyCommitCount(@Param("projectId")Long projectId,
-                                                     @Param("start")LocalDate start,
-                                                     @Param("end") LocalDate end);
+    List<String> findCommitDatesForAnalysis(Long projectId);
 
     List<CommitHistoryCountDto> findCommitHistory(@Param("projectId")Long projectId,
                                                   @Param("start")LocalDate start);

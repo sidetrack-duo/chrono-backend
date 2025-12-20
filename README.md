@@ -322,7 +322,7 @@ GET api/projects/{projectId}/commits/summary<br/>
 }<br/>
 }<br/>
 
-### 커밋 위클리 집계 <br/>
+### 커밋 위클리 집계 -- 파이썬 서버 실행 필요<br/>
 GET /api/projects/{projectId}/commits/weekly<br/>
 성공 응답<br/>
 {<br/>

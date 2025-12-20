@@ -38,17 +38,15 @@
     </select>
 
 <!--    위클리 커밋-->
-    <select id="findWeeklyCommitCount" resultType="com.chrono.dto.WeeklyCommitCountDto">
+    <select id="findCommitDatesForAnalysis" resultType="string">
         SELECT
-        DAYOFWEEK(commit_date) AS dayOfWeek,
-        COUNT(*) AS count
+        DATE_FORMAT(commit_date, '%Y-%m-%dT%H:%i:%s')
         FROM commit_entity
         WHERE project_id = #{projectId}
-        AND commit_date BETWEEN #{start} AND #{end}
-        GROUP BY DAYOFWEEK(commit_date)
     </select>
 
-<!--    히스토리-->
+
+    <!--    히스토리-->
     <select id ="findCommitHistory" resultType="com.chrono.dto.CommitHistoryCountDto">
         select date(commit_date) as date, count(*)as count
         from commit_entity

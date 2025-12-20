@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -191,11 +190,12 @@ public class CommitService {
             throw new AccessDeniedException("권한 없음");
         }
 
-        //주 범위
-        LocalDate start = LocalDate.now().with(DayOfWeek.MONDAY);
-        LocalDate end = start.plusDays(6);
+        List<String> commitDates = commitMapper.findCommitDatesForAnalysis(projectId);
 
-        return commitMapper.findWeeklyCommitCount(projectId, start, end);
+        WeeklyAnalyzeRequestDto request =
+                new WeeklyAnalyzeRequestDto(projectId, commitDates);
+
+        return pythonCommitAnalyzerClient.analyzeWeekly(request);
     }
 
     //히스토리
