@@ -1,9 +1,6 @@
 package com.chrono.client;
 
-import com.chrono.dto.CommitAnalyzeRequestDto;
-import com.chrono.dto.CommitAnalyzeResponseDto;
-import com.chrono.dto.WeeklyAnalyzeRequestDto;
-import com.chrono.dto.WeeklyCommitCountDto;
+import com.chrono.dto.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -46,6 +43,20 @@ public class PythonCommitAnalyzerClient {
                         WeeklyCommitCountDto[].class
                 );
 
+        return List.of(response.getBody());
+    }
+
+    public List<CommitHistoryCountDto> analyzeHistory(HistoryAnalyzeRequestDto requestDto){
+        HttpHeaders  headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<HistoryAnalyzeRequestDto> entity = new HttpEntity<>(requestDto, headers);
+
+        ResponseEntity<CommitHistoryCountDto[]> response = restTemplate.postForEntity(
+                "http://localhost:8000/analyze/history",
+                entity,
+                CommitHistoryCountDto[].class
+        );
         return List.of(response.getBody());
     }
 

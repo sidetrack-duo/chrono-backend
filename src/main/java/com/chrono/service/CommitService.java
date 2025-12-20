@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -206,9 +205,12 @@ public class CommitService {
         if (!project.getUser().getUserId().equals(user.getUserId())) {
             throw new AccessDeniedException("권한 없음");
         }
-        //6개월
-        LocalDate start = LocalDate.now().minusMonths(6);
-        return commitMapper.findCommitHistory(projectId, start);
+
+        List<String> commitDates = commitMapper.findCommitDatesForAnalysis(projectId);
+
+        HistoryAnalyzeRequestDto requestDto = new HistoryAnalyzeRequestDto(projectId, commitDates);
+
+        return pythonCommitAnalyzerClient.analyzeHistory(requestDto);
     }
 
     //커밋 전체 조회
