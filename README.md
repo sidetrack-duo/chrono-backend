@@ -307,7 +307,7 @@ GET api/projects/{projectId}/commits/latest<br/>
 "data": "2025-10-19T09:51:17"<br/>
 }<br/>
 
-### 커밋 (프로젝트)전체 통계<br/>
+### 커밋 (프로젝트)전체 통계 -- 파이썬 서버 실행 필요<br/>
 GET api/projects/{projectId}/commits/summary<br/>
 성공 응답<br/>
 {<br/>
