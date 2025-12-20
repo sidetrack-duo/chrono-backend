@@ -71,4 +71,17 @@
         order by commit_date desc
     </select>
 
+<!--    파이썬 전달, 커밋 목록 조회하기-->
+    <select id="findCommitsForAnalysis"
+            resultType="com.chrono.dto.CommitAnalyzeRequestDto$CommitItemDto">
+        SELECT
+        sha,
+        DATE_FORMAT(commit_date, '%Y-%m-%dT%H:%i:%s') AS date,
+        message
+        FROM commit_entity
+        WHERE project_id = #{projectId}
+    </select>
+
+
+
 </mapper>

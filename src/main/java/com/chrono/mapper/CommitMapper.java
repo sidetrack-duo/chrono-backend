@@ -1,5 +1,6 @@
 package com.chrono.mapper;
 
+import com.chrono.dto.CommitAnalyzeRequestDto;
 import com.chrono.dto.CommitHistoryCountDto;
 import com.chrono.dto.CommitResponseDto;
 import com.chrono.dto.WeeklyCommitCountDto;
@@ -32,4 +33,6 @@ public interface CommitMapper {
                                                   @Param("start")LocalDate start);
 
     List<CommitResponseDto> findAllCommitsByProject(Long projectId);
+
+    List<CommitAnalyzeRequestDto.CommitItemDto> findCommitsForAnalysis(Long projectId);
 }

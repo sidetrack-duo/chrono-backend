@@ -1,5 +1,6 @@
 package com.chrono.service;
 
+import com.chrono.client.PythonCommitAnalyzerClient;
 import com.chrono.dto.*;
 import com.chrono.entity.CommitEntity;
 import com.chrono.entity.ProjectEntity;
@@ -33,6 +34,7 @@ public class CommitService {
     private RestTemplate restTemplate = new RestTemplate();
     private final CryptoUtil cryptoUtil;
     private final CommitMapper commitMapper;
+    private final PythonCommitAnalyzerClient pythonCommitAnalyzerClient;
 
     //커밋 동기화
     @Transactional
@@ -112,18 +114,17 @@ public class CommitService {
     //커밋 통계
     public CommitSummaryDto getCommitSummary(Long projectId){
 
-        int total = commitMapper.countTotalCommits(projectId);
-        LocalDateTime  latest = commitMapper.findLatestCommitDate(projectId);
-        int weekly = commitMapper.countCommitsThisWeek(projectId);
-        String mostActiveDay = commitMapper.findMostActiveDay(projectId);
+        var commits = commitMapper.findCommitsForAnalysis(projectId);
 
-        return new CommitSummaryDto(
-                projectId,
-                total,
-                latest,
-                weekly,
-                mostActiveDay
-        );
+        var request = new CommitAnalyzeRequestDto(projectId, commits);
+
+        var result = pythonCommitAnalyzerClient.analyzeSummary(request);
+
+        return new CommitSummaryDto(projectId,
+                result.total(),
+                result.latest(),
+                result.weekly(),
+                result.mostActiveDay());
     }
 
     //프로젝트 커밋 통계 반영
