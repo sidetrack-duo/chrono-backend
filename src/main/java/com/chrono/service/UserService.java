@@ -1,5 +1,6 @@
 package com.chrono.service;
 
+import com.chrono.dto.UpdateNicknameRequestDto;
 import com.chrono.dto.UpdatePasswordRequestDto;
 import com.chrono.dto.UserInfoResponseDto;
 import com.chrono.entity.UserEntity;
@@ -51,4 +52,27 @@ public class UserService {
         );
     }
 
+    //프로필 닉네임 수정
+    @Transactional
+    public  UserInfoResponseDto updatedNickname (UserEntity user, UpdateNicknameRequestDto req){
+        if(user == null){
+            throw new EntityNotFoundException("유저가 없습니다.");
+        }
+        int updated = userMapper.updateNickname(
+                user.getUserId(),
+                req.getNickname()
+        );
+
+        if(updated == 0){
+            throw new IllegalArgumentException("닉네임 수정에 실패했습니다.");
+        }
+        UserEntity updatedUser = userMapper.selectById(user.getUserId());
+
+        return new UserInfoResponseDto(
+                updatedUser.getUserId(),
+                updatedUser.getEmail(),
+                updatedUser.getNickname(),
+                updatedUser.getGithubUsername()
+        );
+    }
 }

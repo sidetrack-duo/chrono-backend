@@ -1,6 +1,7 @@
 package com.chrono.controller;
 
 import com.chrono.dto.SuccessResponseDto;
+import com.chrono.dto.UpdateNicknameRequestDto;
 import com.chrono.dto.UpdatePasswordRequestDto;
 import com.chrono.dto.UserInfoResponseDto;
 import com.chrono.security.CustomUserPrincipal;
@@ -36,6 +37,16 @@ public class UserController {
         );
     }
 
+    //닉네임 수정
+    @PutMapping("/me")
+    public SuccessResponseDto<UserInfoResponseDto> updateNickname(
+            @AuthenticationPrincipal CustomUserPrincipal principal,
+            @Valid @RequestBody UpdateNicknameRequestDto req
+            ){
 
+        return SuccessResponseDto.ok(
+                userService.updatedNickname(principal.getUser(), req)
+        );
+    }
 
 }

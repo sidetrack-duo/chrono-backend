@@ -412,3 +412,21 @@ GET api/users/me<br/>
 "githubUsername": "simuneu"<br/>
 }<br/>
 }<br/>
+
+### 닉네임 수정<br/>
+PUT api/users/me<br/>
+요청 <br/>
+{<br/>
+"nickname":"고래"<br/>
+}<br/>
+응답<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
+"userId": 3,<br/>
+"email": "worksimu@naver.com",<br/>
+"nickname": "고래",<br/>
+"githubUsername": "simuneu"<br/>
+}<br/>
+}<br/>
