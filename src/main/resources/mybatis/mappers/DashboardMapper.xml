@@ -1,0 +1,71 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chrono.mapper.DashboardMapper">
+
+    <!-- 진행중 프로젝트 수 -->
+    <select id="countInProgressProjects" resultType="int">
+        SELECT COUNT(*)
+        FROM projects
+        WHERE user_id = #{userId}
+            AND status = 'IN_PROGRESS'
+    </select>
+
+<!-- 완료 프로젝트 수 -->
+    <select id="countCompletedProjects" resultType="int">
+        SELECT COUNT(*)
+        FROM projects
+        WHERE user_id = #{userId}
+        AND status = 'COMPLETED'
+    </select>
+
+ <!-- 이번 달 커밋 수 -->
+    <select id="countCommitsThisMonth" resultType="int">
+        SELECT COUNT(*)
+        FROM commit_entity c
+        JOIN projects p ON c.project_id = p.project_id
+        WHERE p.user_id = #{userId}
+            AND MONTH(c.commit_date) = MONTH(NOW())
+            AND YEAR(c.commit_date) = YEAR(NOW())
+    </select>
+
+<!-- 이번 주 요일별 커밋 수 -->
+    <select id="selectWeeklyCommitCounts"
+            resultType="com.chrono.dto.WeeklyCommitCountDto">
+        SELECT
+            DAYOFWEEK(c.commit_date) AS dayOfWeek,
+            COUNT(*) AS count
+        FROM commit_entity c
+            JOIN projects p ON c.project_id = p.project_id
+        WHERE p.user_id = #{userId}
+            AND DATE(c.commit_date) BETWEEN #{startDate} AND #{endDate}
+        GROUP BY DAYOFWEEK(c.commit_date)
+        ORDER BY dayOfWeek
+    </select>
+
+<!-- 최근 프로젝트 요약 -->
+    <select id="selectRecentProjectSummaries"
+            resultType="com.chrono.dto.CommitSummaryDto">
+        SELECT
+        p.project_id       AS projectId,
+        COUNT(c.commit_id) AS totalCommits,
+        MAX(c.commit_date) AS latestCommitDate,
+        SUM(
+        CASE
+        WHEN YEARWEEK(c.commit_date, 1) = YEARWEEK(NOW(), 1)
+        THEN 1 ELSE 0
+        END
+        ) AS commitsThisWeek,
+        DAYNAME(
+        MAX(c.commit_date)
+        ) AS mostActiveDay
+        FROM projects p
+        LEFT JOIN commit_entity c ON p.project_id = c.project_id
+        WHERE p.user_id = #{userId}
+        GROUP BY p.project_id
+        ORDER BY latestCommitDate DESC
+        LIMIT 5
+    </select>
+
+</mapper>

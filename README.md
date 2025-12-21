@@ -430,3 +430,53 @@ PUT api/users/me<br/>
 "githubUsername": "simuneu"<br/>
 }<br/>
 }<br/>
+
+
+## Dashboard
+### Dashboard 조회 <br/>
+GET api/dashboard<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
+"summary": {<br/>
+"inProgressCount": 2,<br/>
+"completedCount": 0,<br/>
+"totalCommitsThisMonth": 8<br/>
+},<br/>
+"weeklyCommits": [<br/>
+{<br/>
+"dayOfWeek": 2,<br/>
+"count": 2<br/>
+},<br/>
+{<br/>
+"dayOfWeek": 3,<br/>
+"count": 2<br/>
+},<br/>
+{<br/>
+"dayOfWeek": 4,<br/>
+"count": 1<br/>
+}<br/>
+],<br/>
+"weekInfo": {<br/>
+"startDate": "2025-12-15",<br/>
+"endDate": "2025-12-21"<br/>
+},<br/>
+"recentProjects": [<br/>
+{<br/>
+"projectId": 5,<br/>
+"totalCommits": 30,<br/>
+"latestCommitDate": "2025-12-17T13:27:11",<br/>
+"commitsThisWeek": 5,<br/>
+"mostActiveDay": "Wednesday"<br/>
+},<br/>
+{<br/>
+"projectId": 6,<br/>
+"totalCommits": 28,<br/>
+"latestCommitDate": "2025-10-19T09:51:17",<br/>
+"commitsThisWeek": 0,<br/>
+"mostActiveDay": "Sunday"<br/>
+}<br/>
+]<br/>
+}<br/>
+}<br/>
