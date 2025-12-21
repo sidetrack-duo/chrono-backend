@@ -1,0 +1,18 @@
+<!-- resources/mapper/UserMapper.xml -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chrono.mapper.UserMapper">
+
+    <select id="selectById" resultType="com.chrono.entity.UserEntity">
+        SELECT
+        user_id      AS userId,
+        email,
+        nickname,
+        github_username AS githubUsername
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+
+</mapper>

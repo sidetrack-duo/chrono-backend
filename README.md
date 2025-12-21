@@ -387,6 +387,7 @@ GET /api/projects/{projectId}/commits<br/>
 "authorEmail": "worksimu@gmail.com",<br/>
 "commitDate": "2025-12-16T15:50:07"<br/>
 }]}<br/>
+
 ## user<br/>
 
 ### 비번 변경<br/><br/>
@@ -396,4 +397,18 @@ PATCH api/users/me/password<br/>
 "currentPassword": "abcd1234!",<br/>
 "newPassword": "abcd1234!!",<br/>
 "newPasswordConfirm": "abcd1234!!"<br/>
+}<br/>
+
+### 내 정보 조회<br/>
+GET api/users/me<br/>
+응답<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
+"userId": 3,<br/>
+"email": "worksimu@naver.com",<br/>
+"nickname": "다람띠",<br/>
+"githubUsername": "simuneu"<br/>
+}<br/>
 }<br/>

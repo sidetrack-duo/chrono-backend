@@ -3,6 +3,7 @@ package com.chrono.controller;
 import com.chrono.dto.*;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.CommitService;
+import com.chrono.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/projects")
 public class CommitController {
     private final CommitService commitService;
+    private final UserService userService;
 
     //커밋 동기화
     @PostMapping("/{projectId}/commits/sync")
@@ -72,10 +74,13 @@ public class CommitController {
     }
 
     //전체 커밋 조회
-    @GetMapping("/{projectId}/commits")
-    public ResponseEntity<SuccessResponseDto<List<CommitResponseDto>>> getAllCommits( @PathVariable Long projectId,
-                                                  @AuthenticationPrincipal CustomUserPrincipal principal){
-        return ResponseEntity.ok(
-                SuccessResponseDto.ok(commitService.getAllCommit(projectId, principal.getUser())));
+    @GetMapping("/me")
+    public SuccessResponseDto<UserInfoResponseDto> getMyInfo(
+            @AuthenticationPrincipal CustomUserPrincipal principal
+    ) {
+        return SuccessResponseDto.ok(
+                userService.getMyInfo(principal.getUser())
+        );
     }
+
 }

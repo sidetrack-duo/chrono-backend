@@ -1,8 +1,11 @@
 package com.chrono.service;
 
 import com.chrono.dto.UpdatePasswordRequestDto;
+import com.chrono.dto.UserInfoResponseDto;
 import com.chrono.entity.UserEntity;
+import com.chrono.mapper.UserMapper;
 import com.chrono.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     @Transactional
     public void updatePassword(UserEntity user, UpdatePasswordRequestDto req){
@@ -32,4 +36,19 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(req.getNewPassword());
         user.updatePassword(encodedPassword);
     }
+
+    //정보조회
+    public UserInfoResponseDto getMyInfo(UserEntity user){
+        if (user == null) {
+            throw new EntityNotFoundException("유저가 없습니다.");
+        }
+
+        return new UserInfoResponseDto(
+                user.getUserId(),
+                user.getEmail(),
+                user.getNickname(),
+                user.getGithubUsername()
+        );
+    }
+
 }

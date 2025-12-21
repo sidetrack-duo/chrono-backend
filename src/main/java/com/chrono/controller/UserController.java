@@ -2,16 +2,14 @@ package com.chrono.controller;
 
 import com.chrono.dto.SuccessResponseDto;
 import com.chrono.dto.UpdatePasswordRequestDto;
+import com.chrono.dto.UserInfoResponseDto;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -27,4 +25,17 @@ public class UserController {
         userService.updatePassword(principal.getUser(), req);
         return ResponseEntity.ok(SuccessResponseDto.ok());
     }
+
+    //내 정보 조회
+    @GetMapping("/me")
+    public SuccessResponseDto<UserInfoResponseDto> getMyInfo(
+            @AuthenticationPrincipal CustomUserPrincipal principal
+    ) {
+        return SuccessResponseDto.ok(
+                userService.getMyInfo(principal.getUser())
+        );
+    }
+
+
+
 }
