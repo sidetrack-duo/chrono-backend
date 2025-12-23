@@ -4,6 +4,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,17 +16,22 @@ public class EmailSenderService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-    public void sendEmail(String to, String subject, String text) {
+    public void sendEmail(String to, String subject, String htmlContent) {
 
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
             // 보내는 사람 이름 + 이메일
             helper.setFrom("Chrono <" + fromEmail + ">");
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(text, false);
+            helper.setText(htmlContent, true);
+
+            ClassPathResource logo = new ClassPathResource("mail/images/chrono.jpg");
+
+            helper.addInline("chrono", logo);
 
             mailSender.send(mimeMessage);
 

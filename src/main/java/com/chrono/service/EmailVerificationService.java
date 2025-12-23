@@ -46,9 +46,9 @@ public class EmailVerificationService {
         verificationRepository.save(entity);
 
         String subject = "[Chrono] 이메일 인증코드 안내";
-        String content = "인증코드: " + code + "\n5분 안에 입력해주세요.";
+        String htmlContent = EmailTemplate.verification(code);
+        emailSenderService.sendEmail(email, subject, htmlContent);
 
-        emailSenderService.sendEmail(email, subject, content);
     }
 
     @Transactional
