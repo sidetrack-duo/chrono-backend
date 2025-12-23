@@ -29,26 +29,20 @@ public class EmailVerificationService {
         return code.toString();
     }
 
-    //인증코드 생성, 저장, 발송
+    //코드 생성 + 저장
     @Transactional
-    public void sendVerificationCode(String email){
-        //새 코드 생성
+    public String generateAndSaveCode(String email) {
         String code = generateCode();
-        LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(5);
 
-        //디비 저장
         EmailVerificationEntity entity = EmailVerificationEntity.builder()
                 .email(email)
                 .validCode(code)
-                .expiresAt(expiresAt)
+                .expiresAt(LocalDateTime.now().plusMinutes(5))
                 .verified(false)
                 .build();
+
         verificationRepository.save(entity);
-
-        String subject = "[Chrono] 이메일 인증코드 안내";
-        String htmlContent = EmailTemplate.verification(code);
-        emailSenderService.sendEmail(email, subject, htmlContent);
-
+        return code;
     }
 
     @Transactional

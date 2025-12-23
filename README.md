@@ -59,7 +59,18 @@ DELETE api/auth<br/>
 "data": null<br/>
 }<br/>
 
-
+### 비번 재설정 - 코드요청<br/>
+POST/api/auth/password/reset-request<br/>
+{<br/>
+"email":"worksimu@naver.com"<br/>
+}<br/>
+### 비번 재설정 <br/>
+POST/api/auth/password/reset<br/>
+{<br/>
+"email":"worksimu@naver.com",<br/>
+"code":"CPL3DFWL",<br/>
+"newPassword": "abcd123!"<br/>
+}<br/>
 
 ## github<br/>
 ### 유효한 깃허브 유저네임인지 조회<br/>

@@ -12,6 +12,11 @@ public class EmailTemplate {
         return html.replace("{{CODE}}", code);
     }
 
+    public static String passwordReset(String code){
+        String html = loadTemplate("mail/templates/password-reset.html");
+        return html.replace("{{CODE}}", code);
+    }
+
     private static String loadTemplate(String path){
         try {
             ClassPathResource resource = new ClassPathResource(path);

@@ -3,6 +3,8 @@ package com.chrono.controller;
 import com.chrono.dto.EmailSendRequestDto;
 import com.chrono.dto.EmailVerifyRequestDto;
 import com.chrono.dto.SuccessResponseDto;
+import com.chrono.service.EmailSenderService;
+import com.chrono.service.EmailTemplate;
 import com.chrono.service.EmailVerificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class EmailVerificationController {
     private final EmailVerificationService emailVerificationService;
+    private final EmailSenderService emailSenderService;
 
     // 인증코드 발송
     @PostMapping("/send")
     public ResponseEntity<SuccessResponseDto<Void>> sendVerificationCode(@RequestBody EmailSendRequestDto request) {
 
-        emailVerificationService.sendVerificationCode(request.getEmail());
+        String email = request.getEmail();
+
+        String code = emailVerificationService.generateAndSaveCode(email);
+
+        String html = EmailTemplate.verification(code);
+
+        emailSenderService.sendEmail(
+                email,
+                "[Chrono] 이메일 인증코드 안내",
+                html
+        );
         return ResponseEntity.ok(SuccessResponseDto.ok());
     }
 

@@ -100,4 +100,9 @@ public class UserEntity {
         this.githubPat = null;
         this.githubConnected = GithubConnectStatus.BASIC;
     }
+
+    //비번 변경
+    public void changePassword(String encodePassword){
+        this.password = encodePassword;
+    }
 }
