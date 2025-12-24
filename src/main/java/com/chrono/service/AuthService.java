@@ -56,7 +56,7 @@ public class AuthService {
                 .build();
         userRepository.save(user);
 
-        log.info("회원가입 완료: email={}, nickname={}", email, nickname);
+        log.debug("회원가입 완료: email={}, nickname={}", email, nickname);
     }
 
     //비밀번호 조건
