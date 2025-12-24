@@ -16,11 +16,4 @@ public interface CommitRepository extends JpaRepository<CommitEntity, Long> {
     
     //커밋 수 가져오기
     int countByProject_ProjectId(Long projectId);
-
-    List<CommitEntity> findByProject_ProjectIdOrderByCommitDateDesc(Long projectId);
-
-    List<CommitEntity> findByProject(ProjectEntity project);
-
-    List<CommitEntity> findByProject_ProjectIdAndCommitDateBetween(Long projectId, LocalDateTime start, LocalDateTime end);
-
 }

@@ -13,5 +13,4 @@ public interface EmailVerificationRepository extends JpaRepository<EmailVerifica
     Optional<EmailVerificationEntity> findTopByEmailOrderByCreatedAtDesc(String email);
 
     //이메일 + 코드로 조회
-    Optional<EmailVerificationEntity> findByEmailAndValidCode(String email, String validCode);
 }
