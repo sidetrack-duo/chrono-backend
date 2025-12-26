@@ -139,6 +139,11 @@ public class CommitService {
     //총 커밋 수 불러오기
     private int fetchTotalCommitCountFromGithub(ProjectEntity project) {
 
+        //pat연동 안되어 있는 경우
+        if(project.getUser().getGithubPat() == null){
+            return commitRepository.countByProject_ProjectId(project.getProjectId());
+        }
+
         String url = "https://api.github.com/graphql";
 
         HttpHeaders headers = new HttpHeaders();
