@@ -87,6 +87,7 @@ public class ProjectEntity {
 
     public void activate(){
         this.active= true;
+        this.status = ProjectStatus.IN_PROGRESS;
     }
 
     public void markCompleted(){

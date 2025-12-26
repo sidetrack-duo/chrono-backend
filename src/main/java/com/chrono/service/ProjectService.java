@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,13 +30,31 @@ public class ProjectService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final CryptoUtil cryptoUtil;
 
-
+    @Transactional
     public Long createProject(UserEntity user, CreateProjectRequestDto req) {
 
         //중복 등록 체크
+        Optional<ProjectEntity> deletedProject =
+                projectRepository.findByUserAndOwnerAndRepoNameAndActiveFalse(
+                        user, req.getOwner(), req.getRepoName()
+                );
+
+        if(deletedProject.isPresent()){
+            ProjectEntity project = deletedProject.get();
+            project.activate();
+            project.updateMeta(
+                    req.getTitle(),
+                    req.getDescription(),
+                    req.getTechStack(),
+                    req.getStartDate(),
+                    req.getTargetDate()
+            );
+            return project.getProjectId();
+        }
+
         boolean duplicated = projectRepository
-                .existsByUser_UserIdAndOwnerAndRepoName(
-                        user.getUserId(),
+                .existsByUserAndOwnerAndRepoNameAndActiveTrue(
+                        user,
                         req.getOwner(),
                         req.getRepoName()
                 );
