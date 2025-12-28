@@ -8,6 +8,7 @@ import com.chrono.repository.UserRepository;
 import com.chrono.util.CryptoUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,6 +23,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProjectService {
@@ -29,6 +31,7 @@ public class ProjectService {
     private final UserRepository userRepository;
     private final RestTemplate restTemplate = new RestTemplate();
     private final CryptoUtil cryptoUtil;
+    private final CommitService commitService;
 
     @Transactional
     public Long createProject(UserEntity user, CreateProjectRequestDto req) {
@@ -49,6 +52,12 @@ public class ProjectService {
                     req.getStartDate(),
                     req.getTargetDate()
             );
+
+            try{
+                commitService.syncCommits(project.getProjectId());
+            }catch (Exception e){
+                log.warn("프로젝트 복구 후 커밋 동기화 실패");
+            }
             return project.getProjectId();
         }
 
@@ -79,6 +88,12 @@ public class ProjectService {
                 .build();
         //저장
         ProjectEntity saved = projectRepository.save(project);
+
+        try{
+            commitService.syncCommits(project.getProjectId());
+        }catch (Exception e){
+            log.warn("프로젝트 생성 후 커밋 동기화 실패");
+        }
 
         return saved.getProjectId();
     }
