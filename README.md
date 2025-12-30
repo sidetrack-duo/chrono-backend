@@ -355,7 +355,7 @@ GET /api/projects/{projectId}/commits/weekly<br/>
 ]<br/>
 }<br/>
 
-### 커밋 히스토리-- 파이썬 서버 실행 필요<br/>
+### 커밋 히스토리<br/>
 GET /api/projects/{projectId}/commits/history<br/>
 성공응답<br/>
 {<br/>

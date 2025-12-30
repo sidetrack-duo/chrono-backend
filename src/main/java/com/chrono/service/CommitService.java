@@ -211,11 +211,10 @@ public class CommitService {
             throw new AccessDeniedException("권한 없음");
         }
 
-        List<String> commitDates = commitMapper.findCommitDatesForAnalysis(projectId);
-
-        HistoryAnalyzeRequestDto requestDto = new HistoryAnalyzeRequestDto(projectId, commitDates);
-
-        return pythonCommitAnalyzerClient.analyzeHistory(requestDto);
+        if(!project.isActive()){
+            throw new EntityNotFoundException("삭제된 프로젝트");
+        }
+        return commitMapper.selectDailyCommitHistory(projectId);
     }
 
     //커밋 전체 조회
