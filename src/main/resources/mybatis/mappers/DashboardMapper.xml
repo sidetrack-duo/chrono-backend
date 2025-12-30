@@ -10,7 +10,7 @@
         FROM projects
         WHERE user_id = #{userId}
             AND status = 'IN_PROGRESS'
-            AND deleted_at IS NULL
+            AND active = true
     </select>
 
 <!-- 완료 프로젝트 수 -->
@@ -19,7 +19,7 @@
         FROM projects
         WHERE user_id = #{userId}
             AND status = 'COMPLETED'
-            AND deleted_at IS NULL
+            AND active = true
     </select>
 
  <!-- 이번 달 커밋 수 -->
@@ -28,7 +28,7 @@
         FROM commit_entity c
         JOIN projects p ON c.project_id = p.project_id
         WHERE p.user_id = #{userId}
-            AND p.deleted_at IS NULL
+            AND p.active = true
             AND MONTH(c.commit_date) = MONTH(NOW())
             AND YEAR(c.commit_date) = YEAR(NOW())
     </select>
@@ -42,7 +42,7 @@
         FROM commit_entity c
             JOIN projects p ON c.project_id = p.project_id
         WHERE p.user_id = #{userId}
-            AND p.deleted_at IS NULL
+            AND p.active = true
             AND DATE(c.commit_date) BETWEEN #{startDate} AND #{endDate}
         GROUP BY DAYOFWEEK(c.commit_date)
         ORDER BY dayOfWeek
@@ -64,7 +64,7 @@
         FROM projects p
             LEFT JOIN commit_entity c ON p.project_id = c.project_id
         WHERE p.user_id = #{userId}
-            AND p.deleted_at IS NULL
+            AND p.active = true
         GROUP BY p.project_id
         ORDER BY latestCommitDate DESC
         LIMIT 5

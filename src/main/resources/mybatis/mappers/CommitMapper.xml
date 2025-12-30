@@ -69,6 +69,18 @@
         WHERE project_id = #{projectId}
     </select>
 
+<!--    최근 14일 일별 커밋 집계-->
+    <select id="selectDailyCommitHistory" resultType="com.chrono.dto.CommitHistoryCountDto">
+        SELECT
+            DATE(c.commit_date) AS date, COUNT(*) AS count
+        FROM commit_entity c
+            JOIN projects p ON c.project_id = p.project_id
+        WHERE p.project_id = #{projectId}
+            AND p.active = true
+            AND c.commit_date >= DATE_SUB(CURDATE(), INTERVAL 13 DAY)
+        GROUP BY DATE(c.commit_date)
+        ORDER BY date
+    </select>
 
 
 </mapper>
