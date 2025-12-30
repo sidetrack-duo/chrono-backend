@@ -10,6 +10,7 @@
         FROM projects
         WHERE user_id = #{userId}
             AND status = 'IN_PROGRESS'
+            AND deleted_at IS NULL
     </select>
 
 <!-- 완료 프로젝트 수 -->
@@ -17,7 +18,8 @@
         SELECT COUNT(*)
         FROM projects
         WHERE user_id = #{userId}
-        AND status = 'COMPLETED'
+            AND status = 'COMPLETED'
+            AND deleted_at IS NULL
     </select>
 
  <!-- 이번 달 커밋 수 -->
@@ -26,6 +28,7 @@
         FROM commit_entity c
         JOIN projects p ON c.project_id = p.project_id
         WHERE p.user_id = #{userId}
+            AND p.deleted_at IS NULL
             AND MONTH(c.commit_date) = MONTH(NOW())
             AND YEAR(c.commit_date) = YEAR(NOW())
     </select>
@@ -39,6 +42,7 @@
         FROM commit_entity c
             JOIN projects p ON c.project_id = p.project_id
         WHERE p.user_id = #{userId}
+            AND p.deleted_at IS NULL
             AND DATE(c.commit_date) BETWEEN #{startDate} AND #{endDate}
         GROUP BY DAYOFWEEK(c.commit_date)
         ORDER BY dayOfWeek
@@ -48,21 +52,19 @@
     <select id="selectRecentProjectSummaries"
             resultType="com.chrono.dto.CommitSummaryDto">
         SELECT
-        p.project_id       AS projectId,
-        COUNT(c.commit_id) AS totalCommits,
-        MAX(c.commit_date) AS latestCommitDate,
+            p.project_id       AS projectId,
+            COUNT(c.commit_id) AS totalCommits,
+            MAX(c.commit_date) AS latestCommitDate,
         SUM(
-        CASE
-        WHEN YEARWEEK(c.commit_date, 1) = YEARWEEK(NOW(), 1)
-        THEN 1 ELSE 0
-        END
-        ) AS commitsThisWeek,
-        DAYNAME(
-        MAX(c.commit_date)
-        ) AS mostActiveDay
+            CASE
+            WHEN YEARWEEK(c.commit_date, 1) = YEARWEEK(NOW(), 1)
+            THEN 1 ELSE 0
+        END ) AS commitsThisWeek,
+            DAYNAME(MAX(c.commit_date)) AS mostActiveDay
         FROM projects p
-        LEFT JOIN commit_entity c ON p.project_id = c.project_id
+            LEFT JOIN commit_entity c ON p.project_id = c.project_id
         WHERE p.user_id = #{userId}
+            AND p.deleted_at IS NULL
         GROUP BY p.project_id
         ORDER BY latestCommitDate DESC
         LIMIT 5
