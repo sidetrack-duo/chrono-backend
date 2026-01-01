@@ -1,6 +1,7 @@
 package com.chrono.client;
 
 import com.chrono.dto.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,7 +14,12 @@ import java.util.List;
 @Component
 public class PythonCommitAnalyzerClient {
     private final RestTemplate restTemplate = new RestTemplate();
-    private static final String PYTHON_URL = "http://localhost:8000/analyze/summary";
+
+    @Value("${fastapi.base-url}")
+    private String fastApiBaseUrl;
+    private static final String SUMMARY_PATH = "/analyze/summary";
+    private static final String WEEKLY_PATH = "/analyze/weekly";
+    private static final String HISTORY_PATH = "/analyze/history";
 
     public CommitAnalyzeResponseDto analyzeSummary(CommitAnalyzeRequestDto requestDto){
         HttpHeaders headers = new HttpHeaders();
@@ -22,7 +28,10 @@ public class PythonCommitAnalyzerClient {
         HttpEntity<CommitAnalyzeRequestDto> entity = new HttpEntity<>(requestDto, headers);
 
         ResponseEntity<CommitAnalyzeResponseDto> response =
-                restTemplate.postForEntity(PYTHON_URL, entity, CommitAnalyzeResponseDto.class);
+                restTemplate.postForEntity(
+                        fastApiBaseUrl + SUMMARY_PATH ,
+                        entity,
+                        CommitAnalyzeResponseDto.class);
 
         return response.getBody();
     }
@@ -38,7 +47,7 @@ public class PythonCommitAnalyzerClient {
 
         ResponseEntity<WeeklyCommitCountDto[]> response =
                 restTemplate.postForEntity(
-                        "http://localhost:8000/analyze/weekly",
+                        fastApiBaseUrl + WEEKLY_PATH,
                         entity,
                         WeeklyCommitCountDto[].class
                 );
@@ -53,7 +62,7 @@ public class PythonCommitAnalyzerClient {
         HttpEntity<HistoryAnalyzeRequestDto> entity = new HttpEntity<>(requestDto, headers);
 
         ResponseEntity<CommitHistoryCountDto[]> response = restTemplate.postForEntity(
-                "http://localhost:8000/analyze/history",
+                fastApiBaseUrl + HISTORY_PATH,
                 entity,
                 CommitHistoryCountDto[].class
         );

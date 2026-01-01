@@ -31,8 +31,8 @@ public class SecurityConfig {
                 //요청URL인가 설정
                 .authorizeHttpRequests(auth ->auth.requestMatchers(
                         "/api/auth/signup", "/api/auth/login", "/api/auth/email/send",
-                        "/api/auth/email/verify", "/api/auth/refresh", "api/auth/password/reset-request",
-                        "api/auth/password/reset").permitAll() .anyRequest().authenticated())
+                        "/api/auth/email/verify", "/api/auth/refresh", "/api/auth/password/reset-request",
+                        "/api/auth/password/reset").permitAll() .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .logout(logout -> logout.disable());
