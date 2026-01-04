@@ -25,10 +25,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException{
         String requestURI = request.getRequestURI();
+        log.warn(">>> METHOD: {} URI: {}", request.getMethod(), request.getRequestURI());
         log.debug("***JwtAuthenticationFilter 실행 - URI: {}", requestURI);
 
         //토큰 추출
         String bearerToken = request.getHeader("Authorization");
+
+        if (requestURI.startsWith("/api/auth/email")
+                || requestURI.startsWith("/api/auth/login")
+                || requestURI.startsWith("/api/auth/signup")
+                || requestURI.startsWith("/api/auth/refresh")
+                || requestURI.startsWith("/api/auth/password")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if(bearerToken != null && bearerToken.startsWith("Bearer ")){
             String token = bearerToken.substring(7);
