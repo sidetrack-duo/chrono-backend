@@ -12,10 +12,34 @@ GitHub 커밋 기반 사이드 프로젝트 트래커
 ---
 
 ## 팀 소개
-| Role     | GitHub | Name |
-|----------|--------|------|
-| Frontend | [<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="22" />](https://github.com/MA-Ha-eun) | [마하은](https://github.com/MA-Ha-eun) |
-| Backend  | [<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="22" />](https://github.com/simuneu)   | [박시현](https://github.com/simuneu)   |
+<table align="center">
+  <tr>
+    <td align="center"><b>Frontend</b></td>
+    <td align="center"><b>Backend</b></td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <a href="https://github.com/MA-Ha-eun">
+        <img src="https://github.com/MA-Ha-eun.png" width="140"/>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/simuneu">
+        <img src="https://github.com/simuneu.png" width="140"/>
+      </a>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <a href="https://github.com/MA-Ha-eun"><b>마하은</b></a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/simuneu"><b>박시현</b></a>
+    </td>
+  </tr>
+</table>
 
 ---
 
