@@ -1,5 +1,4 @@
-![Chrono](resources/images/chrono.png)
-
+![Chrono](./assets/images/chrono.png)
 
 # 📌 프로젝트 개요
 GitHub 커밋 기반 사이드 프로젝트 트래커  
@@ -12,31 +11,27 @@ GitHub 커밋 기반 사이드 프로젝트 트래커
 ---
 
 ## 팀 소개
-<table align="center">
+<table>
   <tr>
-    <td align="center"><b>Frontend</b></td>
-    <td align="center"><b>Backend</b></td>
+    <th align="left">Role</th>
+    <th align="left">Member</th>
   </tr>
-
   <tr>
-    <td align="center">
+    <td>Frontend</td>
+    <td>
       <a href="https://github.com/MA-Ha-eun">
-        <img src="https://github.com/MA-Ha-eun.png" width="140"/>
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/simuneu">
-        <img src="https://github.com/simuneu.png" width="140"/>
+        <img src="https://github.com/MA-Ha-eun.png" width="48" style="vertical-align:middle;"/>
+        <strong> 마하은</strong>
       </a>
     </td>
   </tr>
-
   <tr>
-    <td align="center">
-      <a href="https://github.com/MA-Ha-eun"><b>마하은</b></a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/simuneu"><b>박시현</b></a>
+    <td>Backend</td>
+    <td>
+      <a href="https://github.com/simuneu">
+        <img src="https://github.com/simuneu.png" width="48" style="vertical-align:middle;"/>
+        <strong> 박시현</strong>
+      </a>
     </td>
   </tr>
 </table>
@@ -53,9 +48,9 @@ GitHub 커밋 기반 사이드 프로젝트 트래커
 
 ## 기술 스택
 ### Frontend
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
-![React Router](https://img.shields.io/badge/React_Router-6-CA4245?logo=reactrouter&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-4-3178C6?logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?logo=reactrouter&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwindcss&logoColor=white)
 ![Zustand](https://img.shields.io/badge/Zustand-State_Management-FF6A00?logoColor=white)
 ![Axios](https://img.shields.io/badge/Axios-HTTP_Client-5A29E4?logo=axios&logoColor=white)
@@ -65,14 +60,15 @@ GitHub 커밋 기반 사이드 프로젝트 트래커
 
 ### Backend
 ![Java](https://img.shields.io/badge/Java-17-007396?logo=java&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F?logo=springboot&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?logo=springboot&logoColor=white)
 ![Spring Security](https://img.shields.io/badge/Spring_Security-JWT-6DB33F?logo=springsecurity&logoColor=white)
 ![Spring Data JPA](https://img.shields.io/badge/Spring_Data_JPA-Hibernate-59666C?logo=hibernate&logoColor=white)
-![MyBatis](https://img.shields.io/badge/MyBatis-Framework-EA1D2C?logoColor=white)
-![Gradle](https://img.shields.io/badge/Gradle-Build-02303A?logo=gradle&logoColor=white)
-![Python](https://img.shields.io/badge/Python-FastAPI-3776AB?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-Async-009688?logo=fastapi&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?logo=mysql&logoColor=white)
+![MyBatis](https://img.shields.io/badge/MyBatis-EA1D2C?logoColor=white)
+![Gradle](https://img.shields.io/badge/Gradle-02303A?logo=gradle&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
+
 
 ### Infrastructure
 ![AWS EC2](https://img.shields.io/badge/AWS_EC2-Ubuntu-FF9900?logo=amazonaws&logoColor=white)
@@ -85,12 +81,12 @@ GitHub 커밋 기반 사이드 프로젝트 트래커
 ---
 
 ## 시스템 / 배포 아키텍처
-![시스템 아키텍처](resources/images/Architecture.png)
+![시스템 아키텍처](./assets/images/Architecture.png)
 
 ---
 
 ## ERD
-![erd](resources/images/chrono-erd.png)
+![erd](./assets/images/chrono-erd.png)
 ---
 
 ## API 문서
