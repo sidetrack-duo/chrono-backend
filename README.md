@@ -12,9 +12,11 @@ GitHub 커밋 기반 사이드 프로젝트 트래커
 ---
 
 ## 팀 소개
-|---|------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
+| Role     | GitHub | Name |
+|----------|--------|------|
 | Frontend | [<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="22" />](https://github.com/MA-Ha-eun) | [마하은](https://github.com/MA-Ha-eun) |
 | Backend  | [<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="22" />](https://github.com/simuneu)   | [박시현](https://github.com/simuneu)   |
+
 ---
 
 ## 화면 미리보기
