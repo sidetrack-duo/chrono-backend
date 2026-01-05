@@ -21,20 +21,21 @@ GitHub 커밋 기반 사이드 프로젝트 트래커
     <td align="center" style="padding:20px;">
       <strong style="font-size:18px;">Frontend</strong><br/><br/>
       <a href="https://github.com/MA-Ha-eun">
-        <img src="https://github.com/MA-Ha-eun.png" width="96"/><br/><br/>
-        <strong>마하은</strong>
+        <img src="https://github.com/MA-Ha-eun.png" width="96" alt="마하은"/><br/>
+        <div><strong>마하은</strong></div>
       </a>
     </td>
 
     <td align="center" style="padding:20px;">
       <strong style="font-size:18px;">Backend</strong><br/><br/>
       <a href="https://github.com/simuneu">
-        <img src="https://github.com/simuneu.png" width="96"/><br/><br/>
-        <strong>박시현</strong>
+        <img src="https://github.com/simuneu.png" width="96" alt="박시현"/><br/>
+        <div><strong>박시현</strong></div>
       </a>
     </td>
   </tr>
 </table>
+
 
 
 
