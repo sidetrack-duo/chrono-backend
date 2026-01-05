@@ -4,44 +4,39 @@
 
 
 # 📌 프로젝트 개요
+
 GitHub 커밋 기반 사이드 프로젝트 트래커  
 개발자의 프로젝트 진행 현황을 커밋 데이터로 시각화하고 관리하는 서비스
 
----
 
 ## 배포 주소
 
-https://app.chrono.name <br/>
-로그인 화면에서 데모 계정으로 이용 <br/>
----
+- https://app.chrono.name
+- 로그인 화면에서 데모 계정으로 이용
+
 
 ## 팀 소개
 <table align="center">
   <tr>
-    <th align="center" style="font-size:18px;">Role</th>
-    <th align="center" style="font-size:18px;">Member</th>
-  </tr>
-  <tr>
-    <td align="center" style="font-size:16px;">Frontend</td>
-    <td align="center">
+    <td align="center" style="padding:20px;">
+      <strong style="font-size:18px;">Frontend</strong><br/><br/>
       <a href="https://github.com/MA-Ha-eun">
-        <img src="https://github.com/MA-Ha-eun.png" width="72"/><br/>
-        <strong style="font-size:16px;">마하은</strong>
+        <img src="https://github.com/MA-Ha-eun.png" width="96"/><br/><br/>
+        <strong>마하은</strong>
       </a>
     </td>
-  </tr>
-  <tr>
-    <td align="center" style="font-size:16px;">Backend</td>
-    <td align="center">
+
+    <td align="center" style="padding:20px;">
+      <strong style="font-size:18px;">Backend</strong><br/><br/>
       <a href="https://github.com/simuneu">
-        <img src="https://github.com/simuneu.png" width="72"/><br/>
-        <strong style="font-size:16px;">박시현</strong>
+        <img src="https://github.com/simuneu.png" width="96"/><br/><br/>
+        <strong>박시현</strong>
       </a>
     </td>
   </tr>
 </table>
 
----
+
 
 ## 주요 기능
 <details>
@@ -123,7 +118,6 @@ https://app.chrono.name <br/>
 
 </details>
 
----
 
 ## 기술 스택
 ### Frontend
@@ -157,8 +151,7 @@ https://app.chrono.name <br/>
 ![Certbot](https://img.shields.io/badge/Certbot-SSL-003A70?logo=letsencrypt&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-Deploy-000000?logo=vercel&logoColor=white)
 
----
-
+## 시스템 설계 & 문서
 <details>
   <summary><strong> 시스템 / 배포 아키텍처</strong></summary>
   <br/>
