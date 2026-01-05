@@ -18,27 +18,33 @@ GitHub 커밋 기반 사이드 프로젝트 트래커
 ## 팀 소개
 <table align="center">
   <tr>
-    <td align="center" style="padding:20px;">
-      <strong style="font-size:18px;">Frontend</strong><br/><br/>
+    <td align="center"><b>Frontend</b></td>
+    <td align="center"><b>Backend</b></td>
+  </tr>
 
+  <tr>
+    <td align="center">
       <a href="https://github.com/MA-Ha-eun">
-        <img src="https://github.com/MA-Ha-eun.png" width="96" alt="마하은"/>
+        <img src="https://github.com/MA-Ha-eun.png" width="140"/>
       </a>
-      <br/><br/>
-      <a href="https://github.com/MA-Ha-eun"><strong>마하은</strong></a>
     </td>
-
-    <td align="center" style="padding:20px;">
-      <strong style="font-size:18px;">Backend</strong><br/><br/>
-
+    <td align="center">
       <a href="https://github.com/simuneu">
-        <img src="https://github.com/simuneu.png" width="96" alt="박시현"/>
+        <img src="https://github.com/simuneu.png" width="140"/>
       </a>
-      <br/><br/>
-      <a href="https://github.com/simuneu"><strong>박시현</strong></a>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <a href="https://github.com/MA-Ha-eun"><b>마하은</b></a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/simuneu"><b>박시현</b></a>
     </td>
   </tr>
 </table>
+
 
 
 
