@@ -1,6 +1,7 @@
 package com.chrono.security;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.List;
+
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -28,13 +32,16 @@ public class SecurityConfig {
         http.csrf(cs->cs.disable())
         //세션사용 안함
                 .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                //요청URL인가 설정
-                .authorizeHttpRequests(auth ->auth.requestMatchers(
-                        "/api/auth/signup", "/api/auth/login", "/api/auth/email/send",
-                        "/api/auth/email/verify", "/api/auth/refresh", "/api/auth/password/reset-request",
-                        "/api/auth/password/reset").permitAll() .anyRequest().authenticated())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                //요청URL인가 설정
+                .authorizeHttpRequests(auth ->auth
+                                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(
+                                "/api/auth/signup", "/api/auth/login", "/api/auth/email/send",
+                        "/api/auth/email/verify", "/api/auth/refresh", "/api/auth/password/reset-request",
+                        "/api/auth/password/reset").permitAll()
+                        .anyRequest().authenticated())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout.disable());
 
         return http.build();
@@ -43,10 +50,15 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOriginPattern("*"); //도메인
-        config.addAllowedMethod("*");//http method
-        config.addAllowedHeader("*"); //모든 헤더
-        config.setAllowCredentials(true); //쿠키 포함 요텅 허용 > 배포 시 여기 전부 수정 필요!
+
+        config.setAllowedOrigins(List.of(
+                "https://chrono.name",
+                "https://www.chrono.name"));
+        config.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of(
+                "Authorization", "Content-Type"));
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
