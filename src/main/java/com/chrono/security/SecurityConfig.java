@@ -52,6 +52,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOrigins(List.of(
+                "https://app.chrono.name",
                 "https://chrono.name",
                 "https://www.chrono.name"));
         config.setAllowedMethods(List.of(
