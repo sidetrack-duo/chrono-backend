@@ -37,9 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->auth
                                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
-                                "/api/auth/signup", "/api/auth/login", "/api/auth/email/send",
-                        "/api/auth/email/verify", "/api/auth/refresh", "/api/auth/password/reset-request",
-                        "/api/auth/password/reset").permitAll()
+                                "/api/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout.disable());
@@ -56,9 +54,10 @@ public class SecurityConfig {
                 "https://chrono.name",
                 "https://www.chrono.name"));
         config.setAllowedMethods(List.of(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of(
-                "Authorization", "Content-Type"));
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        ));
+        config.setAllowedHeaders(List.of("*"));
+        config.setExposedHeaders(List.of("Authorization"));
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

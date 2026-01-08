@@ -110,12 +110,16 @@ public class CommitService {
     }
 
     //커밋 통계
-    public CommitSummaryDto getCommitSummary(Long projectId){
+    public CommitSummaryDto getCommitSummary(Long projectId, UserEntity user){
 
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("프로젝트 없음"));
+
+        if (!project.getUser().getUserId().equals(user.getUserId())) {
+            throw new AccessDeniedException("프로젝트 접근 권한 없음");
+        }
         var commits = commitMapper.findCommitsForAnalysis(projectId);
-
         var request = new CommitAnalyzeRequestDto(projectId, commits);
-
         var result = pythonCommitAnalyzerClient.analyzeSummary(request);
 
         return new CommitSummaryDto(projectId,

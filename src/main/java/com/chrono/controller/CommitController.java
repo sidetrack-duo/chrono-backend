@@ -5,6 +5,7 @@ import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.CommitService;
 import com.chrono.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/projects")
@@ -45,9 +47,18 @@ public class CommitController {
 
     //커밋 통계
     @GetMapping("/{projectId}/commits/summary")
-    public ResponseEntity<SuccessResponseDto<CommitSummaryDto>> getCommitSummary(@PathVariable Long projectId){
+    public ResponseEntity<SuccessResponseDto<CommitSummaryDto>> getCommitSummary(
+            @PathVariable Long projectId,  @AuthenticationPrincipal CustomUserPrincipal principal){
 
-        CommitSummaryDto summary = commitService.getCommitSummary(projectId);
+        log.warn("[SUMMARY CONTROLLER] projectId={}", projectId);
+
+        if (principal == null) {
+            log.warn("[SUMMARY CONTROLLER] principal is NULL");
+        } else {
+            log.warn("[SUMMARY CONTROLLER] principal userId={}", principal.getUser().getUserId());
+        }
+
+        CommitSummaryDto summary = commitService.getCommitSummary(projectId, principal.getUser());
 
         return ResponseEntity.ok(SuccessResponseDto.ok(summary));
     }

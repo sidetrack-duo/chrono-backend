@@ -21,49 +21,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+
+        return "OPTIONS".equalsIgnoreCase(request.getMethod())
+                || uri.startsWith("/api/auth/");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException{
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        String requestURI = request.getRequestURI();
-        log.warn(">>> METHOD: {} URI: {}", request.getMethod(), request.getRequestURI());
-        log.debug("***JwtAuthenticationFilter 실행 - URI: {}", requestURI);
-
         //토큰 추출
         String bearerToken = request.getHeader("Authorization");
+        log.warn("[JWT FILTER] URI={}, Authorization={}", request.getRequestURI(), bearerToken);
 
-        if (requestURI.startsWith("/api/auth/email")
-                || requestURI.startsWith("/api/auth/login")
-                || requestURI.startsWith("/api/auth/signup")
-                || requestURI.startsWith("/api/auth/refresh")
-                || requestURI.startsWith("/api/auth/password")) {
-
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        if(bearerToken != null && bearerToken.startsWith("Bearer ")){
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
 
-            try{
-                //토큰 유효성 검증
-                if(jwtProvider.validateToken(token)){
-                    //authentication생성
-                    Authentication authentication = jwtProvider.getAuthentication(token);
-                    //securityContext저장
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                    log.debug("securityContext에 인증 정보 저장, 사용자: {}", authentication.getName());
+            try {
+                if (jwtProvider.validateToken(token)) {
+                    Authentication authentication =
+                            jwtProvider.getAuthentication(token);
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(authentication);
                 }
-            }catch (Exception e){
-                log.warn("jwt인증 실패:{}" ,e.getMessage());
+            } catch (Exception e) {
+                log.warn("JWT 인증 실패: {}", e.getMessage());
             }
-        }else {
-            log.debug("Authentication 헤더에 bearer token없음");
         }
 
         filterChain.doFilter(request, response);
