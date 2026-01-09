@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class GithubService {
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     private final AuthService authService;
     private final UserRepository userRepository;
     private final CryptoUtil cryptoUtil;

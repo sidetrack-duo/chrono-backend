@@ -29,7 +29,7 @@ import java.util.Map;
 public class CommitService {
     private final ProjectRepository projectRepository;
     private final CommitRepository commitRepository;
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     private final CryptoUtil cryptoUtil;
     private final CommitMapper commitMapper;
     private final PythonCommitAnalyzerClient pythonCommitAnalyzerClient;
