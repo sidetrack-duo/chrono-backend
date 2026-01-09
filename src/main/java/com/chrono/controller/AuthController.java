@@ -1,9 +1,6 @@
 package com.chrono.controller;
 
-import com.chrono.dto.LoginRequestDto;
-import com.chrono.dto.LoginResponseDto;
-import com.chrono.dto.SignupRequestDto;
-import com.chrono.dto.SuccessResponseDto;
+import com.chrono.dto.*;
 import com.chrono.entity.RefreshTokenEntity;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.security.JwtProvider;
@@ -43,15 +40,20 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<SuccessResponseDto<String>> refresh(@CookieValue(value="refreshToken", required = false)
+    public ResponseEntity<?> refresh(@CookieValue(value="refreshToken", required = false)
                                      String refreshToken){
         //쿠키존재여부 확인
         if(refreshToken == null){
-            return ResponseEntity.status(401).body(SuccessResponseDto.ok(null));
+            return ResponseEntity.status(401)
+                    .body(ErrorResponseDto.of(
+                            "Refresh Token이 존재하지 않습니다.",
+                            "REFRESH_TOKEN_MISSING"));
         }
         //토큰 유효성 검증
         if(!jwtProvider.validateToken(refreshToken)){
-            return ResponseEntity.status(401).body(SuccessResponseDto.ok(null));
+            return ResponseEntity.status(401).body(ErrorResponseDto.of(
+                    "유효하지 않은 Refresh Token입니다.",
+                    "INVALID_REFRESH_TOKEN"));
         }
         //사용자 정보 추출
         Claims claims = Jwts.parserBuilder()
@@ -68,7 +70,8 @@ public class AuthController {
 
         if(saved == null || !saved.getToken().equals(refreshToken)){
             return ResponseEntity.status(401)
-                    .body(SuccessResponseDto.ok(null));
+                    .body(ErrorResponseDto.of("유효하지 않은 Refresh Token입니다.",
+                            "INVALID_REFRESH_TOKEN"));
         }
 
         //access새로 발급
