@@ -50,12 +50,12 @@ public class CommitController {
     public ResponseEntity<SuccessResponseDto<CommitSummaryDto>> getCommitSummary(
             @PathVariable Long projectId,  @AuthenticationPrincipal CustomUserPrincipal principal){
 
-        log.warn("[SUMMARY CONTROLLER] projectId={}", projectId);
+        log.debug("[SUMMARY CONTROLLER] projectId={}", projectId);
 
         if (principal == null) {
-            log.warn("[SUMMARY CONTROLLER] principal is NULL");
+            log.debug("[SUMMARY CONTROLLER] principal is NULL");
         } else {
-            log.warn("[SUMMARY CONTROLLER] principal userId={}", principal.getUser().getUserId());
+            log.debug("[SUMMARY CONTROLLER] principal userId={}", principal.getUser().getUserId());
         }
 
         CommitSummaryDto summary = commitService.getCommitSummary(projectId, principal.getUser());

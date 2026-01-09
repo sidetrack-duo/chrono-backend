@@ -56,7 +56,7 @@ public class ProjectService {
             try{
                 commitService.syncCommits(project.getProjectId());
             }catch (Exception e){
-                log.warn("프로젝트 복구 후 커밋 동기화 실패");
+                log.debug("프로젝트 복구 후 커밋 동기화 실패");
             }
             return project.getProjectId();
         }
@@ -92,7 +92,7 @@ public class ProjectService {
         try{
             commitService.syncCommits(project.getProjectId());
         }catch (Exception e){
-            log.warn("프로젝트 생성 후 커밋 동기화 실패");
+            log.debug("프로젝트 생성 후 커밋 동기화 실패");
         }
 
         return saved.getProjectId();

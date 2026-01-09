@@ -76,7 +76,7 @@ public class JwtProvider {
                     .parseClaimsJws(token);
             return true;
         }catch (Exception e){
-            log.warn("Jwt검증 실패 : {}", e.getMessage());
+            log.debug("Jwt검증 실패 : {}", e.getMessage());
             return false;
         }
     }

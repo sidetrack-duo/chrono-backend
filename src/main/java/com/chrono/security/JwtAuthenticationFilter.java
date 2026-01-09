@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         //토큰 추출
         String bearerToken = request.getHeader("Authorization");
-        log.warn("[JWT FILTER] URI={}, Authorization={}", request.getRequestURI(), bearerToken);
+        log.debug("[JWT FILTER] URI={}, Authorization={}", request.getRequestURI(), bearerToken);
 
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             .setAuthentication(authentication);
                 }
             } catch (Exception e) {
-                log.warn("JWT 인증 실패: {}", e.getMessage());
+                log.debug("JWT 인증 실패: {}", e.getMessage());
             }
         }
 
