@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -16,15 +16,16 @@ public class EmailVerificationService {
     private final EmailVerificationRepository verificationRepository;
     private final EmailSenderService emailSenderService;
 
+    private static final SecureRandom secureRandom = new SecureRandom();
+
     //인증코드
     private String generateCode() {
         int length = 8;
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        Random random = new Random();
 
         StringBuilder code = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            code.append(chars.charAt(random.nextInt(chars.length())));
+            code.append(chars.charAt(secureRandom.nextInt(chars.length())));
         }
         return code.toString();
     }
