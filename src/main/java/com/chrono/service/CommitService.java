@@ -11,6 +11,7 @@ import com.chrono.repository.ProjectRepository;
 import com.chrono.util.CryptoUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -34,13 +35,20 @@ public class CommitService {
     private final CommitMapper commitMapper;
     private final PythonCommitAnalyzerClient pythonCommitAnalyzerClient;
 
+    @Value("${github.api.rest-base-url}")
+    private String githubRestBaseUrl;
+
+    @Value("${github.api.graphql-url}")
+    private String githubGraphqlUrl;
+
+
     //커밋 동기화
     @Transactional
     public int syncCommits(Long projectId){
         ProjectEntity project = projectRepository.findById(projectId)
                 .orElseThrow(()->new EntityNotFoundException("프로젝트가 없음"));
 
-        String url = "https://api.github.com/repos/" +
+        String url = githubRestBaseUrl + "/repos/" +
                 project.getOwner() + "/" + project.getRepoName() + "/commits";
 
         HttpHeaders headers = new HttpHeaders();
@@ -148,7 +156,7 @@ public class CommitService {
             return commitRepository.countByProject_ProjectId(project.getProjectId());
         }
 
-        String url = "https://api.github.com/graphql";
+        String url = githubGraphqlUrl;
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + decryptPat(project.getUser().getGithubPat()));
