@@ -10,6 +10,7 @@ import com.chrono.util.CryptoUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GithubService {
@@ -107,7 +109,7 @@ public class GithubService {
                     "존재하지 않는 사용자입니다."
             );
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("GitHub BASIC 연동 중 오류 발생", e);
 
             return new GithubBasicConnectResponseDto(
                     false,
@@ -180,7 +182,7 @@ public class GithubService {
                     "유효하지 않은 pat입니다."
             );
         }catch (Exception e) {
-            e.printStackTrace();
+            log.error("GitHub PAT 연동 중 오류 발생", e);
             return new GithubPatConnectResponseDto(
                     false,
                     "NONE",
