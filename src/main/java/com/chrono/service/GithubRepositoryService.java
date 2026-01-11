@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,11 +27,9 @@ public class GithubRepositoryService {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final CryptoUtil cryptoUtil;
 
-    private static final String PUBLIC_REPOS_URL =
-            "https://api.github.com/users/%s/repos?per_page=100";
+    @Value("${github.api.rest-base-url}")
+    private String githubRestBaseUrl;
 
-    private static final String PRIVATE_REPOS_URL =
-            "https://api.github.com/user/repos?per_page=100";
 
     //통합 레포 조회
     public List<GithubRepoDto> getRepositories(UserEntity user){
@@ -53,7 +52,9 @@ public class GithubRepositoryService {
     //퍼블릭 레포 조회
     private List<GithubRepoDto> fetchPublicRepos(String username){
         try{
-            String url = String.format(PUBLIC_REPOS_URL, username);
+            String url = githubRestBaseUrl +
+                    "/users/" + username + "/repos?per_page=100";
+
 
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
@@ -81,8 +82,11 @@ public class GithubRepositoryService {
 
             HttpEntity<Void> entity = new HttpEntity<>(headers);
 
+            String url = githubRestBaseUrl + "/user/repos?per_page=100";
+
             ResponseEntity<String> response =
-                    restTemplate.exchange(PRIVATE_REPOS_URL, HttpMethod.GET, entity, String.class);
+                    restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
             JsonNode root = objectMapper.readTree(response.getBody());
 
             List<GithubRepoDto> result = new ArrayList<>();
