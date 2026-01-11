@@ -9,6 +9,7 @@ import com.chrono.util.CryptoUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,6 +33,9 @@ public class ProjectService {
     private final RestTemplate restTemplate;
     private final CryptoUtil cryptoUtil;
     private final CommitService commitService;
+
+    @Value("${github.api.rest-base-url}")
+    private String githubRestBaseUrl;
 
     @Transactional
     public Long createProject(UserEntity user, CreateProjectRequestDto req) {
@@ -100,7 +104,7 @@ public class ProjectService {
 
     //git repo검증 메서드
     private void validateGithubRepoExists(String owner, String repoName, UserEntity user){
-        String url = "https://api.github.com/repos/" + owner + "/" + repoName;
+        String url = githubRestBaseUrl + "/repos/" + owner + "/" + repoName;
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("User-Agent", "chrono");
@@ -125,7 +129,7 @@ public class ProjectService {
     }
 
     private void validateGithubRepoWithPat(String owner, String repoName, UserEntity user) {
-        String url = "https://api.github.com/repos/" + owner + "/" + repoName;
+        String url = githubRestBaseUrl + "/repos/" + owner + "/" + repoName;
         String pat = decryptPat(user.getGithubPat());
 
         HttpHeaders headers = new HttpHeaders();
