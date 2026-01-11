@@ -10,6 +10,7 @@ import com.chrono.util.CryptoUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,8 +27,15 @@ public class GithubService {
     private final UserRepository userRepository;
     private final CryptoUtil cryptoUtil;
 
+    @Value("${github.api.rest-base-url}")
+    private String githubRestBaseUrl;
+
+    @Value("${github.api.web-base-url}")
+    private String githubWebBaseUrl;
+
+
     public ValidationResponseDto validateUsername(String username){
-        String url = "https://api.github.com/users/" + username;
+        String url = githubRestBaseUrl + "/users/" + username;
 
         try{
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
@@ -35,7 +43,7 @@ public class GithubService {
             if(response.getStatusCode().is2xxSuccessful()){
                 //사용자 존재
                 return new ValidationResponseDto(true, username,
-                        "https://github.com/" + username + ".png", "존재하는 GitHub 사용자입니다."
+                        githubWebBaseUrl + "/" + username + ".png", "존재하는 GitHub 사용자입니다."
                 );
             }
         }catch (HttpClientErrorException.NotFound e){
@@ -53,7 +61,7 @@ public class GithubService {
 
     //깃허브 기본 연동
     public GithubBasicConnectResponseDto connectBasic(String username){
-        String url = "https://api.github.com/users/" + username;
+        String url = githubRestBaseUrl + "/users/" + username;
 
         try{
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
@@ -127,8 +135,9 @@ public class GithubService {
 
             HttpEntity<Void> entity = new HttpEntity<>(headers);
 
+            String url = githubRestBaseUrl + "/user";
             ResponseEntity<String> response = restTemplate.exchange(
-                    "https://api.github.com/user",
+                    url,
                     HttpMethod.GET,
                     entity,
                     String.class
