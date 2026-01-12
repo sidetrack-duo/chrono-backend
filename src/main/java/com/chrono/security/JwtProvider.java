@@ -3,6 +3,7 @@ package com.chrono.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
@@ -30,8 +32,22 @@ public class JwtProvider {
 
     private final CustomUserDetailsService customUserDetailsService;
 
-    public Key getSigningKey() {
-        return Keys.hmacShaKeyFor(secretKey.getBytes());
+    private static final int MIN_SECRET_KEY_LENGTH = 32;
+
+    @PostConstruct //서버 기동 시 즉시 검증
+    public void validateSecretKey(){
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8); //플랫폼 의존성 제거하기
+
+        if(keyBytes.length<MIN_SECRET_KEY_LENGTH){
+            throw new IllegalStateException(
+                    "jwt secret key는 반드시 256비트여야 함"+
+                            "현재 길이 : "+ keyBytes.length
+            );
+        }
+    }
+
+    public Key getSigningKey(){
+        return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
     //Access token
