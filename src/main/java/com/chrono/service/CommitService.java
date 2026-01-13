@@ -22,8 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -70,29 +69,33 @@ public class CommitService {
 
         GithubCommitDto[] commits = response.getBody();
 
-        int savedCount = 0;
-        for(GithubCommitDto dto : commits){
-            if(commitRepository.existsByProject_ProjectIdAndSha(projectId, dto.getSha())){
-                continue;
-            }
+        if(commits == null || commits.length == 0){
+            return 0;
+        }
 
-            CommitEntity commit = CommitEntity.builder()
-                    .project(project)
-                    .sha(dto.getSha())
-                    .message(dto.getCommit().getMessage())
-                    .authorName(dto.getCommit().getAuthor().getName())
-                    .authorEmail(dto.getCommit().getAuthor().getEmail())
-                    .commitDate(dto.getCommit().getAuthor().getDate())
-                    .build();
+        Set<String> existingShas = new HashSet<>(
+                commitRepository.findAllShasByProjectId(projectId)
+        );
 
-            commitRepository.save(commit);
+        List<CommitEntity> newCommits = Arrays.stream(commits)
+                .filter(dto -> !existingShas.contains(dto.getSha()))
+                .map(dto -> CommitEntity.builder()
+                        .project(project)
+                        .sha(dto.getSha())
+                        .message(dto.getCommit().getMessage())
+                        .authorName(dto.getCommit().getAuthor().getName())
+                        .authorEmail(dto.getCommit().getAuthor().getEmail())
+                        .commitDate(dto.getCommit().getAuthor().getDate())
+                        .build())
+                .toList();
 
-            savedCount++;
+        if(! newCommits.isEmpty()){
+            commitRepository.saveAll(newCommits);
         }
 
         updateProjectCommitStats(projectId);
 
-        return savedCount;
+        return newCommits.size();
     }
 
     private String decryptPat(String encryptedPat){
