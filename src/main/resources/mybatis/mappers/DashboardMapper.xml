@@ -81,7 +81,7 @@
         WHERE p.user_id = #{userId}
             AND p.active = true
             AND c.commit_date >= #{start}
-            AND c.commit_date < DATE_ADD(#{end}, INTERVAL 1 DAY)
+        AND <![CDATA[c.commit_date < DATE_ADD(#{end}, INTERVAL 1 DAY)]]>
         GROUP BY DATE(c.commit_date)
         ORDER BY DATE(c.commit_date)
     </select>
