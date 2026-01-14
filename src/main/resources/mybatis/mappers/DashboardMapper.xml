@@ -70,4 +70,21 @@
         LIMIT 5
     </select>
 
+<!--    최근 7일-->
+    <select id="selectDailyCommitCounts"
+            resultType="com.chrono.dto.DailyCommitCountDto">
+        SELECT
+            DATE(c.commit_date) AS date,
+            COUNT(*) AS commitCount
+        FROM commit_entity c
+            JOIN projects p ON c.project_id = p.project_id
+        WHERE p.user_id = #{userId}
+            AND p.active = true
+            AND c.commit_date >= #{start}
+            AND c.commit_date < DATE_ADD(#{end}, INTERVAL 1 DAY)
+        GROUP BY DATE(c.commit_date)
+        ORDER BY DATE(c.commit_date)
+    </select>
+
+
 </mapper>

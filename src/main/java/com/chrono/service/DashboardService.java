@@ -1,6 +1,7 @@
 package com.chrono.service;
 
 import com.chrono.dto.CommitSummaryDto;
+import com.chrono.dto.DailyCommitCountDto;
 import com.chrono.dto.DashboardResponseDto;
 import com.chrono.dto.WeeklyCommitCountDto;
 import com.chrono.mapper.DashboardMapper;
@@ -10,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,4 +44,30 @@ public class DashboardService {
 
         return new DashboardResponseDto(summary, weekly, weekInfo, recent);
     }
+
+    public List<DailyCommitCountDto> getRecentDailyCommits() {
+        Long userId = SecurityUtil.getCurrentUserId();
+
+        LocalDate end = LocalDate.now();
+        LocalDate start = end.minusDays(6);
+
+        List<DailyCommitCountDto> dbResult =
+                dashboardMapper.selectDailyCommitCounts(userId, start, end);
+
+        Map<LocalDate, Integer> commitCountMap = dbResult.stream()
+                .collect(Collectors.toMap(
+                        DailyCommitCountDto::getDate,
+                        DailyCommitCountDto::getCommitCount
+                ));
+
+        List<DailyCommitCountDto> result = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            LocalDate date = start.plusDays(i);
+            int count = commitCountMap.getOrDefault(date, 0);
+            result.add(new DailyCommitCountDto(date, count));
+        }
+
+        return result;
+    }
+
 }

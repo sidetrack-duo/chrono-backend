@@ -1,10 +1,12 @@
 package com.chrono.mapper;
 
 import com.chrono.dto.CommitSummaryDto;
+import com.chrono.dto.DailyCommitCountDto;
 import com.chrono.dto.WeeklyCommitCountDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -25,4 +27,11 @@ public interface DashboardMapper {
 
     //최근 플젝 + 커밋 요약
     List<CommitSummaryDto> selectRecentProjectSummaries(@Param("userId")Long userId);
+
+    //최근 7일
+    List<DailyCommitCountDto> selectDailyCommitCounts(
+            @Param("userId") Long userId,
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end
+    );
 }
