@@ -22,7 +22,7 @@ public class DashboardController {
         return SuccessResponseDto.ok(dashboardService.getDashboard());
     }
 
-    @GetMapping("/recent7days")
+    @GetMapping("/recent-7-days")
     public SuccessResponseDto<List<DailyCommitCountDto>> getRecentDailyCommits(){
         return SuccessResponseDto.ok(dashboardService.getRecentDailyCommits());
     }
