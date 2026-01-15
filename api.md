@@ -491,3 +491,40 @@ GET api/dashboard<br/>
 ]<br/>
 }<br/>
 }<br/>
+
+### 최근7일 조회 <br/>
+GET /api/dashboard/recent-7-days<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": [<br/>
+{<br/>
+"date": "2026-01-09",<br/>
+"commitCount": 0<br/>
+},<br/>
+{<br/>
+"date": "2026-01-10",<br/>
+"commitCount": 0<br/>
+},<br/>
+{<br/>
+"date": "2026-01-11",<br/>
+"commitCount": 0<br/>
+},<br/>
+{<br/>
+"date": "2026-01-12",<br/>
+"commitCount": 0<br/>
+},<br/>
+{<br/>
+"date": "2026-01-13",<br/>
+"commitCount": 0<br/>
+},<br/>
+{<br/>
+"date": "2026-01-14",<br/>
+"commitCount": 1<br/>
+},<br/>
+{<br/>
+"date": "2026-01-15",<br/>
+"commitCount": 1<br/>
+}<br/>
+]<br/>
+}<br/>
