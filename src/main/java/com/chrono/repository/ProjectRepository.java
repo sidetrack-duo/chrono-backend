@@ -10,8 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
-    List<ProjectEntity> findByUser_UserId(Long userId);
-
 
     List<ProjectEntity> findAllByUserAndActiveTrue(UserEntity user);
 
