@@ -83,15 +83,4 @@ public class CommitController {
                 )
         );
     }
-
-    //전체 커밋 조회
-    @GetMapping("/me")
-    public SuccessResponseDto<UserInfoResponseDto> getMyInfo(
-            @AuthenticationPrincipal CustomUserPrincipal principal
-    ) {
-        return SuccessResponseDto.ok(
-                userService.getMyInfo(principal.getUser())
-        );
-    }
-
 }
