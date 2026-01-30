@@ -80,8 +80,8 @@
             JOIN projects p ON c.project_id = p.project_id
         WHERE p.user_id = #{userId}
             AND p.active = true
-            AND c.commit_date >= #{start}
-        AND <![CDATA[c.commit_date < DATE_ADD(#{end}, INTERVAL 1 DAY)]]>
+            AND DATE(c.commit_date) BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 DAY)
+            AND CURDATE()
         GROUP BY DATE(c.commit_date)
         ORDER BY DATE(c.commit_date)
     </select>

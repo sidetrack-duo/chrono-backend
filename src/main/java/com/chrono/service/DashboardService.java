@@ -48,11 +48,10 @@ public class DashboardService {
     public List<DailyCommitCountDto> getRecentDailyCommits() {
         Long userId = SecurityUtil.getCurrentUserId();
 
-        LocalDate end = LocalDate.now();
-        LocalDate start = end.minusDays(6);
+        LocalDate start =  LocalDate.now().minusDays(6);
 
         List<DailyCommitCountDto> dbResult =
-                dashboardMapper.selectDailyCommitCounts(userId, start, end);
+                dashboardMapper.selectDailyCommitCounts(userId);
 
         Map<LocalDate, Integer> commitCountMap = dbResult.stream()
                 .collect(Collectors.toMap(
