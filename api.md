@@ -528,3 +528,11 @@ GET /api/dashboard/recent-7-days<br/>
 }<br/>
 ]<br/>
 }<br/>
+
+## 쪽지
+### 쪽지 전송 <br/>
+POST /api/v1/messages<br/>
+{<br/>
+"receiverId": 1,<br/>
+"content": "쪽지 테스트"<br/>
+}<br/>
