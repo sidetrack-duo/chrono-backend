@@ -536,3 +536,6 @@ POST /api/v1/messages<br/>
 "receiverId": 1,<br/>
 "content": "쪽지 테스트"<br/>
 }<br/>
+### 받은 쪽지 리스트 조회 <br/>
+GET /api/v1/messages/inbox<br/>
+요청 값 없고 페이징 20개씩

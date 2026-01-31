@@ -5,6 +5,8 @@ import com.chrono.entity.UserEntity;
 import com.chrono.repository.MessageRepository;
 import com.chrono.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,5 +28,11 @@ public class MessageService {
         }
         MessageEntity message = MessageEntity.send(sender, receiver, content);
         messageRepository.save(message);
+    }
+
+    //받은 쪽지 리스트 조회
+    @Transactional(readOnly = true)
+    public Page<MessageEntity> getReceiveMessageList(UserEntity user, Pageable pageable){
+        return messageRepository.findByReceiverAndDeletedByReceiverFalse(user, pageable);
     }
 }
