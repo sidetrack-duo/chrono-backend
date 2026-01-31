@@ -58,10 +58,7 @@ public class MessageEntity {
 
     //---------도메인 로직
     //읽음
-    public void markAsRead(UserEntity user){
-        if(!receiver.getUserId().equals(user.getUserId())){
-            throw new AccessDeniedException("수신자만 읽음 처리 가능");
-        }
+    public void markAsRead() {
         this.isRead = true;
     }
 

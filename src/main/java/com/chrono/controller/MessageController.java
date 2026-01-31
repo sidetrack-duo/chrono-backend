@@ -1,8 +1,10 @@
 package com.chrono.controller;
 
+import com.chrono.dto.MessageDetailResponseDto;
 import com.chrono.dto.MessageListResponseDto;
 import com.chrono.dto.SendMessageRequestDto;
 import com.chrono.dto.SuccessResponseDto;
+import com.chrono.entity.MessageEntity;
 import com.chrono.entity.UserEntity;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.MessageService;
@@ -42,5 +44,16 @@ public class MessageController {
         Page<MessageListResponseDto> result = messageService.getReceiveMessageList(user, pageable)
                 .map(MessageListResponseDto::from);
         return SuccessResponseDto.ok(result);
+    }
+
+    @GetMapping("/{messageId}")
+    public SuccessResponseDto<MessageDetailResponseDto> getMessageDetail(
+            @PathVariable Long messageId,
+            @AuthenticationPrincipal CustomUserPrincipal principal){
+
+        Long userId = principal.getUser().getUserId();
+        MessageEntity message = messageService.getMessageDetail(messageId, userId);
+
+        return SuccessResponseDto.ok(MessageDetailResponseDto.from(message));
     }
 }

@@ -7,6 +7,7 @@ import com.chrono.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,5 +35,25 @@ public class MessageService {
     @Transactional(readOnly = true)
     public Page<MessageEntity> getReceiveMessageList(UserEntity user, Pageable pageable){
         return messageRepository.findByReceiverAndDeletedByReceiverFalse(user, pageable);
+    }
+
+    //쪽지 상세 조회
+    @Transactional
+    public MessageEntity getMessageDetail(Long messageId, Long userId){
+        MessageEntity message = messageRepository.findById(messageId)
+                .orElseThrow(()-> new IllegalArgumentException("쪽지를 찾을 수 없습니다."));
+
+        Long senderId = message.getSender().getUserId();
+        Long receiverId = message.getReceiver().getUserId();
+
+        if (!senderId.equals(userId) && !receiverId.equals(userId)) {
+            throw new AccessDeniedException("쪽지 조회 권한 없음");
+        }
+        //수신자 읽음 처리
+        if (receiverId.equals(userId) && !message.isRead()) {
+            message.markAsRead();
+        }
+
+        return message;
     }
 }

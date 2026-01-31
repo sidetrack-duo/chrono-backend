@@ -539,3 +539,20 @@ POST /api/v1/messages<br/>
 ### 받은 쪽지 리스트 조회 <br/>
 GET /api/v1/messages/inbox<br/>
 요청 값 없고 페이징 20개씩
+### 쪽지 상세 조회 <br/>
+GET /api/v1/messages/{messageId}<br/>
+응답 예시<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
+"messageId": 1,<br/>
+"senderId": 4,<br/>
+"senderNickname": "상어어어",<br/>
+"receiverId": 3,<br/>
+"receiverNickname": "고래",<br/>
+"content": "쪽지 테스트",<br/>
+"read": true,<br/>
+"createdAt": "2026-01-31T14:40:01.278762"<br/>
+}<br/>
+}<br/>
