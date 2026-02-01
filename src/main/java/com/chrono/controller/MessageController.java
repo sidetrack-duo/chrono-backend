@@ -42,7 +42,7 @@ public class MessageController {
         UserEntity user = principal.getUser();
 
         Page<MessageListResponseDto> result = messageService.getReceiveMessageList(user, pageable)
-                .map(MessageListResponseDto::from);
+                .map(MessageListResponseDto::fromInbox);
         return SuccessResponseDto.ok(result);
     }
 
@@ -55,5 +55,17 @@ public class MessageController {
         MessageEntity message = messageService.getMessageDetail(messageId, userId);
 
         return SuccessResponseDto.ok(MessageDetailResponseDto.from(message));
+    }
+
+    @GetMapping("/sent")
+    public SuccessResponseDto<Page<MessageListResponseDto>> getSentMessageList(
+            @AuthenticationPrincipal CustomUserPrincipal principal,
+            Pageable pageable){
+
+        UserEntity user = principal.getUser();
+
+        Page<MessageListResponseDto> result = messageService.getSentMessageList(user, pageable)
+                .map(MessageListResponseDto::fromSent);
+        return SuccessResponseDto.ok(result);
     }
 }

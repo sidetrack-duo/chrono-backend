@@ -536,9 +536,55 @@ POST /api/v1/messages<br/>
 "receiverId": 1,<br/>
 "content": "쪽지 테스트"<br/>
 }<br/>
+### 보낸 쪽지 리스트 조회 <br/>
+GET /api/v1/messages/sent<br/>
+요청 값 없고 페이징 20개씩
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": {<br/>
+"content": [<br/>
+{<br/>
+"messageId": 1,<br/>
+"senderId": null,<br/>
+"senderNickname": null,<br/>
+"receiverId": 3,<br/>
+"receiverNickname": "고래",<br/>
+"content": "쪽지 테스트",<br/>
+"read": true,<br/>
+"createdAt": "2026-01-31T14:40:01.278762"<br/>
+}<br/>
+],<br/>
+"pageable": {<br/>
+"pageNumber": 0,<br/>
+"pageSize": 20,<br/>
+"sort": {<br/>
+"empty": true,<br/>
+"sorted": false,<br/>
+"unsorted": true<br/>
+},<br/>
+"offset": 0,<br/>
+"paged": true,<br/>
+"unpaged": false<br/>
+},<br/>
+"totalElements": 1,<br/>
+"totalPages": 1,<br/>
+"last": true,<br/>
+"size": 20,<br/>
+"number": 0,<br/>
+"sort": {<br/>
+"empty": true,<br/>
+"sorted": false,<br/>
+"unsorted": true<br/>
+},<br/>
+"numberOfElements": 1,<br/>
+"first": true,<br/>
+"empty": false<br/>
+}<br/>
+}<br/>
 ### 받은 쪽지 리스트 조회 <br/>
 GET /api/v1/messages/inbox<br/>
-요청 값 없고 페이징 20개씩
+요청 값 없고 페이징 20개씩 / 응답값 위와 동일<br/>
 ### 쪽지 상세 조회 <br/>
 GET /api/v1/messages/{messageId}<br/>
 응답 예시<br/>

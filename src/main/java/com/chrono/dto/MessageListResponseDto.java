@@ -18,11 +18,22 @@ public class MessageListResponseDto {
     private boolean read;
     private LocalDateTime createdAt;
 
-    public static MessageListResponseDto from(MessageEntity message){
+    public static MessageListResponseDto fromInbox(MessageEntity message){
         return MessageListResponseDto.builder()
                 .messageId(message.getMessageId())
                 .senderId(message.getSender().getUserId())
                 .senderNickname(message.getSender().getNickname())
+                .content(message.getContent())
+                .read(message.isRead())
+                .createdAt(message.getCreatedAt())
+                .build();
+    }
+
+    public static MessageListResponseDto fromSent(MessageEntity message){
+        return MessageListResponseDto.builder()
+                .messageId(message.getMessageId())
+                .receiverId(message.getReceiver().getUserId())
+                .receiverNickname(message.getReceiver().getNickname())
                 .content(message.getContent())
                 .read(message.isRead())
                 .createdAt(message.getCreatedAt())

@@ -56,4 +56,12 @@ public class MessageService {
 
         return message;
     }
+
+    //보낸 쪽지 리스트
+    @Transactional(readOnly = true)
+    public Page<MessageEntity> getSentMessageList(UserEntity user, Pageable pageable){
+
+
+        return messageRepository.findBySenderAndDeletedBySenderFalse(user, pageable);
+    }
 }
