@@ -19,7 +19,10 @@ public class MessageService {
     private final UserRepository userRepository;
 
     //쪽지 전송
-    public void sendMessage(Long receiverId, String content, UserEntity sender){
+    public void sendMessage(Long receiverId, String content, Long senderId){
+        UserEntity sender = userRepository.findById(senderId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));
+
         UserEntity receiver = userRepository.findById(receiverId)
                 .filter(user -> !user.isDeleted())
                 .orElseThrow(()-> new IllegalArgumentException("존재하지 않는 사용자"));
@@ -33,7 +36,11 @@ public class MessageService {
 
     //받은 쪽지 리스트 조회
     @Transactional(readOnly = true)
-    public Page<MessageEntity> getReceiveMessageList(UserEntity user, Pageable pageable){
+    public Page<MessageEntity> getReceiveMessageList(Long userId, Pageable pageable){
+
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));
+
         return messageRepository.findByReceiverAndDeletedByReceiverFalse(user, pageable);
     }
 
@@ -43,14 +50,22 @@ public class MessageService {
         MessageEntity message = messageRepository.findById(messageId)
                 .orElseThrow(()-> new IllegalArgumentException("쪽지를 찾을 수 없습니다."));
 
-        Long senderId = message.getSender().getUserId();
-        Long receiverId = message.getReceiver().getUserId();
+        boolean isSender = message.getSender().getUserId().equals(userId);
+        boolean isReceiver = message.getReceiver().getUserId().equals(userId);
 
-        if (!senderId.equals(userId) && !receiverId.equals(userId)) {
+        if (!isSender && !isReceiver) {
             throw new AccessDeniedException("쪽지 조회 권한 없음");
         }
+
+        if (isSender && message.isDeletedBySender()) {
+            throw new AccessDeniedException("삭제된 쪽지입니다.");
+        }
+
+        if (isReceiver && message.isDeletedByReceiver()) {
+            throw new AccessDeniedException("삭제된 쪽지입니다.");
+        }
         //수신자 읽음 처리
-        if (receiverId.equals(userId) && !message.isRead()) {
+        if (isReceiver && !message.isRead()) {
             message.markAsRead();
         }
 
@@ -59,9 +74,19 @@ public class MessageService {
 
     //보낸 쪽지 리스트
     @Transactional(readOnly = true)
-    public Page<MessageEntity> getSentMessageList(UserEntity user, Pageable pageable){
+    public Page<MessageEntity> getSentMessageList(Long userId, Pageable pageable){
 
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자"));
 
         return messageRepository.findBySenderAndDeletedBySenderFalse(user, pageable);
+    }
+
+    //쪽지 개별 삭제
+    @Transactional
+    public void deleteMessage(Long messageId, Long userId){
+        MessageEntity message = messageRepository.findById(messageId)
+                .orElseThrow(()->new IllegalArgumentException("해당 쪽지가 없음"));
+        message.deleteBy(userId);
     }
 }

@@ -63,10 +63,10 @@ public class MessageEntity {
     }
 
     //각자 삭제 처리
-    public void deleteBy(UserEntity user){
-        if(sender.getUserId().equals(user.getUserId())){
+    public void deleteBy(Long userId){
+        if(sender.getUserId().equals(userId)){
             this.deletedBySender = true;
-        }else if(receiver.getUserId().equals(user.getUserId())){
+        }else if(receiver.getUserId().equals(userId)){
             this.deletedByReceiver = true;
         }else{
             throw new AccessDeniedException("삭제 권한 없음");

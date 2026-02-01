@@ -602,3 +602,5 @@ GET /api/v1/messages/{messageId}<br/>
 "createdAt": "2026-01-31T14:40:01.278762"<br/>
 }<br/>
 }<br/>
+### 쪽지 삭제<br/>
+DELETE /api/v1/messages/{messageId}<br/>

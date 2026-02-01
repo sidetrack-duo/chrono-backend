@@ -5,7 +5,6 @@ import com.chrono.dto.MessageListResponseDto;
 import com.chrono.dto.SendMessageRequestDto;
 import com.chrono.dto.SuccessResponseDto;
 import com.chrono.entity.MessageEntity;
-import com.chrono.entity.UserEntity;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.MessageService;
 import jakarta.validation.Valid;
@@ -24,12 +23,11 @@ public class MessageController {
     @PostMapping
     public SuccessResponseDto<Void> sendMessage(@Valid @RequestBody SendMessageRequestDto requestDto,
                                                 @AuthenticationPrincipal CustomUserPrincipal principal){
-        UserEntity sender = principal.getUser();
 
         messageService.sendMessage(
                 requestDto.getReceiverId(),
                 requestDto.getContent(),
-                sender
+                principal.getUser().getUserId()
         );
         return SuccessResponseDto.ok();
     }
@@ -39,9 +37,7 @@ public class MessageController {
             @AuthenticationPrincipal CustomUserPrincipal principal,
             Pageable pageable){
 
-        UserEntity user = principal.getUser();
-
-        Page<MessageListResponseDto> result = messageService.getReceiveMessageList(user, pageable)
+        Page<MessageListResponseDto> result = messageService.getReceiveMessageList(principal.getUser().getUserId(), pageable)
                 .map(MessageListResponseDto::fromInbox);
         return SuccessResponseDto.ok(result);
     }
@@ -51,8 +47,8 @@ public class MessageController {
             @PathVariable Long messageId,
             @AuthenticationPrincipal CustomUserPrincipal principal){
 
-        Long userId = principal.getUser().getUserId();
-        MessageEntity message = messageService.getMessageDetail(messageId, userId);
+        MessageEntity message =
+                messageService.getMessageDetail(messageId, principal.getUser().getUserId());
 
         return SuccessResponseDto.ok(MessageDetailResponseDto.from(message));
     }
@@ -62,10 +58,16 @@ public class MessageController {
             @AuthenticationPrincipal CustomUserPrincipal principal,
             Pageable pageable){
 
-        UserEntity user = principal.getUser();
-
-        Page<MessageListResponseDto> result = messageService.getSentMessageList(user, pageable)
+        Page<MessageListResponseDto> result =
+                messageService.getSentMessageList(principal.getUser().getUserId(), pageable)
                 .map(MessageListResponseDto::fromSent);
         return SuccessResponseDto.ok(result);
+    }
+
+    @DeleteMapping("/{messageId}")
+    public SuccessResponseDto<Void> deleteMessage(@PathVariable Long messageId,
+                                                  @AuthenticationPrincipal CustomUserPrincipal principal){
+        messageService.deleteMessage(messageId, principal.getUser().getUserId());
+        return SuccessResponseDto.ok();
     }
 }
