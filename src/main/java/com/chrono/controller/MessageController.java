@@ -75,4 +75,13 @@ public class MessageController {
                 messageService.searchUsers(keyword, principal.getUser().getUserId(), pageable)
         );
     }
+
+    @GetMapping("/unread-count")
+    public SuccessResponseDto<UnreadMessageCountResponseDto> getUnreadMessageCount(
+            @AuthenticationPrincipal CustomUserPrincipal principal){
+
+        long count = messageService.getUnreadMessageCount(principal.getUser().getUserId());
+
+        return SuccessResponseDto.ok(new UnreadMessageCountResponseDto(count));
+    }
 }

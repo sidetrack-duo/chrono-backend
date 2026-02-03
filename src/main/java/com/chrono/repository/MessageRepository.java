@@ -48,6 +48,7 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
             Pageable pageable
     );
 
+    long countByReceiverAndIsReadFalseAndDeletedByReceiverFalse(UserEntity receiver);
 
 
 }

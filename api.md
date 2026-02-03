@@ -610,3 +610,6 @@ query parameters<br/>
 keyword(String타입, 필수)  <br/>
 page(Integer, 페이지 번호)<br/>
 size(Integer, 페이지 크기)<br/>
+### 읽지 않은 쪽지 수<br/>
+GET /api/v1/messages/unread-count<br/>
+

@@ -99,4 +99,12 @@ public class MessageService {
         }
         return messageRepository.searchUsers(keyword, requesterId, pageable);
     }
+
+    // 안 읽은 쪽지 수
+    @Transactional(readOnly = true)
+    public long getUnreadMessageCount(Long userId){
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 사용자"));
+        return messageRepository.countByReceiverAndIsReadFalseAndDeletedByReceiverFalse(user);
+    }
 }
