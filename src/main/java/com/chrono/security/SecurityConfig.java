@@ -52,7 +52,8 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(
                 "https://app.chrono.name",
                 "https://chrono.name",
-                "https://www.chrono.name"));
+                "https://www.chrono.name",
+                "http://localhost:5173"));
         config.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
         ));
