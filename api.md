@@ -604,3 +604,9 @@ GET /api/v1/messages/{messageId}<br/>
 }<br/>
 ### 쪽지 삭제<br/>
 DELETE /api/v1/messages/{messageId}<br/>
+### 유저 닉네임 검색<br/>
+GET /api/v1/messages/users/search<br/>
+query parameters<br/>
+keyword(String타입, 필수)  <br/>
+page(Integer, 페이지 번호)<br/>
+size(Integer, 페이지 크기)<br/>

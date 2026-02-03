@@ -1,5 +1,6 @@
 package com.chrono.service;
 
+import com.chrono.dto.UserSearchResponseDto;
 import com.chrono.entity.MessageEntity;
 import com.chrono.entity.UserEntity;
 import com.chrono.repository.MessageRepository;
@@ -88,5 +89,14 @@ public class MessageService {
         MessageEntity message = messageRepository.findById(messageId)
                 .orElseThrow(()->new IllegalArgumentException("해당 쪽지가 없음"));
         message.deleteBy(userId);
+    }
+
+    //닉네임 검색
+    @Transactional(readOnly = true)
+    public Page<UserSearchResponseDto> searchUsers(String keyword, Long requesterId, Pageable pageable) {
+        if(keyword == null || keyword.trim().isEmpty()){
+            throw new IllegalArgumentException("검색어는 필수 입력해야 합니다.");
+        }
+        return messageRepository.searchUsers(keyword, requesterId, pageable);
     }
 }

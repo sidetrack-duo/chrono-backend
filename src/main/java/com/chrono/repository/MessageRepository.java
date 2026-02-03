@@ -1,5 +1,6 @@
 package com.chrono.repository;
 
+import com.chrono.dto.UserSearchResponseDto;
 import com.chrono.entity.MessageEntity;
 import com.chrono.entity.UserEntity;
 import org.apache.ibatis.annotations.Param;
@@ -24,5 +25,29 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
         where m.messageId = :messageId
     """)
     Optional<MessageEntity> findDetailById(@Param("messageId") Long messageId);
+
+    @Query("""
+        select new com.chrono.dto.UserSearchResponseDto(
+            u.userId,
+            u.nickname,
+            u.email,
+            u.githubUsername
+        )
+        from UserEntity u
+        where u.deletedAt is null
+          and u.userId <> :requesterId
+          and (
+            u.nickname like concat('%', :keyword, '%')
+            or u.githubUsername like concat('%', :keyword, '%')
+            or u.email like concat('%', :keyword, '%')
+          )
+    """)
+    Page<UserSearchResponseDto> searchUsers(
+            @Param("keyword") String keyword,
+            @Param("requesterId") Long requesterId,
+            Pageable pageable
+    );
+
+
 
 }

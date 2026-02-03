@@ -1,9 +1,6 @@
 package com.chrono.controller;
 
-import com.chrono.dto.MessageDetailResponseDto;
-import com.chrono.dto.MessageListResponseDto;
-import com.chrono.dto.SendMessageRequestDto;
-import com.chrono.dto.SuccessResponseDto;
+import com.chrono.dto.*;
 import com.chrono.entity.MessageEntity;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.MessageService;
@@ -69,5 +66,13 @@ public class MessageController {
                                                   @AuthenticationPrincipal CustomUserPrincipal principal){
         messageService.deleteMessage(messageId, principal.getUser().getUserId());
         return SuccessResponseDto.ok();
+    }
+
+    @GetMapping("/users/search")
+    public SuccessResponseDto<Page<UserSearchResponseDto>> searchUsers(
+            @RequestParam String keyword, Pageable pageable, @AuthenticationPrincipal CustomUserPrincipal principal){
+        return SuccessResponseDto.ok(
+                messageService.searchUsers(keyword, principal.getUser().getUserId(), pageable)
+        );
     }
 }
