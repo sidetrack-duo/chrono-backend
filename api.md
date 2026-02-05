@@ -613,3 +613,6 @@ size(Integer, 페이지 크기)<br/>
 ### 읽지 않은 쪽지 수<br/>
 GET /api/v1/messages/unread-count<br/>
 
+### sse알림 연결<br/>
+GET /api/v1/messages/subscribe<br/>
+
