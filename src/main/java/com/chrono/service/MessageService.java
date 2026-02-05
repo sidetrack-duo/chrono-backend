@@ -5,6 +5,7 @@ import com.chrono.entity.MessageEntity;
 import com.chrono.entity.UserEntity;
 import com.chrono.repository.MessageRepository;
 import com.chrono.repository.UserRepository;
+import com.chrono.sse.MessageSseManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MessageService {
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final MessageSseManager messageSseManager;
 
     //쪽지 전송
     public void sendMessage(Long receiverId, String content, Long senderId){
@@ -33,6 +35,8 @@ public class MessageService {
         }
         MessageEntity message = MessageEntity.send(sender, receiver, content);
         messageRepository.save(message);
+
+        messageSseManager.sendNewMessage(receiver.getUserId(), message.getMessageId());
     }
 
     //받은 쪽지 리스트 조회
