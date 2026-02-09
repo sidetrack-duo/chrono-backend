@@ -6,6 +6,7 @@ import com.chrono.dto.SuccessResponseDto;
 import com.chrono.service.EmailSenderService;
 import com.chrono.service.EmailTemplate;
 import com.chrono.service.EmailVerificationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class EmailVerificationController {
 
     // 인증코드 발송
     @PostMapping("/send")
-    public ResponseEntity<SuccessResponseDto<Void>> sendVerificationCode(@RequestBody EmailSendRequestDto request) {
+    public ResponseEntity<SuccessResponseDto<Void>> sendVerificationCode(@Valid @RequestBody EmailSendRequestDto request) {
 
         String email = request.getEmail();
 
@@ -40,7 +41,7 @@ public class EmailVerificationController {
 
     // 인증코드 확인
     @PostMapping("/verify")
-    public ResponseEntity<SuccessResponseDto<Boolean>> verifyCode(@RequestBody EmailVerifyRequestDto request) {
+    public ResponseEntity<SuccessResponseDto<Boolean>> verifyCode(@Valid @RequestBody EmailVerifyRequestDto request) {
 
         boolean result = emailVerificationService.verifyCode(
                 request.getEmail(),

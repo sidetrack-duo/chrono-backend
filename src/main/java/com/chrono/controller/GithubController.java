@@ -5,6 +5,8 @@ import com.chrono.entity.UserEntity;
 import com.chrono.security.CustomUserPrincipal;
 import com.chrono.service.GithubRepositoryService;
 import com.chrono.service.GithubService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +22,8 @@ public class GithubController {
     private final GithubRepositoryService githubRepositoryService;
 
     @GetMapping("/validate")
-    public ResponseEntity<SuccessResponseDto<ValidationResponseDto>> validate(@RequestParam String username){
+    public ResponseEntity<SuccessResponseDto<ValidationResponseDto>> validate(
+            @RequestParam @NotBlank(message = "github 사용자명은 필수입니다.") String username){
         ValidationResponseDto result = githubService.validateUsername(username);
 
         return ResponseEntity.ok(SuccessResponseDto.ok(result));
@@ -28,7 +31,7 @@ public class GithubController {
 
     @PostMapping("/connect-basic")
     public ResponseEntity<SuccessResponseDto<GithubBasicConnectResponseDto>> connectBasic(
-            @RequestBody GithubBasicConnectRequestDto request){
+            @Valid @RequestBody GithubBasicConnectRequestDto request){
 
         return ResponseEntity.ok(
                 SuccessResponseDto.ok(githubService.connectBasic(request.getUsername())));
@@ -36,7 +39,7 @@ public class GithubController {
 
     @PostMapping("/connect-pat")
     public ResponseEntity<SuccessResponseDto<GithubPatConnectResponseDto>> connectPat(
-            @RequestBody GithubPatConnectRequestDto requestDto) {
+            @Valid @RequestBody GithubPatConnectRequestDto requestDto) {
 
         return ResponseEntity.ok(SuccessResponseDto.ok(
                         githubService.connectPat(requestDto.getUsername(), requestDto.getPat())));

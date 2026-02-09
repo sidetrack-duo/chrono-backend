@@ -8,6 +8,7 @@ import com.chrono.service.AuthService;
 import com.chrono.service.RefreshTokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -24,7 +25,7 @@ public class AuthController {
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/signup")
-    public ResponseEntity<SuccessResponseDto<Void>> signup(@RequestBody SignupRequestDto requestDto){
+    public ResponseEntity<SuccessResponseDto<Void>> signup(@Valid @RequestBody SignupRequestDto requestDto){
         authService.signup(requestDto);
 
         return ResponseEntity.ok(SuccessResponseDto.ok());
