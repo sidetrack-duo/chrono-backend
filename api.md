@@ -618,8 +618,18 @@ GET /api/v1/messages/unread-count<br/>
 GET /api/v1/messages/subscribe<br/>
 
 ## ai연결 기능<br/>
+### 커밋 요약
 POST /api/projects/{projectId}/commits/ai-summary<br/>
 요청값 없음<br/>
 응답  {- 주요 작업<br/>
 - 주요 키워드<br/>
 - 개발 특징 ...}<br/>
+
+### 프로젝트 소개 생성<br/>
+POST /api/projects/7/commits/project-intro<br/>
+응답값 :<br/>
+{<br/>
+"success": true,<br/>
+"message": "SUCCESS",<br/>
+"data": "이 프로젝트는 커밋 데이터를 기반으로 개발자 활동을 분석하고 시각화하는 ~~~~~~~입니다."<br/>
+}<br/>

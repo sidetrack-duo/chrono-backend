@@ -80,4 +80,12 @@ public class PythonCommitAnalyzerClient {
         return (String) response.get("summary");
     }
 
+    public String analyzeProjectIntro(ProjectIntroRequestDto request){
+        Map<String, Object> response = restTemplate.postForObject(
+                fastApiBaseUrl + "/analyze/project-intro",
+                request,
+                Map.class
+        );
+        return (String) response.get("intro");
+    }
 }

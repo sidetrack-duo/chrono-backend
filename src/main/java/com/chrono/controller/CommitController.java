@@ -93,4 +93,13 @@ public class CommitController {
 
         return ResponseEntity.ok(SuccessResponseDto.ok(summary));
     }
+
+    @PostMapping("/{projectId}/commits/project-intro")
+    public ResponseEntity<SuccessResponseDto<String>> getProjectIntro(
+            @PathVariable Long projectId,
+            @AuthenticationPrincipal CustomUserPrincipal principal){
+        String intro = commitService.getProjectIntro(projectId, principal.getUser());
+
+        return ResponseEntity.ok(SuccessResponseDto.ok(intro));
+    }
 }

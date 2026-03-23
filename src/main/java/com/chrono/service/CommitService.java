@@ -267,4 +267,24 @@ public class CommitService {
 
         return pythonCommitAnalyzerClient.analyzeAiSummary(request);
     }
+
+    //프로젝트 소개 생성
+    public String getProjectIntro(Long projectId, UserEntity user){
+
+        ProjectEntity project = projectRepository.findById(projectId)
+                .orElseThrow(()-> new EntityNotFoundException("프로젝트 없음"));
+
+        if(!project.getUser().getUserId().equals(user.getUserId())){
+            throw new AccessDeniedException("권한없음");
+        }
+        List<CommitEntity> commits = commitRepository.findByProject_ProjectId(projectId);
+
+        List<String> messages = commits.stream()
+                .map(CommitEntity::getMessage)
+                .toList();
+
+        ProjectIntroRequestDto request = new ProjectIntroRequestDto(projectId, messages);
+
+        return pythonCommitAnalyzerClient.analyzeProjectIntro(request);
+    }
 }
