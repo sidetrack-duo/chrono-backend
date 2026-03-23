@@ -253,9 +253,10 @@ public class CommitService {
     public String getAiSummary(Long projectId, UserEntity user){
         ProjectEntity project = projectRepository.findById(projectId)
                 .orElseThrow(()->new EntityNotFoundException("프로젝트 없음"));
-//        if(!project.getUser().getUserId().equals(user.getUserId())){
-//            throw new AccessDeniedException("권한 없음");
-//        }
+
+        if (!project.getUser().getUserId().equals(user.getUserId())) {
+            throw new AccessDeniedException("권한 없음");
+        }
         List<CommitEntity> commits = commitRepository.findByProject_ProjectId(projectId);
 
         List<String> messages = commits.stream()

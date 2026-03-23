@@ -185,7 +185,8 @@ POST api/projects<br/>
 {<br/>
 "owner": "simuneu",<br/>
 "repoName": "front-practice",<br/>
-"repoUrl": "https://github.com/simuneu/front-practice"<br/>
+"repoUrl": "https://github.com/simuneu/front-practice"<br/>,
+"title":"sss"
 }<br/>
 --현재 pat설정 경우 퍼블릭, 프라이빗 둘 다 등록 가능,오가닉에 관한 부분은 다시 확인 필요<br/>
 
@@ -616,3 +617,9 @@ GET /api/v1/messages/unread-count<br/>
 ### sse알림 연결<br/>
 GET /api/v1/messages/subscribe<br/>
 
+## ai연결 기능<br/>
+POST /api/projects/{projectId}/commits/ai-summary<br/>
+요청값 없음<br/>
+응답  {- 주요 작업<br/>
+- 주요 키워드<br/>
+- 개발 특징 ...}<br/>
