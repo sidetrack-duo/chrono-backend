@@ -83,4 +83,14 @@ public class CommitController {
                 )
         );
     }
+
+    @PostMapping("/{projectId}/commits/ai-summary")
+    public ResponseEntity<SuccessResponseDto<String>> getAiSummary(
+            @PathVariable Long projectId,
+            @AuthenticationPrincipal CustomUserPrincipal principal){
+
+        String summary = commitService.getAiSummary(projectId, principal.getUser());
+
+        return ResponseEntity.ok(SuccessResponseDto.ok(summary));
+    }
 }

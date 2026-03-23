@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class PythonCommitAnalyzerClient {
@@ -67,6 +68,16 @@ public class PythonCommitAnalyzerClient {
                 CommitHistoryCountDto[].class
         );
         return List.of(response.getBody());
+    }
+
+    public String analyzeAiSummary(AiSummaryRequestDto request) {
+        Map<String, Object> response = restTemplate.postForObject(
+                fastApiBaseUrl + "/analyze/ai-summary",
+                request,
+                Map.class
+        );
+
+        return (String) response.get("summary");
     }
 
 }

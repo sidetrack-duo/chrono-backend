@@ -17,4 +17,6 @@ public interface CommitRepository extends JpaRepository<CommitEntity, Long> {
     @Query("select c.sha from CommitEntity c where c.project.projectId = :projectId")
     List<String> findAllShasByProjectId(@Param("projectId") Long projectId);
 
+    List<CommitEntity> findByProject_ProjectId(Long projectId);
+
 }
