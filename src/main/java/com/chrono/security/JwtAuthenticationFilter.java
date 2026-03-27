@@ -35,11 +35,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         //토큰 추출
         String bearerToken = request.getHeader("Authorization");
-        log.debug("[JWT FILTER] URI={}, Authorization={}", request.getRequestURI(), bearerToken);
+        String token = null;
+
+        log.debug("[JWT FILTER] URI={}, Authorization={}",
+                request.getRequestURI(),
+                request.getHeader("Authorization"));
 
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
+            token = bearerToken.substring(7);
+        }
 
+        if(token == null){
+            token = request.getParameter("token");
+        }
+
+        if(token != null){
             try {
                 if (jwtProvider.validateToken(token)) {
                     Authentication authentication =
